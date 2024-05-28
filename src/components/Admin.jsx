@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
 } from '@ant-design/icons';
+import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
+import ArticleIcon from '@mui/icons-material/Article';
 import { Button, Layout, Menu, theme } from 'antd';
+import Dash from './Dashboard/Dash';
 const { Header, Sider, Content } = Layout;
 const Admin = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -24,27 +24,27 @@ const Admin = () => {
                     items={[
                         {
                             key: '1',
-                            icon: <UserOutlined />,
+                            icon: <StackedBarChartIcon />,
                             label: 'Dashboard',
                         },
                         {
                             key: '2',
-                            icon: <VideoCameraOutlined />,
+                            icon: <ArticleIcon />,
                             label: 'Box history order',
                         },
                         {
                             key: '3',
-                            icon: <UploadOutlined />,
+                            icon: <ArticleIcon />,
                             label: 'Manage Box',
                         },
                         {
                             key: '4',
-                            icon: <UploadOutlined />,
+                            icon: <ArticleIcon />,
                             label: 'Manage Theme',
                         },
                         {
                             key: '5',
-                            icon: <UploadOutlined />,
+                            icon: <ArticleIcon />,
                             label: 'Manage Product',
                         },
                     ]}
@@ -77,7 +77,7 @@ const Admin = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    Content
+                    <Dash />
                 </Content>
             </Layout>
         </Layout>
