@@ -1,3 +1,10 @@
+:root {
+    --color-register: #C9DCF9;
+    --color-login: #F9C9E2;
+    --color-btn-register: #95BDFF;
+    --color-btn-login: #FB6F92;
+}
+
 body {
     padding: 0;
     margin: 0;
