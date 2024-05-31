@@ -2,14 +2,23 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Admin from './components/Admin'
+
+import { Route, Routes } from 'react-router-dom'
+import Admin from './pages/Admin/Admin'
+import Register from './pages/Auth/Register'
+import Login from './pages/Auth/Login'
+import Home from './pages/Home/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <Admin/>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/admin" element={<Admin/>}/>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/login" element={<Login/>}/>
+      </Routes>
     </>
   )
 }

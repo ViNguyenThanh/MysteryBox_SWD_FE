@@ -6,7 +6,7 @@ import {
 import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 import ArticleIcon from '@mui/icons-material/Article';
 import { Button, Layout, Menu, theme } from 'antd';
-import Dash from './Dashboard/Dash';
+import Dash from '../../components/Dashboard/Dash';
 const { Header, Sider, Content } = Layout;
 const Admin = () => {
     const [collapsed, setCollapsed] = useState(false);
