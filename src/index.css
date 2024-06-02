@@ -3,6 +3,7 @@
     --color-login: #F9C9E2;
     --color-btn-register: #95BDFF;
     --color-btn-login: #FB6F92;
+    --max-screen-width: 1530px;
 }
 
 body {
