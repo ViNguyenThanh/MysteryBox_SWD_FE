@@ -3,6 +3,7 @@ import "./Auth.css"
 import React from 'react'
 
 import imgBackground from "/assets/Login_Register_img.png"
+import imgBackground2 from "/assets/Login_Register_img2.jpg"
 import logo from "/assets/Logo.png"
 import pinkHome from "/assets/home_pink.png"
 import blueHome from "/assets/home_blue.png"
@@ -48,7 +49,7 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
             phone:
                 comp === "register"
                     ? Yup.string()
-                        .matches(`[^a-zA-Z]+`, "Chỉ được phép nhập số")
+                        .matches(`[^a-zA-Z]+`, "Only enter number")
                         .matches(`^[0][1-9]*`, "Phone number must start at 0")
                         .max(10, "Phone number must have 10 digits")
                         .min(10, "Phone number must have 10 digits")
@@ -65,116 +66,127 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
     })
 
     return (
-        <div className="register-container" style={styleContainer()}>
+        <div className="register-whole-container">
+            <div className="register-container" style={styleContainer()}>
 
-            <img src={imgBackground} className="image" />
+                <div className="img-background">
+                    {/* <img src={imgBackground} className="image" /> */}
 
-            <div className="form-register" style={styleForm()}>
-
-                {comp === "login"
-                    ? <img src={pinkHome} className="home" onClick={() => navigate("/")} />
-                    : <img src={blueHome} className="home" onClick={() => navigate("/")} />}
-
-                <img src={logo} className="logo" />
-
-                <form className="form-input">
-                    <label className="label-title"> Username: </label>
-                    <input
-                        className="input"
-                        placeholder="Enter your username"
-                        name="username"
-                        value={formik.values.username}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                    />
-                    {formik.errors.username && formik.touched.username && (
-                        <p className="message-error">{formik.errors.username}</p>
-                    )}
-
-                    {comp === "register" && (
-                        <>
-                            <label className="label-title"> Phone: </label>
-                            <input
-                                className="input"
-                                placeholder="Enter your phone"
-                                type="text"
-                                name="phone"
-                                value={formik.values.phone}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                            />
-                            {formik.errors.phone && formik.touched.phone && (
-                                <p className="message-error">{formik.errors.phone}</p>
-                            )}
-                        </>
-                    )}
-
-                    <label className="label-title"> Password: </label>
-                    <input
-                        className="input"
-                        placeholder="Enter your password"
-                        type="password"
-                        name="password"
-                        value={formik.values.password}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                    />
-                    {formik.errors.password && formik.touched.password && (
-                        <p className="message-error">{formik.errors.password}</p>
-                    )}
-
-                    {comp === "register" && (
-                        <>
-                            <label className="label-title"> Confirm password: </label>
-                            <input
-                                className="input"
-                                placeholder="Confirm password"
-                                type="password"
-                                name="confirmPassword"
-                                value={formik.values.confirmPassword}
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                            />
-                            {formik.errors.confirmPassword && formik.touched.confirmPassword && (
-                                 <p className="message-error">{formik.errors.confirmPassword}</p>
-                            )}
-                        </>
-                    )}
+                    <img src={imgBackground2} className={comp === "login" ? "image" : "image2"} />
+                </div>
 
 
-                    <button className="btn" type="submit" style={styleBtn()}>
-                        {comp === "login" ? "Sign In" : "Sign Up"}
-                    </button>
+                <div className="form-register" style={styleForm()}>
 
-                    {comp === "login" && (
-                        <div className="login-other">
-                            <p> - or - </p>
-                            <button>
-                                <img src={google} />
-                                Continue with Google
-                            </button>
-                            <button>
-                                <img src={facebook} />
-                                Continue with Facebook
-                            </button>
+                    {comp === "login"
+                        ? <img src={pinkHome} className="home" onClick={() => navigate("/")} />
+                        : <img src={blueHome} className="home" onClick={() => navigate("/")} />}
+
+                    <img src={logo} className="logo" />
+
+                    <form className="form-input">
+                        <label className="label-title"> Username: </label>
+                        <input
+                            className="input"
+                            placeholder="Enter your username"
+                            name="username"
+                            value={formik.values.username}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                        />
+                        {formik.errors.username && formik.touched.username && (
+                            <p className="message-error">{formik.errors.username}</p>
+                        )}
+
+                        {comp === "register" && (
+                            <>
+                                <label className="label-title"> Phone: </label>
+                                <input
+                                    className="input"
+                                    placeholder="Enter your phone"
+                                    type="text"
+                                    name="phone"
+                                    value={formik.values.phone}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                />
+                                {formik.errors.phone && formik.touched.phone && (
+                                    <p className="message-error">{formik.errors.phone}</p>
+                                )}
+                            </>
+                        )}
+
+                        <label className="label-title"> Password: </label>
+                        <input
+                            className="input"
+                            placeholder="Enter your password"
+                            type="password"
+                            name="password"
+                            value={formik.values.password}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                        />
+                        {formik.errors.password && formik.touched.password && (
+                            <p className="message-error">{formik.errors.password}</p>
+                        )}
+
+                        {comp === "register" && (
+                            <>
+                                <label className="label-title"> Confirm password: </label>
+                                <input
+                                    className="input"
+                                    placeholder="Confirm password"
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={formik.values.confirmPassword}
+                                    onBlur={formik.handleBlur}
+                                    onChange={formik.handleChange}
+                                />
+                                {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+                                    <p className="message-error">{formik.errors.confirmPassword}</p>
+                                )}
+                            </>
+                        )}
+
+
+                        <button
+
+                            className={comp === "login" ? "btnlogin" : "btnregister"}
+                            type="submit" style={styleBtn()}
+                        >
+                            {comp === "login" ? "Sign In" : "Sign Up"}
+                        </button>
+
+                        {comp === "login" && (
+                            <div className="login-other">
+                                <p> - or - </p>
+                                <button>
+                                    <img src={google} />
+                                    Continue with Google
+                                </button>
+                                <button>
+                                    <img src={facebook} />
+                                    Continue with Facebook
+                                </button>
+                            </div>
+                        )}
+                        <div className="text">
+                            <p className="des">
+                                {comp === "login"
+                                    ? "Don't have an account?"
+                                    : "Already have an account?"
+                                }
+                            </p>
+
+                            <p className="login" style={styleChoose()} onClick={() => navigate(`/${route}`)} >
+                                {comp === "login"
+                                    ? "Register Now!!"
+                                    : "Sign In!"
+                                }
+                            </p>
                         </div>
-                    )}
-                    <div className="text">
-                        <p className="des">
-                            {comp === "login"
-                                ? "Don't have an account?"
-                                : "Already have an account?"
-                            }
-                        </p>
-
-                        <p className="login" style={styleChoose()} onClick={() => navigate(`/${route}`)} >
-                            {comp === "login"
-                                ? "Register Now!!"
-                                : "Sign In!"
-                            }
-                        </p>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     )
