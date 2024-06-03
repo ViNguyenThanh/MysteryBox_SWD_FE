@@ -52,7 +52,7 @@ const Header = () => {
     setHoveredIndex(null)
   }
 
-  const [showHeader, setShowHeader] = useState(false)
+  const [showHeader, setShowHeader] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
   const controlHeader = () => {
