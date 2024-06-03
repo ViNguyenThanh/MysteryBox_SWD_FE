@@ -4,7 +4,10 @@ import { Carousel, Col, Row } from 'antd'
 import { alignProperty } from '@mui/material/styles/cssUtils';
 // import 'antd/es/carousel/style/css';
 
-import img from "/assets/Login_Register_img2.jpg"
+import slide_1 from "/assets/Slide-1.jpg"
+import slide_2 from "/assets/Slide-2.jpg"
+import slide_3 from "/assets/Slide-3.jpg"
+import slide_4 from "/assets/Slide-4.jpg"
 
 const contentStyle = {
   margin: 0,
@@ -21,19 +24,19 @@ const contentStyle = {
 const imgSlide = [
   {
     id: 1,
-    img: img,
+    img: slide_1,
   },
   {
     id: 2,
-    img: img,
+    img: slide_2,
   },
   {
     id: 3,
-    img: img,
+    img: slide_3,
   },
   {
     id: 4,
-    img: img,
+    img: slide_4,
   },
 ]
 

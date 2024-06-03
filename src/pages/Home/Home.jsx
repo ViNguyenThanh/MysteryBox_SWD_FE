@@ -2,7 +2,10 @@ import React from 'react'
 import "./Home.css"
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import Slide from '../../components/Home/Slide'
+import Slide from '../../components/Home/Slide/Slide'
+import JoinUs from '../../components/Home/JoinUs/JoinUs'
+import Ranking from '../../components/Home/Ranking/Ranking'
+
 
 const Home = () => {
   return (
@@ -10,6 +13,8 @@ const Home = () => {
       <Header/>
       <div className="home-container">
         <Slide/>
+        <JoinUs/>
+        <Ranking/>
       </div>
       <Footer/>
     </div>
