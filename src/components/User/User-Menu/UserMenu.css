@@ -3,7 +3,9 @@
     height: 200vh;
     background-color: #718BE5;   
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    align-content: flex-start;
 }
 
 .user_menu-container .image{
@@ -16,4 +18,11 @@
 .user_menu-container .image img{
     width: 175px;
     height: 100px;
+}
+.user_menu-container .btn{
+    width: 100%;
+    margin-top: 25px;
+}
+.btn .user_profile-btn{
+    /* background-color: yellow; */
 }
