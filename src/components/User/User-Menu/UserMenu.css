@@ -1,0 +1,19 @@
+.user_menu-container{
+    width: 20%;
+    height: 200vh;
+    background-color: #718BE5;   
+    display: flex;
+    justify-content: center;
+}
+
+.user_menu-container .image{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid white;
+}
+.user_menu-container .image img{
+    width: 175px;
+    height: 100px;
+}

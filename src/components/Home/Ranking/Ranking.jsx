@@ -14,7 +14,7 @@ const Ranking = () => {
             title: "Astronaut Mystery",
             number_of_items: 5,
             des: "Astronauts fly into space, discovering new mysteries",
-            gender: 'girl'
+            index: "first",
         },
         {
             id: 2,
@@ -22,7 +22,7 @@ const Ranking = () => {
             title: "Astronaut Mystery",
             number_of_items: 7,
             des: "Astronauts fly into space, discovering new mysteries",
-            gender: 'boy',
+            index: "second",
         },
         {
             id: 3,
@@ -30,7 +30,7 @@ const Ranking = () => {
             title: "Astronaut Mystery",
             number_of_items: 4,
             des: "Astronauts fly into space, discovering new mysteries",
-            gender: 'unisex',
+            index: "third",
         }
     ]
 
@@ -47,7 +47,7 @@ const Ranking = () => {
                     {rankingBox.map((item) => (
                         <div key={item.id} 
                             // className="box"
-                            className={`box ${item.gender}`}
+                            className={`box ${item.index}`}
                         >
                             <div className="box-content">
                                 <img src={item.img} />
@@ -60,7 +60,7 @@ const Ranking = () => {
                                         <strong>Description: </strong> {item.des}
                                     </li>
                                 </ul>
-                                <button>Add</button>
+                                <button>Detail</button>
                             </div>
                         </div>
                     ))}

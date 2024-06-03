@@ -46,6 +46,20 @@
     content: "";
 }
 
+/* chỉnh cho thanh chuyển slide ko bị đè lên header */
+:where(.css-dev-only-do-not-override-j9bb5n).ant-carousel .slick-dots {
+    position: absolute;
+    inset-inline-end: 0;
+    bottom: 0;
+    inset-inline-start: 0;
+    z-index: 2;
+    display: flex !important;
+    justify-content: center;
+    padding-inline-start: 0;
+    margin-bottom: 18px;
+    list-style: none;
+}
+
 
 .slide-content {
     width: 100%;
