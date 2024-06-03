@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Header.css'
 
 import logo from "/assets/Logo.png"
@@ -52,11 +52,33 @@ const Header = () => {
     setHoveredIndex(null)
   }
 
-  const [hover, setHover] = useState(false)
+  const [showHeader, setShowHeader] = useState(false)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  const controlHeader = () => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY < lastScrollY) {
+        setShowHeader(true)
+      } else {
+        setShowHeader(false)
+      }
+    }
+    setLastScrollY(window.scrollY)
+  }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined'){
+      window.addEventListener('scroll', controlHeader)
+
+      return () => {
+        window.removeEventListener('scroll', controlHeader)
+      }
+    }
+  }, [lastScrollY])
 
   return (
-    <div className="header-whole-container">
-      <div className='header-container'>
+    <div className={`header-whole-container ${showHeader ? 'show' : ''}`} >
+      <div className={`header-container ${showHeader ? 'show-down' : ''}`}>
 
         <div className="header-left">
           <img src={logo} className='logo' onClick={() => navigate('/')} />
@@ -83,9 +105,9 @@ const Header = () => {
                   key={item.id}
                   onMouseEnter={() => handleMouseEnter(item.id)}
                   onMouseLeave={handleMouseLeave}
-                  // onMouseEnter={() => setHover(true)}
-                  // onMouseLeave={() => setHover(false)}
-                
+                // onMouseEnter={() => setHover(true)}
+                // onMouseLeave={() => setHover(false)}
+
                 >
                   {item.name}
                   <img src={hoveredIndex === item.id ? arrow_up : arrow_down} />

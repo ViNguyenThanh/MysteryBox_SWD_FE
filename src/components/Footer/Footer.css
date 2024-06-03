@@ -2,14 +2,14 @@
     background-color: white;
     display: flex;
     justify-content: center;
-    
+    margin-top: 70px;
 }
 .footer-container{
     max-width: var(--max-screen-width);
     width: 100%;
-    height: 390px;
-    background-image: url('/assets/Footer.jpg') !important;
-    background-position: bottom;
+    height: 410px;
+    background-image: url('/assets/Footer.jpg');
+    background-position: -110px;
     background-size: contain;
     display: flex;
     justify-content: space-around;
@@ -38,9 +38,14 @@
     padding: 0 10px;
     transition: 0.5s;
 }
+.footer-left .contact{
+    background-color: white;
+    border-radius: 20px;
+}
 .footer-left .contact p {
     font-size: 18px;
     font-family: "Josefin Sans", sans-serif;
+    padding: 5px;
 }
 .footer-left .social-icon{
     width: 100%;
