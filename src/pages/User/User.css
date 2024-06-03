@@ -1,0 +1,10 @@
+.user-whole-container{
+    display: flex;
+    justify-content: center;
+}
+.user-container{
+    max-width: var(--max-screen-width);
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -8,6 +8,7 @@ import Admin from './pages/Admin/Admin'
 import Register from './pages/Auth/Register'
 import Login from './pages/Auth/Login'
 import Home from './pages/Home/Home'
+import User from './pages/User/User'
 
 function App() {
 
@@ -18,6 +19,8 @@ function App() {
         <Route path="/admin" element={<Admin/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/login" element={<Login/>}/>
+
+        <Route path="/user" element={<User/>}/>
       </Routes>
     </>
   )

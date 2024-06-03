@@ -89,25 +89,25 @@
     margin-top: -4%;
 }
 
-.best-box .girl {
+.best-box .first {
     border-color: #FB6F92;
 }
-.best-box .boy {
+.best-box .second {
     border-color: #44D2FF;
 }
-.best-box .unisex {
+.best-box .third {
     border-color: #FAC069;
 }
 
-.best-box .girl:hover {
+.best-box .first:hover {
     box-shadow: -1px -0px 8px 4px #FB6F92 ;
     transition: 0.3s ease;
 }
-.best-box .boy:hover {
+.best-box .second:hover {
     box-shadow: -1px -0px 8px 4px #44D2FF;
     transition: 0.3s ease;
 }
-.best-box .unisex:hover {
+.best-box .third:hover {
     box-shadow: -1px -0px 8px 4px #FAC069;
     transition: 0.3s ease;
 }
@@ -122,13 +122,13 @@
     flex-wrap: wrap;
     justify-content: center;
 }
-.girl .box-content{
+.first .box-content{
     border-color: #FB6F92;
 }
-.boy .box-content{
+.second .box-content{
     border-color: #44D2FF;
 }
-.unisex .box-content{
+.third .box-content{
     border-color: #FAC069;
 }
 
@@ -144,13 +144,13 @@
     font-size: 20px;
     margin-bottom: 0;
 }
-.girl .box-content p{
+.first .box-content p{
     color: #FB6F92;
 }
-.boy .box-content p {
+.second .box-content p {
     color: #44D2FF;
 }
-.unisex .box-content p{
+.third .box-content p{
     color: #FAC069;
 }
 
@@ -163,13 +163,13 @@
     font-family: "Josefin Sans", sans-serif;
 }
 
-.girl .box-content li strong{
+.first .box-content li strong{
     color: #E82B5B;
 }
-.boy .box-content li strong{
+.second .box-content li strong{
     color: #0EB9EF;
 }
-.unisex .box-content li strong{
+.third .box-content li strong{
     color: #FAB769
 }
 
@@ -185,23 +185,23 @@
     margin-bottom: 10%;
     cursor: pointer;
 }
-.girl .box-content button{
+.first .box-content button{
     background-color: #FB6F92;
 }
-.boy .box-content button{
+.second .box-content button{
     background-color: #44D2FF;
 }
-.unisex .box-content button{
+.third .box-content button{
     background-color: #FAC069;
 }
 
 
-.girl .box-content button:hover{
+.first .box-content button:hover{
     background-color: #ed3e6a;
 }
-.boy .box-content button:hover{
+.second .box-content button:hover{
     background-color: #00c3ff;
 }
-.unisex .box-content button:hover{
+.third .box-content button:hover{
     background-color: #fa9e13;
 }
