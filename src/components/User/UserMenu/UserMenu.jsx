@@ -6,7 +6,7 @@ import user_profile_icon from "/assets/user_profile-icon.png"
 import baby_profile_icon from "/assets/baby.png"
 import order_icon from "/assets/checkout.png"
 
-const UserMenu = () => {
+const UserMenu = ({ onShowUserProfile, onHideUserProfile }) => {
 
   const listBtn = [
     {
@@ -69,14 +69,21 @@ const UserMenu = () => {
   // khi nhấn vào một nút chính, nếu nút chính có id là 2 thì nó sẽ bật/tắt việc hiển thị các nút con. 
   // Nếu không phải, nó sẽ chỉ đặt nút chính là activeButton và ẩn các nút con nếu có
   const handleButtonClick = (buttonIndex) => {
-      if (buttonIndex === 2) {
-        if (showSubButtons) {
-          setActiveSubButton(null); // Reset trạng thái của các nút con khi nút 2 được bấm lần thứ hai
-        }
-        setShowSubButtons(!showSubButtons);
+    if (buttonIndex === 2) {
+      if (showSubButtons) {
+        setActiveSubButton(null); // Reset trạng thái của các nút con khi nút 2 được bấm lần thứ hai
       }
-      setActiveButton(buttonIndex);
-      setActiveSubButton(null)
+      setShowSubButtons(!showSubButtons);
+    }
+    setActiveButton(buttonIndex);
+    setActiveSubButton(null)
+
+    // Gọi hàm onShowUserProfile khi buttonIndex là 1 (User's profile)
+    if (buttonIndex === 1) {
+      onShowUserProfile();
+    } else {
+      onHideUserProfile();
+    }
   }
 
   // khi nhấn vào một nút con. Nó sẽ đặt nút con là activeSubButton và tắt việc chọn nút chính.
