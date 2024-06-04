@@ -16,7 +16,8 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: rgb(240, 238, 238);
+    /* background-color: rgb(240, 238, 238); */
+    background-color: #e6f0ff;
     border-radius: 5px;
 }
 
