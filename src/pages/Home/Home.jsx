@@ -10,13 +10,17 @@ import Ranking from '../../components/Home/Ranking/Ranking'
 const Home = () => {
   return (
     <div className='container'>
-      <Header/>
+      <Header />
       <div className="home-container">
-        <Slide/>
-        <JoinUs/>
-        <Ranking/>
+        <Slide />
+        <JoinUs />
+        <Ranking />
+        {/* <div className="content">
+          <JoinUs />
+          <Ranking />
+        </div> */}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

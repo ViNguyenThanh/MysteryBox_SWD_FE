@@ -35,37 +35,35 @@ const Ranking = () => {
     ]
 
     return (
-        <div className="ranking-whole-container">
-            <div className="ranking-container">
-                <div className="header">
-                    <img src={celebrate} />
-                </div>
+        <div className="ranking-container">
+            <div className="header">
+                <img src={celebrate} />
+            </div>
 
-                <p className='title'>Best selling boxes</p>
+            <p className='title'>Most selected boxes</p>
 
-                <div className="best-box">
-                    {rankingBox.map((item) => (
-                        <div key={item.id} 
-                            // className="box"
-                            className={`box ${item.index}`}
-                        >
-                            <div className="box-content">
-                                <img src={item.img} />
-                                <p>{item.title}</p>
-                                <ul>
-                                    <li>
-                                        <strong>Number of items: </strong> {item.number_of_items}
-                                    </li>
-                                    <li>
-                                        <strong>Description: </strong> {item.des}
-                                    </li>
-                                </ul>
-                                <button>Detail</button>
-                            </div>
+            <div className="best-box">
+                {rankingBox.map((item) => (
+                    <div key={item.id}
+                        // className="box"
+                        className={`box ${item.index}`}
+                    >
+                        <div className="box-content">
+                            <img src={item.img} />
+                            <p>{item.title}</p>
+                            <ul>
+                                <li>
+                                    <strong>Number of items: </strong> {item.number_of_items}
+                                </li>
+                                <li>
+                                    <strong>Description: </strong> {item.des}
+                                </li>
+                            </ul>
+                            <button>Detail</button>
                         </div>
-                    ))}
+                    </div>
+                ))}
 
-                </div>
             </div>
         </div>
     )

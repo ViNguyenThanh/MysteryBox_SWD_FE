@@ -43,22 +43,20 @@ const imgSlide = [
 const Slide = () => {
 
   return (
-    <div className='slide-whole-container'>
-      <div className="slide-container">
-        <Carousel arrows infinite={false}>
-          {imgSlide.map((item) => (
-            <div className='slide-content' key={item.id}>
-              <img src={item.img} />
-            </div>
-          ))}
-        </Carousel>
-        {/* <Row>
-          <Col span={24} offset={0}>
-            
-          </Col>
-        </Row> */}
-      </div>
-    </div>
+     <div className="slide-container">
+     <Carousel arrows infinite={false}>
+       {imgSlide.map((item) => (
+         <div className='slide-content' key={item.id}>
+           <img src={item.img} />
+         </div>
+       ))}
+     </Carousel>
+     {/* <Row>
+       <Col span={24} offset={0}>
+         
+       </Col>
+     </Row> */}
+   </div>
   )
 }
 
