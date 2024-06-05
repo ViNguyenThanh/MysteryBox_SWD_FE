@@ -6,7 +6,7 @@ import user_profile_icon from "/assets/user_profile-icon.png"
 import baby_profile_icon from "/assets/baby.png"
 import order_icon from "/assets/checkout.png"
 
-const UserMenu = ({ onShowUserProfile, onHideUserProfile }) => {
+const UserMenu = ({ onShowUserProfile, onHideUserProfile, onShowKidProfile, onHideKidProfile }) => {
 
   const listBtn = [
     {
@@ -74,6 +74,10 @@ const UserMenu = ({ onShowUserProfile, onHideUserProfile }) => {
         setActiveSubButton(null); // Reset trạng thái của các nút con khi nút 2 được bấm lần thứ hai
       }
       setShowSubButtons(!showSubButtons);
+
+      onShowKidProfile()
+    } else {
+      onHideKidProfile()
     }
     setActiveButton(buttonIndex);
     setActiveSubButton(null)

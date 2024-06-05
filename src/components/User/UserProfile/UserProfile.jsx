@@ -7,6 +7,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
 const UserProfile = () => {
+
   const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {
@@ -43,9 +44,9 @@ const UserProfile = () => {
         <TabContext value={value}>
           <Box className="box">
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Profile" value="1" className='title' />
-              {/* <Tab label="Item Two" value="2" />
-            <Tab label="Item Three" value="3" /> */}
+              <Tab label="Profile" value="1" className='title'/>
+              {/* <Tab label="Item Two" value="2" className='title'/>
+            <Tab label="Item Three" value="3" /> className='title'*/}
             </TabList>
           </Box>
           <TabPanel value="1" className='content'>
@@ -56,9 +57,7 @@ const UserProfile = () => {
                 type="text"
                 name="username"
                 value={profile.username}
-                // readOnly={!isEditable}
-                // onChange={handleInputChange}
-                // style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
+                readOnly
               />
             </div>
 
