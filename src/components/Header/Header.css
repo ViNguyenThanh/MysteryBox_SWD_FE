@@ -12,13 +12,15 @@
 }
 .show {
     transition: 0.3s ease;
-    height: 140px;
+    /* height: 140px; */ /* vì bỏ hàng filter bên dưới r nên chỉnh height lại*/
+    height: 80px;
 }
 
 .header-container {
     max-width: var(--max-screen-width);
     width: 100%;
-    height: 140px;
+    /* height: 140px; */ /* vì bỏ hàng filter bên dưới r nên chỉnh height lại*/
+    height: 80px;
     background-color: #F9C9E2;
     display: flex;
     flex-wrap: wrap;
@@ -34,19 +36,26 @@
 }
 
 .header-left {
-    width: 40%;
+    /* width: 40%; */
+    /* bỏ thanh search kế bên, thêm mục Product bên header-right nên chỉnh width lại */
+    width: 30%;
     display: flex;
     align-items: center;
 }
 
 .header-left .logo {
-    width: 175px;
+    /* width: 175px;
+    height: 75px; */
+    /* bỏ thanh search kế bên nên chỉnh width lại */
+    width: 135px;
     height: 75px;
     border-radius: 20px;
     padding: 5px 10px;
     cursor: pointer;
     margin-left: 2%;
 }
+
+/* bỏ thanh search */
 .header-left .search{
     width: 100%;
     position: relative;
@@ -86,15 +95,19 @@
 }
 
 
+
+
 .header-right {
-    width: 60%;
+    /* width: 60%; */
+    /* bỏ thanh search bên header-left, thêm mục Product nên chỉnh width lại */
+    width: 70%;
 }
 
 .header-right ul {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    margin-top: 3%;
+    /* margin-top: 3%; */ /* vì bỏ hàng filter bên dưới r nên chỉnh margin-top lại cho hợp*/
 }
 
 .header-right li {
@@ -113,16 +126,12 @@
 }
 
 
-
+/* vì ko xài hàng filter bên dưới nên code này để đây ko sao, vì đã comment phía component r */
 .header-bottom {
     width: 100%;
     display: flex;
     align-items: flex-start;
 }
-/* .header-bottom:hover{
-    background-color: white;
-    
-} */
 
 .header-bottom .choice {
     width: 100%;
