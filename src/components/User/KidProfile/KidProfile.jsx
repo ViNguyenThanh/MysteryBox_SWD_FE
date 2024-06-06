@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState } from 'react'
 import "./KidProfile.css"
 
 import Box from '@mui/material/Box';
@@ -10,7 +10,9 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+
 const KidProfile = () => {
+
   const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
@@ -19,7 +21,7 @@ const KidProfile = () => {
 
   // làm chức năng Update Profile
   const [profile, setProfile] = useState({
-    fullname: 'Đào Lan Ngọc',
+    fullname: 'Zizi',
     hobby: 'Barbie',
     birth: null,
     color: '',
@@ -71,6 +73,9 @@ const KidProfile = () => {
   const toggleEdit = () => {
     setIsEditTable(!isEditable)
   }
+
+
+
 
   return (
     <div className="kid_profile-container">

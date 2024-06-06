@@ -13,6 +13,7 @@ const Header = () => {
 
   const navigate = useNavigate()
 
+  /* // vì ko xài hàng filter bên dưới nên này comment lại
   const choice = [
     {
       id: 1,
@@ -51,7 +52,8 @@ const Header = () => {
   const handleMouseLeave = () => {
     setHoveredIndex(null)
   }
-
+  */
+ 
   const [showHeader, setShowHeader] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -82,10 +84,12 @@ const Header = () => {
 
         <div className="header-left">
           <img src={logo} className='logo' onClick={() => navigate('/')} />
-          <div className="search">
+
+           {/* vì ko xài chức năng search nữa nên này comment lại */}
+          {/* <div className="search">
             <input type="text" placeholder='Search' />
             <img src={search} />
-          </div>
+          </div> */}
         </div>
 
         <div className="header-right">
@@ -93,11 +97,14 @@ const Header = () => {
             <li>Home</li>
             <li>About Us</li>
             <li>Buy Package</li>
+            <li>Product</li>
             <li onClick={() => navigate('/login')}>Sign In/Sign Up</li>
           </ul>
         </div>
 
-        <div className="header-bottom">
+        
+        {/* vì ko xài hàng filter nữa nên này comment lại */}
+        {/* <div className="header-bottom">
           <div className="choice">
             <ul>
               {choice.map((item) => (
@@ -105,9 +112,6 @@ const Header = () => {
                   key={item.id}
                   onMouseEnter={() => handleMouseEnter(item.id)}
                   onMouseLeave={handleMouseLeave}
-                // onMouseEnter={() => setHover(true)}
-                // onMouseLeave={() => setHover(false)}
-
                 >
                   {item.name}
                   <img src={hoveredIndex === item.id ? arrow_up : arrow_down} />
@@ -115,7 +119,8 @@ const Header = () => {
               ))}
             </ul>
           </div>
-        </div>
+        </div> */}
+
       </div>
     </div>
   )
