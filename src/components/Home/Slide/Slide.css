@@ -1,7 +1,5 @@
 .slide-container {
-    /* margin-top: 135px; */ /* vì bỏ hàng filter bên dưới r nên chỉnh margin-top lại*/
-    margin-top: 80px;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
     max-width: var(--max-screen-width);
     width: 100%;
     background-color: rgb(244, 244, 244);
