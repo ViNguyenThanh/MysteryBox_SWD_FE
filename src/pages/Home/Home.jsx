@@ -4,9 +4,9 @@ import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import Slide from '../../components/Home/Slide/Slide'
 import JoinUs from '../../components/Home/JoinUs/JoinUs'
-import Ranking from '../../components/Home/Ranking/Ranking'
 import Caption from '../../components/Home/Caption/Caption'
 import StepToBuyPackage from '../../components/Home/StepByStep/StepByStep'
+import IntroPackage from '../../components/Home/IntroPackage/IntroPackage'
 
 
 const Home = () => {
@@ -18,7 +18,7 @@ const Home = () => {
         <Slide />
         <JoinUs />
         <StepToBuyPackage/>
-        <Ranking />
+        <IntroPackage />
         {/* <div className="content">
           <JoinUs />
           <Ranking />
