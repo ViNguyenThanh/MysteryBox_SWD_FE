@@ -10,6 +10,8 @@ import Login from './pages/Auth/Login'
 import Home from './pages/Home/Home'
 import User from './pages/User/User'
 import UserProfile from './components/User/UserProfile/UserProfile'
+import KidProfile from './components/User/KidProfile/KidProfile'
+import Order from './components/User/Order/Order'
 
 function App() {
 
@@ -21,7 +23,12 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/login" element={<Login/>}/>
 
-        <Route path="/user*" element={<User/>}/>
+        {/* <Route path="/user*" element={<User/>}/> */}
+        <Route path="/user" element={<User/>}>
+          <Route path='user-profile' element={<UserProfile/>}/>
+          <Route path='kid-profile' element={<KidProfile/>}/>
+          <Route path='order' element={<Order/>}/>
+        </Route>
       </Routes>
     </>
   )

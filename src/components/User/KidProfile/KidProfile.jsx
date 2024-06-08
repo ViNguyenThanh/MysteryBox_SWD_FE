@@ -1,4 +1,4 @@
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import "./KidProfile.css"
 
 import Box from '@mui/material/Box';
@@ -9,7 +9,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import TableKid from './TableKid';
 
 const KidProfile = () => {
 
@@ -75,8 +75,6 @@ const KidProfile = () => {
   }
 
 
-
-
   return (
     <div className="kid_profile-container">
       <Box sx={{ width: '100%', typography: 'body1' }} className="box-container">
@@ -84,11 +82,14 @@ const KidProfile = () => {
           <Box className="box">
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Profile" value="1" className='title' />
-              {/* <Tab label="Item Two" value="2" className='title'/>
-              <Tab label="Item Three" value="3" className='title'/> */}
+              <Tab label="Create" value="2" className='title' />
+              {/* <Tab label="Item Three" value="3" className='title'/> */}
             </TabList>
           </Box>
-          <TabPanel value="1" className='content'>
+          <TabPanel value="1">
+            <TableKid/>
+          </TabPanel>
+          <TabPanel value="2" className='content'>
             <div className="field">
               <p>Fullname: </p>
               <input

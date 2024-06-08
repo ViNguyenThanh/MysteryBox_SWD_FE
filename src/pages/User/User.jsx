@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './User.css'
 import UserMenu from '../../components/User/UserMenu/UserMenu'
 import blueHome from "/assets/home_blue.png"
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import UserProfile from '../../components/User/UserProfile/UserProfile'
 import KidProfile from '../../components/User/KidProfile/KidProfile'
 import Order from '../../components/User/Order/Order'
@@ -37,7 +37,7 @@ const User = () => {
   const location = useLocation()
 
   useEffect(() => {
-    if (location.pathname === '/user'){
+    if (location.pathname === '/user') {
       navigate('/user/user-profile')
     }
   }, [location, navigate])
@@ -48,10 +48,10 @@ const User = () => {
 
         {/* truyền như này vẫn gọi được component UserProfile, KidProfile nhưng không thể thay đổi đường dẫn */}
         <UserMenu
-          // onShowUserProfile={handleShowUserProfile}
-          // onHideUserProfile={handleHideUserProfile}
-          // onShowKidProfile={handleShowKidProfile}
-          // onHideKidProfile={handleHideKidProfile}
+        // onShowUserProfile={handleShowUserProfile}
+        // onHideUserProfile={handleHideUserProfile}
+        // onShowKidProfile={handleShowKidProfile}
+        // onHideKidProfile={handleHideKidProfile}
         />
 
         <div className='user-right-container'>
@@ -62,13 +62,24 @@ const User = () => {
             {/* vẫn gọi được component UserProfile, KidProfile nhưng không thể thay đổi đường dẫn */}
             {/* {showUserProfile && <UserProfile/>}
             {showKidProfile && <KidProfile/>} */}
-            
-            <Routes>
+
+            {/* <Routes>
               <Route path="/user-profile" element={<UserProfile />} />
               <Route path="/kid-profile" element={<KidProfile />} />
               <Route path="/order" element = {<Order/>}/>
-            </Routes>
+            </Routes> */}
 
+            {/*  
+              Thay vì khai báo route như trên thì khai báo bên app.jsx như sau:
+              <Route path="/user" element={<User/>}>
+                <Route path='user-profile' element={<UserProfile/>}/>
+                <Route path='kid-profile' element={<KidProfile/>}/>
+                <Route path='order' element={<Order/>}/>
+              </Route>
+              sau đó vào nơi chứa cha và gọi Outlet (của thư viện react-router-dom)
+              tùy thuộc vào đường dẫn mình truyền nó sẽ gọi ra những component có trong cha
+            */}
+            <Outlet />
           </div>
 
         </div>
