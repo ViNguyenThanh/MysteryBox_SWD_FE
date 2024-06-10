@@ -25,3 +25,9 @@
     font-size: 16px;
     padding: 2% !important;
 }
+
+/* chỉnh nút search */
+.ant-table-filter-column .anticon svg {
+    width: 20px !important;
+    height: 20px !important;
+}
