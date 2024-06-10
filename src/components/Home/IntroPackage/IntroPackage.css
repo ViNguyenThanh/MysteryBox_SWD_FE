@@ -1,5 +1,4 @@
 .intro_package-container{
-    max-width: var(--max-screen-width);
     width: 100%;
     height: 1000px;
     background-image: url('/assets/Background-homepage.jpg');
@@ -93,7 +92,7 @@
     text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-.intro_package-container .best-box {
+.intro_package-container .intro-package {
     width: 100%;
     height: 40%;
     display: flex;
@@ -105,7 +104,7 @@
     /* position: absolute; */
 }
 
-.best-box .box {
+.intro-package .package {
     width: 21%;
     height: 100%;
     background-color: #F9F8F2;
@@ -117,42 +116,42 @@
     transition: 0.3s ease;
 }
 
-.best-box .box:nth-of-type(2) {
+.intro-package .package:nth-of-type(2) {
     /* margin-top: -4%; */
 }
 
-.best-box .first {
+.intro-package .first {
     border-color: #FB6F92;
 }
-.best-box .second {
+.intro-package .second {
     border-color: #44D2FF;
 }
-.best-box .third {
+.intro-package .third {
     border-color: #FAC069;
 }
-.best-box .fourth {
+.intro-package .fourth {
     border-color: #A752F7;
 }
 
-.best-box .first:hover {
+.intro-package .first:hover {
     box-shadow: -1px -0px 8px 4px #FB6F92;
     transition: 0.3s ease;
 }
-.best-box .second:hover {
+.intro-package .second:hover {
     box-shadow: -1px -0px 8px 4px #44D2FF;
     transition: 0.3s ease;
 }
-.best-box .third:hover {
+.intro-package .third:hover {
     box-shadow: -1px -0px 8px 4px #FAC069;
     transition: 0.3s ease;
 }
-.best-box .fourth:hover {
+.intro-package .fourth:hover {
     box-shadow: -1px -0px 8px 4px #A752F7;
     transition: 0.3s ease;
 }
 
 
-.box .box-content {
+.package .intro-package-content {
     width: 80%;
     height: 90%;
     margin: 5%;
@@ -163,27 +162,27 @@
     justify-content: center;
 }
 
-.first .box-content {
+.first .intro-package-content {
     border-color: #FB6F92;
 }
-.second .box-content {
+.second .intro-package-content {
     border-color: #44D2FF;
 }
-.third .box-content {
+.third .intro-package-content {
     border-color: #FAC069;
 }
-.fourth .box-content{
+.fourth .intro-package-content{
     border-color: #A752F7;
 }
 
-.box-content img {
+.intro-package-content img {
     width: 190px;
     height: 150px;
     border-radius: 30px;
     margin-top: 5%;
 }
 
-.box-content p {
+.intro-package-content p {
     font-family: "Kavoon", serif;
     font-size: 30px;
     /* margin-bottom: 0;
@@ -191,45 +190,58 @@
     margin: 10% 0 0%;
 }
 
-.first .box-content p {
+.first .intro-package-content p {
     color: #FB6F92;
 }
-.second .box-content p {
+.second .intro-package-content p {
     color: #44D2FF;
 }
-.third .box-content p {
+.third .intro-package-content p {
     color: #FAC069;
 }
-.fourth .box-content p {
+.fourth .intro-package-content p {
     color: #A752F7;
 }
 
-.box-content ul {
+.intro-package-content ul {
     width: 80%;
     margin-bottom: 5%;
 }
 
-.box-content li {
+.intro-package-content li {
     color: #828282;
     font-family: "Josefin Sans", sans-serif;
     margin-bottom: 5%;
 }
-
-.first .box-content li strong {
+/* chỉnh màu của dấu đầu dòng */
+.first .intro-package-content li::marker {
     color: #E82B5B;
 }
-.second .box-content li strong {
+.second .intro-package-content li::marker  {
     color: #0EB9EF;
 }
-.third .box-content li strong {
+.third .intro-package-content li::marker {
     color: #FAB769;
 }
-.fourth .box-content li strong {
+.fourth .intro-package-content li::marker  {
+    color: #A752F7;
+}
+
+.first .intro-package-content li strong {
+    color: #E82B5B;
+}
+.second .intro-package-content li strong {
+    color: #0EB9EF;
+}
+.third .intro-package-content li strong {
+    color: #FAB769;
+}
+.fourth .intro-package-content li strong {
     color: #A752F7;
 }
 
 
-.box-content button {
+.intro-package-content button {
     width: 50%;
     height: 50px;
     border-radius: 25px;
@@ -241,30 +253,30 @@
     cursor: pointer;
 }
 
-.first .box-content button {
+.first .intro-package-content button {
     background-color: #FB6F92;
 }
 
-.second .box-content button {
+.second .intro-package-content button {
     background-color: #44D2FF;
 }
 
-.third .box-content button {
+.third .intro-package-content button {
     background-color: #FAC069;
 }
-.fourth .box-content button {
+.fourth .intro-package-content button {
     background-color: #A752F7;
 }
 
-.first .box-content button:hover {
+.first .intro-package-content button:hover {
     background-color: #ed3e6a;
 }
-.second .box-content button:hover {
+.second .intro-package-content button:hover {
     background-color: #00c3ff;
 }
-.third .box-content button:hover {
+.third .intro-package-content button:hover {
     background-color: #fa9e13;
 }
-.fourth .box-content button:hover {
+.fourth .intro-package-content button:hover {
     background-color: #8e1afa;
 }

@@ -3,16 +3,16 @@ import "./Home.css"
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
 import Slide from '../../components/Home/Slide/Slide'
-import JoinUs from '../../components/Home/join-us/JoinUs'
+import JoinUs from '../../components/Home/JoinUs/JoinUs'
 import Caption from '../../components/Home/Caption/Caption'
-import StepToBuyPackage from '../../components/Home/step-by-step/StepByStep'
-import IntroPackage from '../../components/Home/intro-package/IntroPackage'
-import WhyChooseUs from '../../components/Home/why-choose-us/WhyChooseUs'
+import StepToBuyPackage from '../../components/Home/StepByStep/StepByStep'
+import IntroPackage from '../../components/Home/IntroPackage/IntroPackage'
+import WhyChooseUs from '../../components/Home/WhyChooseUs/WhyChooseUs'
 
 
 const Home = () => {
   return (
-    <div className='container'>
+    <div className='home-whole-container'>
       <Header />
       <div className="home-container">
         <Caption/>
@@ -21,10 +21,6 @@ const Home = () => {
         <StepToBuyPackage/>
         <IntroPackage />
         <WhyChooseUs/>
-        {/* <div className="content">
-          <JoinUs />
-          <Ranking />
-        </div> */}
       </div>
       <Footer />
     </div>

@@ -1,5 +1,4 @@
 .why_choose_us-container{
-    max-width: var(--max-screen-width);
     width: 100%;
     height: 1250px;
     display: flex;
@@ -68,7 +67,6 @@
 
 .why_choose_us-container .slogan{
     width: 100%;
-    padding-top: 2%;
     text-align: center;
     font-family: "Kavoon", serif;
     font-size: 20px;
