@@ -30,6 +30,18 @@ const data = [
         age: 32,
         address: 'London No. 2 Lake Park',
     },
+    {
+        key: '5',
+        name: 'Jim Red',
+        age: 8,
+        address: 'London No. 2 Lake Park',
+    },
+    {
+        key: '6',
+        name: 'Jim Red',
+        age: 42,
+        address: 'London No. 2 Lake Park',
+    },
 ];
 
 export default function TableKid() {
@@ -165,7 +177,13 @@ export default function TableKid() {
     ];
     return (
         <div className="table_kid-container">
-            <Table columns={columns} dataSource={data}/>
+            <Table 
+                columns={columns} 
+                dataSource={data}
+                pagination={{
+                    pageSize: 5
+                }}
+            />
         </div>
         
     )
