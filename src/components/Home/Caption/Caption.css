@@ -1,10 +1,6 @@
 .caption-container {
-    max-width: var(--max-screen-width);
     width: 100%;
     height: 650px;
-    /* margin-top: 135px; */
-    /* vì bỏ hàng filter bên dưới r nên chỉnh margin-top lại*/
-    margin-top: 80px;
     margin-bottom: 100px;
     background-image: url("/assets/Background-homepage5.jpg");
     display: flex;

@@ -9,13 +9,20 @@ import tiktok from "/assets/tik-tok_footer.png"
 import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
+
     const navigate = useNavigate();
+
+    const handleLogoClick = () => {
+        navigate("/");
+        window.scrollTo(0, 0); // Cuộn lên đầu trang
+    }
+
     return (
         <div className="footer-whole-container">
             <div className='footer-container'>
                 <div className="footer-left">
 
-                    <img src={logo} className='logo' onClick={() => navigate("/")} />
+                    <img src={logo} className='logo' onClick={handleLogoClick} />
 
                     <div className="contact">
                         <p><strong>Contact: </strong> 0703631541</p>

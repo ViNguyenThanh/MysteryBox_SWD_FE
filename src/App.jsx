@@ -12,6 +12,9 @@ import User from './pages/User/User'
 import UserProfile from './components/User/UserProfile/UserProfile'
 import KidProfile from './components/User/KidProfile/KidProfile'
 import Order from './components/User/Order/Order'
+import BuyPackage from './pages/BuyPackage/BuyPackage'
+import ChoosePackage from './components/BuyPackage/ChoosePackage/ChoosePackage'
+import ChooseBox from './components/BuyPackage/ChooseBox/ChooseBox'
 
 function App() {
 
@@ -28,6 +31,11 @@ function App() {
           <Route path='user-profile' element={<UserProfile/>}/>
           <Route path='kid-profile' element={<KidProfile/>}/>
           <Route path='order' element={<Order/>}/>
+        </Route>
+
+        <Route path='/buy-package' element={<BuyPackage/>}>
+          <Route path="choose-package" element={<ChoosePackage/>}/>
+          <Route path="choose-box" element={<ChooseBox/>}/>
         </Route>
       </Routes>
     </>

@@ -3,8 +3,11 @@ import './IntroPackage.css'
 
 import celebrate from '/assets/celebrate.png'
 import box from '/assets/box.png'
+import { useNavigate } from 'react-router-dom'
 
 const IntroPackage = () => {
+
+    const navigate = useNavigate()
 
     const listIntroPackage = [
         {
@@ -50,13 +53,13 @@ const IntroPackage = () => {
             <p className='title'>Our Packages</p>
             <p className='slogan'>Service Package Full of Surprises – A Gift Just for Your Kids</p>
 
-            <div className="best-box">
+            <div className="intro-package">
                 {listIntroPackage.map((item) => (
                     <div key={item.id}
                         // className="box"
-                        className={`box ${item.index}`}
+                        className={`package ${item.index}`}
                     >
-                        <div className="box-content">
+                        <div className="intro-package-content">
                             <img src={item.img} />
                             <p>{item.title}</p>
                             <ul>
@@ -67,7 +70,7 @@ const IntroPackage = () => {
                                     <strong>No. boxes received: </strong> {item.number_of_items}
                                 </li>
                             </ul>
-                            <button>Buy Now</button>
+                            <button onClick={() => navigate('/buy-package')}>Buy Now</button>
                         </div>
                     </div>
                 ))}

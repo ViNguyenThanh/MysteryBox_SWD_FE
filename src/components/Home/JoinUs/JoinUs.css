@@ -1,12 +1,10 @@
 .join_us-container {
-    margin-bottom: 50px;
-    max-width: var(--max-screen-width);
-    /* width: 90%; */
+    /* margin-bottom: 50px; */
     width: 100%;
     height: 800px;
     background-image: url('/assets/Background-homepage.jpg');
-    /* background-attachment: fixed; */
-    background-position: center;
+    background-attachment: fixed;
+    background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
@@ -92,7 +90,7 @@
         0 5px 0 #000,
         /* Bottom shadow */
         0 -5px 0 #000;
-    /* Top shadow */
+        /* Top shadow */
     text-align: center;
     padding-left: 20%;
     margin: 0;

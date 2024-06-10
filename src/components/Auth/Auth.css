@@ -15,7 +15,7 @@
 
 .img-background {
     width: 100%;
-    padding-left: 10%;
+    padding-left: 10.5%;
 }
 
 .img-background .image,
@@ -28,6 +28,7 @@
 
 .img-background .image2 {
     transform: scaleX(-1);
+    box-shadow: 15px 17px 16.4px rgba(0, 0, 0, 0.2);
 }
 
 .register-container .form-register {

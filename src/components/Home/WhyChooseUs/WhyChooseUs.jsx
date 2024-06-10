@@ -103,7 +103,7 @@ const WhyChooseUs = () => {
                     {item.content}
                 </div>
             ))}
-            <p className='slogan'>✨ With Mystery Box, every time your child receives a gift is a journey of discovery full of joy and happiness! ✨</p>
+            <p className='slogan'>✨ With Mystery Box, every time your kids receives a gift is a journey of discovery full of joy and happiness! ✨</p>
         </div>
     )
 }

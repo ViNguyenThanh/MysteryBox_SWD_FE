@@ -2,8 +2,12 @@ import React from 'react'
 import './JoinUs.css'
 
 import join_img from '/assets/Instruction for joining.png'
+import { useNavigate } from 'react-router-dom'
 
 const JoinUs = () => {
+
+    const navigate = useNavigate()
+
     return (
         <div className="join_us-container">
             <div className="img-join">
@@ -30,7 +34,8 @@ const JoinUs = () => {
                         surprising mysterious gifts. Don't miss this opportunity, <br />
                         you deserve to experience the best service!
                     </p>
-                    <p>Buy Now!!</p>
+
+                    <p onClick={() => navigate('/buy-package')}>Buy Now!!</p>
                 </div>
             </div>
         </div>

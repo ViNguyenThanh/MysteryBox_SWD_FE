@@ -53,13 +53,15 @@ const Header = () => {
     setHoveredIndex(null)
   }
   */
- 
+
   const [showHeader, setShowHeader] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
   const controlHeader = () => {
     if (typeof window !== 'undefined') {
-      if (window.scrollY < lastScrollY) {
+      if (window.scrollY < lastScrollY) { // Kiểm tra nếu người dùng cuộn lên. Nếu đúng, header sẽ được hiển thị
+        setShowHeader(true)
+      } else if (window.scrollY < 10) { // để khi component Header được gọi ở trang mới thì Header sẽ được hiện ra lần đầu tiên // nói cách khác, kiểm tra nếu người dùng ở gần đầu trang (khoảng cách cuộn từ trên cùng ít hơn 10px), header sẽ được hiển thị 
         setShowHeader(true)
       } else {
         setShowHeader(false)
@@ -69,23 +71,29 @@ const Header = () => {
   }
 
   useEffect(() => {
-    if (typeof window !== 'undefined'){
+    if (typeof window !== 'undefined') {
       window.addEventListener('scroll', controlHeader)
 
       return () => {
         window.removeEventListener('scroll', controlHeader)
       }
     }
+
   }, [lastScrollY])
+
+  const handleClick = () => {
+    navigate("/");
+    window.scrollTo(0, 0); // Cuộn lên đầu trang
+  }
 
   return (
     <div className={`header-whole-container ${showHeader ? 'show' : ''}`} >
       <div className={`header-container ${showHeader ? 'show-down' : ''}`}>
 
         <div className="header-left">
-          <img src={logo} className='logo' onClick={() => navigate('/')} />
+          <img src={logo} className='logo' onClick={handleClick} />
 
-           {/* vì ko xài chức năng search nữa nên này comment lại */}
+          {/* vì ko xài chức năng search nữa nên này comment lại */}
           {/* <div className="search">
             <input type="text" placeholder='Search' />
             <img src={search} />
@@ -94,15 +102,15 @@ const Header = () => {
 
         <div className="header-right">
           <ul>
-            <li>Home</li>
+            <li onClick={handleClick}>Home</li>
             <li>About Us</li>
-            <li>Buy Package</li>
+            <li onClick={() => navigate('/buy-package')}>Buy Package</li>
             <li>Product</li>
             <li onClick={() => navigate('/login')}>Sign In/Sign Up</li>
           </ul>
         </div>
 
-        
+
         {/* vì ko xài hàng filter nữa nên này comment lại */}
         {/* <div className="header-bottom">
           <div className="choice">
