@@ -78,10 +78,10 @@
 .ant-steps-item-icon{
     background-color: #44D2FF !important;
 }
-.anticon svg{
+.ant-steps-icon .anticon svg{
     width: 30px;
     height: 30px;
-    fill: #ffffff !important;
+    fill: white !important;
 }
 .ant-steps-item-title{
     color: #44D2FF !important;
