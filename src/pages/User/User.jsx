@@ -45,7 +45,7 @@ const User = () => {
   return (
     <div className="user-whole-container">
       <div className="user-container">
-
+        <div className="user-left-container">
         {/* truyền như này vẫn gọi được component UserProfile, KidProfile nhưng không thể thay đổi đường dẫn */}
         <UserMenu
         // onShowUserProfile={handleShowUserProfile}
@@ -53,7 +53,7 @@ const User = () => {
         // onShowKidProfile={handleShowKidProfile}
         // onHideKidProfile={handleHideKidProfile}
         />
-
+        </div>
         <div className='user-right-container'>
           <img src={blueHome} onClick={() => navigate("/")} />
           <p className='welcome-user'>Hi, username</p>

@@ -1,6 +1,6 @@
 .user_menu-container{
     width: 20%;
-    height: 100%;
+    height: 100vh;
     background-color: #718BE5;   
     display: flex;
     flex-wrap: wrap;
@@ -32,8 +32,9 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
-    height: calc(100vh - 107px);
+    /* vì ko xài nút con nên ko cần thanh scroll */
+    /* overflow-y: scroll;
+    height: calc(100vh - 107px); */
 }
 
 .list-btn .btn {

@@ -1,5 +1,6 @@
 .user-whole-container{
     width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
 }
@@ -13,7 +14,10 @@
     position: relative; /* để user-container khi width > 1530px (--max-screen-width) thì position: absolute*/
 }
 
-
+.user-left-container{
+    width: 20%;
+    background-color: #718BE5;
+}
 
 .user-right-container{
     margin-left: calc(20% - 0.2%); /*nếu position: fixed cho user_menu-container thì mới xài dòng này*/
@@ -50,5 +54,5 @@
 }
 
 .user-container .info{
-
+    
 }

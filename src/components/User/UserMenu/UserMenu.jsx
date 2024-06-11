@@ -28,55 +28,56 @@ const UserMenu = (/*{ onShowUserProfile, onHideUserProfile, onShowKidProfile, on
     },
   ]
 
-  const listSubBtn = [
-    {
-      id: 1,
-      title: "Kid 1",
-    },
-    {
-      id: 2,
-      title: "Kid 2",
-    },
-    {
-      id: 3,
-      title: "Kid 3",
-    },
-    {
-      id: 4,
-      title: "Kid 4",
-    },
-    {
-      id: 5,
-      title: "Kid 5",
-    },
-    {
-      id: 6,
-      title: "Kid 6",
-    },
-    {
-      id: 7,
-      title: "Kid 7",
-    },
-    {
-      id: 8,
-      title: "Kid 8",
-    },
-  ]
+  // VÌ KO XÀI subButton nữa nên cái nào liên quan tới subButton thì comment lại
+  // const listSubBtn = [
+  //   {
+  //     id: 1,
+  //     title: "Kid 1",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Kid 2",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Kid 3",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Kid 4",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Kid 5",
+  //   },
+  //   {
+  //     id: 6,
+  //     title: "Kid 6",
+  //   },
+  //   {
+  //     id: 7,
+  //     title: "Kid 7",
+  //   },
+  //   {
+  //     id: 8,
+  //     title: "Kid 8",
+  //   },
+  // ]
 
   const [activeButton, setActiveButton] = useState(null); //  lưu trạng thái của nút chính đang được chọn.
                                                 // để "1" để khi mới vào thì nút 1 sẽ sáng lên đầu tiên // Nhưng h mình sẽ giải quyết chuyện đó bằng useLocation()
 
-  const [showSubButtons, setShowSubButtons] = useState(false); // xác định xem có hiển thị các nút con hay không
-  const [activeSubButton, setActiveSubButton] = useState(null) //  lưu trạng thái của nút con đang được chọn
+  //const [showSubButtons, setShowSubButtons] = useState(false); // xác định xem có hiển thị các nút con hay không
+  //const [activeSubButton, setActiveSubButton] = useState(null) //  lưu trạng thái của nút con đang được chọn
 
   // khi nhấn vào một nút chính, nếu nút chính có id là 2 thì nó sẽ bật/tắt việc hiển thị các nút con. 
   // Nếu không phải, nó sẽ chỉ đặt nút chính là activeButton và ẩn các nút con nếu có
   const handleButtonClick = (buttonIndex) => {
     if (buttonIndex === 2) {
-      if (showSubButtons) {
-        setActiveSubButton(null); // Reset trạng thái của các nút con khi nút 2 được bấm lần thứ hai
-      }
-      setShowSubButtons(!showSubButtons);
+      // if (showSubButtons) {
+      //   setActiveSubButton(null); // Reset trạng thái của các nút con khi nút 2 được bấm lần thứ hai
+      // }
+      // setShowSubButtons(!showSubButtons);
 
       // onShowKidProfile()
       navigate('/user/kid-profile');
@@ -84,9 +85,10 @@ const UserMenu = (/*{ onShowUserProfile, onHideUserProfile, onShowKidProfile, on
       // onHideKidProfile()
     }
     setActiveButton(buttonIndex);
-    setActiveSubButton(null)
+    // setActiveSubButton(null)
 
-    // Gọi hàm onShowUserProfile khi buttonIndex là 1 (User's profile) // Bỏ cách này
+    // Bỏ cách này, dùng useNavigate() là ok
+    // Gọi hàm onShowUserProfile khi buttonIndex là 1 (User's profile) 
     if (buttonIndex === 1) {
       // onShowUserProfile();
       navigate('/user/user-profile');
@@ -100,11 +102,12 @@ const UserMenu = (/*{ onShowUserProfile, onHideUserProfile, onShowKidProfile, on
   }
 
   // khi nhấn vào một nút con. Nó sẽ đặt nút con là activeSubButton và tắt việc chọn nút chính.
-  const handleSubButtonClick = (subButtonIndex) => {
-    setActiveSubButton(subButtonIndex);
-    // setActiveButton(null) // để khi bấm nút con thì nút cha là nút 2 hay các nút 1, 3 không được chọn
-    setActiveButton(2); // Đảm bảo nút cha vẫn phát sáng
-  };
+  // const handleSubButtonClick = (subButtonIndex) => {
+  //   setActiveSubButton(subButtonIndex);
+  //   // setActiveButton(null) // để khi bấm nút con thì nút cha là nút 2 hay các nút 1, 3 không được chọn
+  //   setActiveButton(2); // Đảm bảo nút cha vẫn phát sáng
+  // };
+
 
   // khi người dùng có reload lại trang thì đang ở component nào thì nút đó sẽ phát sáng
   const location = useLocation()
@@ -140,7 +143,7 @@ const UserMenu = (/*{ onShowUserProfile, onHideUserProfile, onShowKidProfile, on
               </div>
               <p>{item.title}</p>
             </div>
-            {item.id === 2 && showSubButtons && (
+            {/* {item.id === 2 && showSubButtons && (
               <div className={`sub-btn ${showSubButtons ? 'show' : 'hide'}`}>
                 {listSubBtn.map((subItem) => (
                   <div className={`sub-btn-item ${activeSubButton === subItem.id ? 'choose' : ''}`}
@@ -154,7 +157,7 @@ const UserMenu = (/*{ onShowUserProfile, onHideUserProfile, onShowKidProfile, on
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         ))}
       </div>
