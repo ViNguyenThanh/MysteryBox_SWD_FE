@@ -3,32 +3,55 @@ import './ChooseBox.css'
 
 import { Button, message, Steps, theme } from 'antd';
 import ChooseTheme from './ChooseTheme/ChooseTheme';
+import ChooseKid from './ChooseKid/ChooseKid';
+import Confirm from './Confirm/Confirm';
+import ChooseBoxStep from './ChooseBoxStep/ChooseBoxStep';
+import { useNavigate } from 'react-router-dom';
 
 const ChooseBox = () => {
+    const navigate = useNavigate()
 
     const [isNextEnabled, setNextEnabled] = useState(false);
     const [selectedThemeId, setSelectedThemeId] = useState(null); // Lưu ID của theme đã chọn ở bên đây 
+    const [selectedRowKey, setSelectedRowKey] = useState(null); // State để lưu key của hàng được chọn trong ChooseKid
+    const [paginationState, setPaginationState] = useState({ current: 1, pageSize: 5 }); // lưu thông tin phân trang
+    const [selectedBoxId, setSelectedBoxId] = useState(null)
+
     const steps = [
         {
             title: 'Choose theme',
             content:
                 <ChooseTheme
-                    setNextEnabled={setNextEnabled} 
+                    setNextEnabled={setNextEnabled}
                     selectedId={selectedThemeId}
                     setSelectedId={setSelectedThemeId} // Truyền hàm để cập nhật ID của theme đã chọn
                 />,
         },
         {
             title: 'Choose kid',
-            content: 'Second-content',
+            content:
+                <ChooseKid
+                    setNextEnabled={setNextEnabled}
+                    selectedRowKey={selectedRowKey} // Truyền key của hàng đã chọn
+                    setSelectedRowKey={setSelectedRowKey} // Truyền hàm để cập nhật key của hàng đã chọn
+                    paginationState={paginationState} // Truyền trạng thái phân trang
+                    setPaginationState={setPaginationState} // ruyền hàm để cập nhật trạng thái phân trang
+                />,
         },
         {
             title: 'Confirm',
-            content: 'Third-content',
+            content:
+                <Confirm
+                    // selectedPackage={selectedPackage}
+                />,
         },
         {
             title: 'Choose box',
-            content: 'Last-content',
+            content:
+                <ChooseBoxStep
+                    selectedId={selectedBoxId}
+                    setSelectedId={setSelectedBoxId}
+                />,
         },
     ];
 
@@ -60,9 +83,10 @@ const ChooseBox = () => {
 
     const handleDone = () => {
         message.success({
-            content: 'Processing complete!',
+            content: 'Complete the Choose Box process!',
             // duration: 0, // Hiển thị vô thời hạn // này xài khi cần chỉnh css cho nút thông báo thôi
         });
+        // navigate('/')
         window.scrollTo(0, 350);
     };
 
@@ -84,7 +108,7 @@ const ChooseBox = () => {
                         </Button>
                     )}
                     {current === steps.length - 1 && (
-                        <Button type="primary" /*onClick={() => message.success('Processing complete!')} */ onClick={handleDone}>
+                        <Button type="primary" /*onClick={() => message.success('Processing complete!')} */ onClick={handleDone} disabled={!selectedBoxId}>
                             Done
                         </Button>
                     )}
