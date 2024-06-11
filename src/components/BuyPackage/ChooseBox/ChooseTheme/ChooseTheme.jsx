@@ -9,55 +9,55 @@ const ChooseTheme = ({ setNextEnabled, selectedId, setSelectedId }) => {
             id: 1,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 2,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 3,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 4,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 5,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 6,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 7,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 8,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
         {
             id: 9,
             img: frozen,
             title: "Frozen",
-            content: "This theme about Frozen",
+            description: "This theme about Frozen",
         },
     ]
 
@@ -85,11 +85,11 @@ const ChooseTheme = ({ setNextEnabled, selectedId, setSelectedId }) => {
                 <p className='theme-item-title' style={{color: selectedId === item.id ? '#ce85ff' : '#44D2FF' }}> 
                     {item.title}
                 </p>
-                <p className='theme-item-content'>{item.content}</p>
+                <p className='theme-item-content'>{item.description}</p>
                 <div className="theme-item-btn">
                     <button 
                         onClick={() => handleButtonClick(item.id)}
-                        className={selectedId === item.id ? "chosen" : ""} // viết dòng này để chỉnh màu khi hover
+                        className={selectedId === item.id ? "chosen" : ""} // viết dòng này để chỉnh màu khi hover theme đã đc chọn
                         style={{backgroundColor: selectedId === item.id ? "#ce85ff" : "#44D2FF"}}
                     >
                         Choose

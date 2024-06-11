@@ -147,3 +147,20 @@
     padding: 17px 50px;
     transition: 0.5s ease;
 }
+
+.choose_package-btn button.active{
+    background-color: #FAC069;
+}
+.choose_package-btn button.inactive{
+    background-color: red;
+}
+
+.choose_package-container .error-message{
+    width: 100%;
+    text-align: center;
+    color: red;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 25px;
+    position: absolute;
+    top: 87%;
+}
