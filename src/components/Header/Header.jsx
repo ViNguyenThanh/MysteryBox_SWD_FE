@@ -7,11 +7,49 @@ import arrow_down from "/assets/arrow-down.png"
 import arrow_up from "/assets/arrow-up.png"
 
 import { useNavigate } from 'react-router-dom'
-
+import { Avatar, Dropdown, Space, message } from "antd";
+import { logout } from "../../redux/actions/auth.action";
+import { useDispatch } from "react-redux";
+import { LogoutOutlined, ShoppingCartOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons'
 
 const Header = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [info, setInfo] = useState(false);
+  const handleLogout = () => {
+    dispatch(logout());
+    message.success("Đã đăng xuất");
+    setInfo(false);
+  };
+
+  const items = [
+    {
+      label: "User profile",
+      key: '0',
+      icon: <UserOutlined />,
+    },
+    {
+      label: "Kid's profile",
+      key: '1',
+      icon: <SmileOutlined />
+    },
+    {
+      label: "Cart",
+      key: '2',
+      icon: <ShoppingCartOutlined />,
+    },
+    {
+      label: "Log out",
+      key: '3',
+      icon: <LogoutOutlined />,
+      onClick: () => {
+        dispatch(handleLogout());
+      }
+    },
+  ];
 
   /* // vì ko xài hàng filter bên dưới nên này comment lại
   const choice = [
@@ -106,7 +144,26 @@ const Header = () => {
             <li>About Us</li>
             <li onClick={() => navigate('/buy-package')}>Buy Package</li>
             <li>Product</li>
-            <li onClick={() => navigate('/login')}>Sign In/Sign Up</li>
+            {/* <li onClick={() => navigate('/login')}>Sign In/Sign Up</li> */}
+            {!user ? (
+              <li className="btn" onClick={() => navigate("/login")}>
+                Sign In/Sign Up
+              </li>
+            ) : (
+              <Dropdown menu={{ items }} trigger={['click']} className='dropdown'>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>
+                    <Avatar
+                      src={
+                        "https://cdn-media.sforum.vn/storage/app/media/THANHAN/avatar-trang-98.jpg"
+                      }
+                      onClick={() => setInfo((prev) => !prev)}
+                      style={{ cursor: "pointer", width: '45px', height: '45px' }}
+                    />
+                  </Space>
+                </a>
+              </Dropdown>
+            )}
           </ul>
         </div>
 

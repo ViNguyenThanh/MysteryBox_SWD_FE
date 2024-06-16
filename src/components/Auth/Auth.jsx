@@ -12,6 +12,10 @@ import facebook from "/assets/facebook_icon.png"
 import { useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/actions/auth.action";
+import store from "../../store/ReduxStore";
+import { message } from "antd";
 
 const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
     const styleContainer = () => {
@@ -36,6 +40,7 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
     }
 
     const navigate = useNavigate() // để điều hướng
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
@@ -62,7 +67,23 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                         .oneOf([Yup.ref("password"), null], "Confirm Password must match Password")
                         .required("Please enter your confirm password")
                     : Yup.string()
-        })
+        }),
+        onSubmit: async (values) => {
+            try {
+                await dispatch(login(values));
+                const res = store.getState().authReducer.res;
+                console.log(res)
+                if (res?.success) {
+                    message.success(res.message);
+                    formik.handleReset();
+                    navigate("/");
+                } else {
+                    message.error(res.message);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        },
     })
 
     return (
@@ -84,7 +105,7 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
 
                     <img src={logo} className="logo" />
 
-                    <form className="form-input">
+                    <form className="form-input" onSubmit={formik.handleSubmit}>
                         <label className="label-title"> Username: </label>
                         <input
                             className="input"
@@ -152,7 +173,8 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                         <button
 
                             className={comp === "login" ? "btnlogin" : "btnregister"}
-                            type="submit" style={styleBtn()}
+                            type="submit" 
+                            style={styleBtn()}
                         >
                             {comp === "login" ? "Sign In" : "Sign Up"}
                         </button>
@@ -164,10 +186,10 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                                     <img src={google} />
                                     Continue with Google
                                 </button>
-                                <button>
+                                {/* <button>
                                     <img src={facebook} />
                                     Continue with Facebook
-                                </button>
+                                </button> */}
                             </div>
                         )}
                         <div className="text">

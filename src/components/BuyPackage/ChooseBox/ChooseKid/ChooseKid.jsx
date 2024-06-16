@@ -3,7 +3,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Button, Empty, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import './ChooseKid.css'
-
+import { useDispatch, useSelector } from "react-redux";
+import { getKidProfile } from "../../../../redux/actions/kid.action";
 
 const data = [
     {
@@ -58,8 +59,9 @@ const rowSelection = {
 
 const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginationState, setPaginationState }) => {
 
-    const [selectionType, setSelectionType] = useState('radio');
+    const dispatch = useDispatch();
 
+    const [selectionType, setSelectionType] = useState('radio');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -170,16 +172,22 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
     const columns = [
         {
             title: 'Name',
-            dataIndex: 'name',
+            dataIndex: 'fullName',
             // render: (text) => <a>{text}</a>,
             className: 'column',
-            ...getColumnSearchProps('name'),
+            ...getColumnSearchProps('fullName'),
         },
+        // {
+        //     title: 'Age',
+        //     dataIndex: 'age',
+        //     className: 'column',
+        //     sorter: (a, b) => a.age - b.age,
+        // },
         {
-            title: 'Age',
-            dataIndex: 'age',
-            className: 'column',
-            sorter: (a, b) => a.age - b.age,
+            title: "Date of birth",
+            dataIndex: "yob",
+            className: "column",
+            // sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Gender',
@@ -222,8 +230,10 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
             setIsRowSelected(true);
         }
         setNextEnabled(isRowSelected); // Truyền trạng thái của việc chọn hàng lên component cha
+        dispatch(getKidProfile());
     }, [selectedRowKey, isRowSelected, setNextEnabled]);
 
+    const kids = useSelector((state) => state.kidReducer?.dataKids);
 
     return (
         <div className='choose_kid-container'>
@@ -239,7 +249,7 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
                     onSelect: (record) => setSelectedRowKey(record.key), // Cập nhật selectedRowKey khi chọn một hàng
                 }}
                 columns={columns}
-                dataSource={data}
+                dataSource={kids.map((kid) => ({ ...kid, key: kid.id }))}
                 onChange={onChange}
                 onRow={(record, rowIndex) => ({
                     ...handleRowSelection(record, rowIndex),

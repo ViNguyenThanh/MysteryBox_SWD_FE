@@ -8,6 +8,7 @@
     justify-content: center;
     align-content: flex-start;
     flex-wrap: wrap;
+    flex-direction: row-reverse;
     background-color: #E0F8FF;
     position: relative;
 }
