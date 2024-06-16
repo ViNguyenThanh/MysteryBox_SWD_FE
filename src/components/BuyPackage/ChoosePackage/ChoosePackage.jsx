@@ -6,10 +6,13 @@ import package2 from '/assets/Package2.jpg'
 import package3 from '/assets/Package3.jpg'
 import package4 from '/assets/Package4.jpg'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { getDataPackage } from "../../../redux/actions/package.action";
 
 const ChoosePackage = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const listPackage = [
     {
@@ -56,7 +59,7 @@ const ChoosePackage = () => {
 
   // dùng để khi mới vào trang, dù selectedId đang null nhưng nút Buy Now vẫn màu cam, 
   // chỉ khi người dùng không chọn package đã bấm Buy Now thì nút Buy Now mới bị đỏ
-  const [isButtonClicked, setIsButtonClicked] = useState(false) 
+  const [isButtonClicked, setIsButtonClicked] = useState(false)
 
   // để truyền qua component Confirm
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -83,35 +86,52 @@ const ChoosePackage = () => {
     }
   }, [selectedId, setIsEnabled]);*/
 
+  useEffect(() => {
+    dispatch(getDataPackage("", 1));
+  }, []);
+  const packages = useSelector((state) => state.packageReducer?.packages);
 
   return (
     <div className='choose_package-container'>
       <p className='choose_package-title'>Package price</p>
-      {listPackage.map((item) => (
+      {packages.map((item) => (
         <div
           className="choose_package-content"
           key={item.id}
           onClick={() => handleClick(item.id)}
         >
-          <img src={item.img}
+          <img
+            src={
+              item.name === "Package 1"
+                ? package1
+                : item.name === "Package 2"
+                  ? package2
+                  : item.name === "Package 3"
+                    ? package3
+                    : item.name === "Package 4"
+                      ? package4
+                      : package1
+            }
             onClick={() => handleClick(item.id)}
             style={{ border: selectedId === item.id ? "5px solid black" : "none" }}
           />
           <p className='sub-title'>
-            {item.title}
+            {item.name}
           </p>
           <ul>
             <li>
-              <strong>Duration: </strong> {item.duration}
+              <strong>Duration: </strong> {item.numberOfSend} months
             </li>
             <li>
-              <strong>No. of boxes: </strong> {item.noOfBoxes}
+              <strong>No. of boxes: </strong> {item.numberOfSend}
             </li>
             <li>
-              <strong>Sale: </strong> {item.sale}%
+              <strong>Sale: </strong> {item.description}
             </li>
           </ul>
-          <p className='price'>{item.price} VND</p>
+          <p className='price'>
+            {Number(item.price).toLocaleString("en-US")} VND
+          </p>
         </div>
       ))}
 
@@ -122,10 +142,10 @@ const ChoosePackage = () => {
       </p>
 
       <div className="choose_package-btn">
-        <button 
-          onClick={handleButtonClick} 
+        <button
+          onClick={handleButtonClick}
           // disabled={!isEnabled} // ko đc để disabled vì khi nút bị disabled thì không hiện được thông báo
-          className={selectedId=== null && isButtonClicked ? 'inactive' : 'active'}
+          className={selectedId === null && isButtonClicked ? 'inactive' : 'active'}
         >
           Buy Now
         </button>
