@@ -21,7 +21,7 @@ const Header = () => {
   const [info, setInfo] = useState(false);
   const handleLogout = () => {
     dispatch(logout());
-    message.success("Đã đăng xuất");
+    message.success("Log Out Successfully");
     setInfo(false);
   };
 
@@ -30,16 +30,26 @@ const Header = () => {
       label: "User profile",
       key: '0',
       icon: <UserOutlined />,
+      onClick: () => {
+        navigate("/user/user-profile")
+      }
+
     },
     {
       label: "Kid's profile",
       key: '1',
-      icon: <SmileOutlined />
+      icon: <SmileOutlined />,
+      onClick: () => {
+        navigate("/user/kid-profile")
+      }
     },
     {
       label: "Cart",
       key: '2',
       icon: <ShoppingCartOutlined />,
+      onClick: () => {
+        navigate("/user/order")
+      }
     },
     {
       label: "Log out",

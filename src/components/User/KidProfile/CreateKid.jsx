@@ -5,10 +5,17 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Breadcrumb } from 'antd';
+import { formatDate } from "../../../utils/FormatDate";
+import dayjs from "dayjs";
+import { createInfoProfileKid } from "../../../apis/kid.request";
+import { useDispatch } from "react-redux";
+import { updateProfileKid } from "../../../redux/actions/kid.action";
+import store from "../../../store/ReduxStore";
 
-export default function CreateKid({ kid, showTable, isDisable }) {
+export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }) {
     // làm chức năng Update Profile
     const [profile, setProfile] = useState({
+        themeId: "5",
         fullName: '',
         yob: null,
         gender: '',
@@ -74,10 +81,15 @@ export default function CreateKid({ kid, showTable, isDisable }) {
     };
 
     const handleDateChange = (date) => {
-        setProfile({
-            ...profile,
-            yob: date,
-        })
+        if (date && dayjs(date).isValid()) {
+            const formatDateData = formatDate(date.toDate());
+            setProfile({
+                ...profile,
+                yob: formatDateData,
+            });
+        } else {
+            console.error("error date");
+        }
     }
 
     // const [isEditable, setIsEditTable] = useState(false)
@@ -86,13 +98,37 @@ export default function CreateKid({ kid, showTable, isDisable }) {
     //     setIsEditTable(!isEditable)
     // }
 
-    const handleUpdateKidProfile = () => {
+    const handleUpdateKidProfile = async () => {
+        await dispatch(updateProfileKid(kidId, profile));
+        const response = store.getState().kidReducer.res;
+        if (response.success) {
+            message.success(response.message);
+            showTable();
+        } else {
+            message.error(response.message);
+        }
+    };
 
-    }
-
-    const handleCreateKidProfile = () => {
-
-    }
+    const handleCreateKidProfile = async () => {
+        const response = await createInfoProfileKid(profile);
+        if (response.data.success) {
+            setValue("1");
+            setProfile({
+                themeId: "5",
+                fullName: "",
+                yob: null,
+                gender: "",
+                descriptionHobby: "",
+                type: "",
+                color: "",
+                material: "",
+                toyOrigin: "",
+            });
+            message.success(response.data.message);
+        } else {
+            message.error(response.data.message);
+        }
+    };
 
     return (
         <div className='create_kid-container'>
@@ -113,7 +149,7 @@ export default function CreateKid({ kid, showTable, isDisable }) {
                                     onMouseEnter={(e) => {
                                         e.target.style.backgroundColor = '#f0f0f0';
                                         e.target.style.borderRadius = '20px';
-                                        e.target.style.padding = '10px 15px';
+                                        e.target.style.padding = '5px 15px';
                                     }}
                                     onMouseLeave={(e) => {
                                         e.target.style.backgroundColor = 'transparent';
@@ -166,7 +202,7 @@ export default function CreateKid({ kid, showTable, isDisable }) {
                                     // label={'"year", "month" and "day"'}
                                     views={['year', 'month', 'day']}
                                     className="custom-datepicker"
-                                    value={profile.yob}
+                                    value={profile.yob ? dayjs(profile.yob) : null}
                                     // readOnly={!isEditable}
                                     readOnly={isDisable}
                                     onChange={handleDateChange}

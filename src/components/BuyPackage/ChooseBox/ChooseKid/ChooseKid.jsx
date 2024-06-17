@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Empty, Input, Space, Table } from 'antd';
+import { Button, Empty, Input, Radio, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import './ChooseKid.css'
 import { useDispatch, useSelector } from "react-redux";
@@ -74,6 +74,7 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
         clearFilters();
         setSearchText('');
     };
+
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div
@@ -169,6 +170,17 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
             ),
     });
 
+    const calculateAge = (dob) => {
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
     const columns = [
         {
             title: 'Name',
@@ -184,30 +196,34 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
         //     sorter: (a, b) => a.age - b.age,
         // },
         {
-            title: "Date of birth",
+            title: "Age",
             dataIndex: "yob",
             className: "column",
             // sorter: (a, b) => a.age - b.age,
+            sorter: (a, b) => calculateAge(a.yob) - calculateAge(b.yob),
+            sortDirections: ['descend', 'ascend'],
+            render: (text, record) => calculateAge(record.yob),
         },
         {
             title: 'Gender',
             dataIndex: 'gender',
             className: 'column',
-            filters: [
-                {
-                    text: 'Boy',
-                    value: 'Boy',
-                },
-                {
-                    text: 'Girl',
-                    value: 'Girl',
-                },
-                {
-                    text: 'Unisex',
-                    value: 'Unisex',
-                },
-            ],
-            onFilter: (value, record) => record.gender.indexOf(value) === 0,
+            ...getColumnSearchProps('gender'),
+            // filters: [
+            //     {
+            //         text: 'Boy',
+            //         value: 'Boy',
+            //     },
+            //     {
+            //         text: 'Girl',
+            //         value: 'Girl',
+            //     },
+            //     {
+            //         text: 'Unisex',
+            //         value: 'Unisex',
+            //     },
+            // ],
+            // onFilter: (value, record) => record.gender.indexOf(value) === 0,
         },
     ];
 
@@ -247,6 +263,10 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
                     type: selectionType,
                     selectedRowKeys: selectedRowKey ? [selectedRowKey] : [], // Chỉ đánh dấu hàng đã chọn nếu đã có selectedRowKey
                     onSelect: (record) => setSelectedRowKey(record.key), // Cập nhật selectedRowKey khi chọn một hàng
+                    onChange: (selectedRowKeys) => {
+                        const selectedKey = selectedRowKeys[0];
+                        setSelectedRowKey(selectedKey);
+                    },
                 }}
                 columns={columns}
                 dataSource={kids.map((kid) => ({ ...kid, key: kid.id }))}

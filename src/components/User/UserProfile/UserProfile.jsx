@@ -5,6 +5,10 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import getUserLocalstorage from "../../../utils/UserCurrent";
+import { useSelector } from "react-redux";
+import { updateUser } from "../../../apis/user.request";
+import { message } from "antd";
 
 const UserProfile = () => {
 
@@ -16,12 +20,13 @@ const UserProfile = () => {
 
 
   // làm chức năng Update Profile
+  const userCurrent = getUserLocalstorage();
   const [profile, setProfile] = useState({
-    username: 'lanngocdao',
-    fullname: 'Đào Lan Ngọc',
-    email: 'ngocdl@gmail.com',
-    phone: '0931520366',
-    address: 'Vinhomes'
+    username: userCurrent?.username,
+    fullName: userCurrent?.fullName,
+    email: userCurrent?.email,
+    phone: userCurrent?.phone,
+    address: userCurrent?.address,
   });
 
   const handleInputChange = (event) => {
@@ -34,8 +39,15 @@ const UserProfile = () => {
 
   const [isEditable, setIsEditTable] = useState(false)
 
-  const toggleEdit = () => {
-    setIsEditTable(!isEditable)
+  const toggleEdit = async () => {
+    const response = await updateUser(userCurrent.id, profile);
+    if (response.data.success) {
+      message.success(response.data.message);
+      localStorage.setItem("user", JSON.stringify(response.data?.userProfile));
+      setIsEditTable(!isEditable);
+    } else {
+      message.error(response.data.message);
+    }
   }
 
   return (
@@ -56,7 +68,7 @@ const UserProfile = () => {
               <input
                 type="text"
                 name="username"
-                value={profile.username}
+                value={profile?.username}
                 readOnly
               />
             </div>
@@ -65,8 +77,8 @@ const UserProfile = () => {
               <p>Fullname: </p>
               <input
                 type="text"
-                name="fullname"
-                value={profile.fullname}
+                name="fullName"
+                value={profile?.fullName}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
                 style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
@@ -78,7 +90,7 @@ const UserProfile = () => {
               <input
                 type="text"
                 name="email"
-                value={profile.email}
+                value={profile?.email}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
                 style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
@@ -90,7 +102,7 @@ const UserProfile = () => {
               <input
                 type="text"
                 name="phone"
-                value={profile.phone}
+                value={profile?.phone}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
                 style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
@@ -102,7 +114,7 @@ const UserProfile = () => {
               <input
                 type="text"
                 name="address"
-                value={profile.address}
+                value={profile?.address}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
                 style = {{color: isEditable ? '#000000' : '#a8a8a8'}}

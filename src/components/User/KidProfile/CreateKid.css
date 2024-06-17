@@ -11,6 +11,8 @@
     flex-grow: 1; /* Để chiếm toàn bộ chiều rộng của thẻ cha */
     display: flex;
     justify-content: flex-start; /* Căn về phía bên trái */
+    border-radius :20px;
+    padding: 5px 15px;
 }
 
 /* Chỉnh chữ trong breadcump của kid's profile */

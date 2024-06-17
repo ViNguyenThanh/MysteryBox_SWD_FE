@@ -10,3 +10,21 @@ export const getKidProfile = () => {
     },
   });
 };
+
+export const createInfoProfileKid = (data) => {
+  const token = getToken();
+  return API.post("/create-profile", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateInfoProfileKid = (profileId, dataUpdate) => {
+  const token = getToken();
+  return API.patch(`/update-profile/${profileId}`, dataUpdate, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

@@ -8,6 +8,9 @@ import package4 from '/assets/Package4.jpg'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { getDataPackage } from "../../../redux/actions/package.action";
+import getUserLocalstorage from "../../../utils/UserCurrent";
+import { message } from "antd";
+import { getKidProfile } from "../../../redux/actions/kid.action";
 
 const ChoosePackage = () => {
 
@@ -61,22 +64,41 @@ const ChoosePackage = () => {
   // chỉ khi người dùng không chọn package đã bấm Buy Now thì nút Buy Now mới bị đỏ
   const [isButtonClicked, setIsButtonClicked] = useState(false)
 
-  // để truyền qua component Confirm
-  const [selectedPackage, setSelectedPackage] = useState(null);
 
   const handleClick = (id) => {
     setSelectedId(id)
     setErrorMessage('') // Xóa thông báo lỗi khi đã chọn gói
   }
 
+
+  useEffect(() => {
+    dispatch(getDataPackage("", 1));
+    dispatch(getKidProfile());
+  }, []);
+  const packages = useSelector((state) => state.packageReducer?.packages);
+  const kidOfUserCurrent = useSelector((state) => state.kidReducer?.dataKids);
+
   const handleButtonClick = () => {
-    setIsButtonClicked(true)
-    if (selectedId !== null) {
-      navigate("/buy-package/choose-box")
-      window.scrollTo(0, 0) // Cuộn lên đầu trang
-    } else {
-      setErrorMessage('Please select a package before proceeding to buy.')
+    const user = getUserLocalstorage();
+    if (!user) {
+      message.warning("Vui lòng đăng nhập mới mua hàng");
+      navigate("/login");
+    } else if (kidOfUserCurrent.length === 0) {
+      message.warning("Tạo tài khoản cho con rồi vào mua hàng nhé!");
+      navigate("/user/kid-profile");
     }
+    if (user && kidOfUserCurrent.length > 0) {
+      // navigate(`/buy-package/choose-box/${selectedId}`);
+      // window.scrollTo(0, 0);
+      setIsButtonClicked(true)
+      if (selectedId !== null) {
+        navigate("/buy-package/choose-box")
+        window.scrollTo(0, 0) // Cuộn lên đầu trang
+      } else {
+        setErrorMessage('Please select a package before proceeding to buy.')
+      }
+    }
+
   }
 
   // BỎ
@@ -86,10 +108,6 @@ const ChoosePackage = () => {
     }
   }, [selectedId, setIsEnabled]);*/
 
-  useEffect(() => {
-    dispatch(getDataPackage("", 1));
-  }, []);
-  const packages = useSelector((state) => state.packageReducer?.packages);
 
   return (
     <div className='choose_package-container'>

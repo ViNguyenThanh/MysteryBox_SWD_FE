@@ -32,7 +32,7 @@ const KidProfile = () => {
             <TableKid/>
           </TabPanel>
           <TabPanel value="2" className='content'>
-            <CreateKid/>
+            <CreateKid setValue={setValue}/>
           </TabPanel>
           {/* <TabPanel value="2">Item Two</TabPanel>
           <TabPanel value="3">Item Three</TabPanel> */}
