@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './TableKid.css'
 
 import { SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, Empty, Input, Popconfirm, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import CreateKid from './CreateKid';
+import { useDispatch, useSelector } from "react-redux";
+import { getKidProfile } from "../../../redux/actions/kid.action";
 
 const data = [
     {
@@ -134,11 +136,19 @@ export default function TableKid() {
     const [showTable, setShowTable] = useState(false)
     const [isDisable, setIsDisable] = useState(false)
     const [kid, setKid] = useState({})
-
+    const [kidId, setKidId] = useState("");
     const [dataTmp, setDataTmp] = useState(data)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getKidProfile());
+    }, []);
+    const kids = useSelector((state) => state.kidReducer?.dataKids);
+
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -255,6 +265,7 @@ export default function TableKid() {
         setShowTable(true)
         setIsDisable(false)
         setKid(record)
+        setKidId(record.id);
     };
 
     const handleShowTable = () => {
@@ -263,7 +274,7 @@ export default function TableKid() {
 
     const handleDelete = (record) => {
         // Thực hiện hành động khi nhấp vào "Delete"
-        console.log("Delete record:", record);
+        // console.log("Delete record:", record);
         const newData = data.filter(item => item.key != record.key)
         setDataTmp(newData)
     };
@@ -325,7 +336,7 @@ export default function TableKid() {
         <div className="table_kid-container">
             {(!showTable ? <Table
                 columns={columns}
-                dataSource={dataTmp}
+                dataSource={kids}
                 scroll={{ y: 300 }}
                 pagination={{
                     pageSize: 5
@@ -333,7 +344,7 @@ export default function TableKid() {
                 locale={{
                     emptyText: <Empty description="You have no kid here" />,
                 }}
-            /> : <CreateKid kid={kid} showTable={handleShowTable} isDisable={isDisable}/>)}
+            /> : <CreateKid kid={kid} kidId={kidId} showTable={handleShowTable} isDisable={isDisable} />)}
         </div>
 
     )

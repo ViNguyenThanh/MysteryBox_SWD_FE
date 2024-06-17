@@ -1,5 +1,6 @@
 .choose_package-container {
-    width: 100%;
+    width: 96%;
+    padding-left: 4%;
     height: 1200px;
     background-image: url('/assets/BackgroundBuyPackage.png');
     background-repeat: no-repeat;
