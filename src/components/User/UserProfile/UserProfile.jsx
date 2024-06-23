@@ -50,13 +50,17 @@ const UserProfile = () => {
     }
   }
 
+  const toggleEditButton = () => {
+    setIsEditTable(!isEditable)
+  }
+  
   return (
     <div className='user_profile-container'>
       <Box sx={{ width: '100%', typography: 'body1' }} className="box-container">
         <TabContext value={value}>
           <Box className="box">
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Profile" value="1" className='title'/>
+              <Tab label="Profile" value="1" className='title' />
               {/* <Tab label="Item Two" value="2" className='title'/>
             <Tab label="Item Three" value="3" /> className='title'*/}
             </TabList>
@@ -81,7 +85,7 @@ const UserProfile = () => {
                 value={profile?.fullName}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
-                style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
+                style={{ color: isEditable ? '#000000' : '#a8a8a8' }}
               />
             </div>
 
@@ -93,7 +97,7 @@ const UserProfile = () => {
                 value={profile?.email}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
-                style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
+                style={{ color: isEditable ? '#000000' : '#a8a8a8' }}
               />
             </div>
 
@@ -105,7 +109,7 @@ const UserProfile = () => {
                 value={profile?.phone}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
-                style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
+                style={{ color: isEditable ? '#000000' : '#a8a8a8' }}
               />
             </div>
 
@@ -117,14 +121,22 @@ const UserProfile = () => {
                 value={profile?.address}
                 readOnly={!isEditable}
                 onChange={handleInputChange}
-                style = {{color: isEditable ? '#000000' : '#a8a8a8'}}
+                style={{ color: isEditable ? '#000000' : '#a8a8a8' }}
               />
             </div>
 
             <div className="btn">
-              <button onClick={toggleEdit}>
+              {/* <button onClick={toggleEdit}>
                 {isEditable ? "Save Profile" : "Update Profile"}
-              </button>
+              </button> */}
+              {isEditable ? <>
+                <button onClick={toggleEdit}>
+                  Save profile
+                </button>
+              </> :
+                <button onClick={toggleEditButton}>
+                  Update profile
+                </button>}
             </div>
 
           </TabPanel>

@@ -352,6 +352,5 @@ export default function TableKid() {
                 }}
             /> : <CreateKid kid={kid} kidId={kidId} showTable={handleShowTable} isDisable={isDisable} />)}
         </div>
-
     )
 }
