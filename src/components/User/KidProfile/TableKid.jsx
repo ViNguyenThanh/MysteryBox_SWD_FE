@@ -147,6 +147,7 @@ export default function TableKid() {
         dispatch(getKidProfile());
     }, []);
     const kids = useSelector((state) => state.kidReducer?.dataKids);
+    console.log(kids);
 
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -311,6 +312,11 @@ export default function TableKid() {
             title: 'Gender',
             dataIndex: 'gender',
             key: 'gender',
+            render: (gender) => (
+                <p>
+                  {gender === "MALE" ? "Boy" : gender === "FEMALE" ? "Girl" : "Unisex"}
+                </p>
+              ),
             width: '20%'
         },
         {

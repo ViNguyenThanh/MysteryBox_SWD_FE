@@ -158,7 +158,7 @@
 }
 
 .choose_package-container .error-message{
-    width: 100%;
+    width: 96%;
     text-align: center;
     color: red;
     font-family: "Josefin Sans", sans-serif;

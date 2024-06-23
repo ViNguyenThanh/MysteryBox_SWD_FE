@@ -15,7 +15,7 @@ import store from "../../../store/ReduxStore";
 export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }) {
     // làm chức năng Update Profile
     const [profile, setProfile] = useState({
-        themeId: "5",
+        // themeId: "5",
         fullName: '',
         yob: null,
         gender: '',
@@ -32,6 +32,7 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
     const [hasSelectedType, setHasSelectedType] = useState(false);
     const [hasSelectedMadeIn, setHasSelectedMadeIn] = useState(false);
 
+    const dispatch = useDispatch()
     useEffect(() => {
         // Nếu kid có giá trị thì gán giá trị profile
         if (kid) {
@@ -111,6 +112,7 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
 
     const handleCreateKidProfile = async () => {
         const response = await createInfoProfileKid(profile);
+        console.log(response);
         if (response.data.success) {
             setValue("1");
             setProfile({
@@ -265,9 +267,9 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
                         style={{ color: isDisable ? '#a8a8a8' : '#000000' }}
                     >
                         {!hasSelectedGender && <option value="">Choose gender</option>}
-                        <option value="boy">Boy</option>
-                        <option value="girl">Girl</option>
-                        <option value="unisex">Unisex</option>
+                        <option value="MALE">Boy</option>
+                        <option value="FEMALE">Girl</option>
+                        <option value="OTHER">Unisex</option>
                     </select>
                 </div>
 

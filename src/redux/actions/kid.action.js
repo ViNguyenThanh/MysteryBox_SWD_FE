@@ -4,7 +4,7 @@ export const getKidProfile = () => async (dispatch) => {
   dispatch({ type: actionsType.KID_START });
   try {
     const response = await KidApi.getKidProfile();
-    dispatch({ type: actionsType.KID_SUCCESS, payload: response.data });
+    dispatch({ type: actionsType.GET_KID_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: actionsType.KID_FAIL, payload: "error" });
   }
