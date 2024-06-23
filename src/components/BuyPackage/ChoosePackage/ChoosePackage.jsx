@@ -75,7 +75,7 @@ const ChoosePackage = () => {
     dispatch(getDataPackage("", 1));
     dispatch(getKidProfile());
   }, []);
-  const packages = useSelector((state) => state.packageReducer?.packages);
+  const responsePackages = useSelector((state) => state.packageReducer);
   const kidOfUserCurrent = useSelector((state) => state.kidReducer?.dataKids);
 
   const handleButtonClick = () => {
@@ -92,7 +92,8 @@ const ChoosePackage = () => {
       // window.scrollTo(0, 0);
       setIsButtonClicked(true)
       if (selectedId !== null) {
-        navigate("/buy-package/choose-box")
+        // navigate("/buy-package/choose-box");
+        navigate(`/buy-package/choose-box/${selectedId}`);
         window.scrollTo(0, 0) // Cuộn lên đầu trang
       } else {
         setErrorMessage('Please select a package before proceeding to buy.')
@@ -112,7 +113,7 @@ const ChoosePackage = () => {
   return (
     <div className='choose_package-container'>
       <p className='choose_package-title'>Package price</p>
-      {packages.map((item) => (
+      {responsePackages?.packages?.map((item) => (
         <div
           className="choose_package-content"
           key={item.id}
@@ -152,6 +153,18 @@ const ChoosePackage = () => {
           </p>
         </div>
       ))}
+      {responsePackages?.loading && (
+        <p>
+          <LoadingOutlined
+            style={{
+              fontSize: "30px",
+              position: "absolute",
+              top: "30%",
+              left: "50%",
+            }}
+          />
+        </p>
+      )}
 
       <p className="explain-content">
         Here, we will sell combo packs, depending on the time you choose to buy, we will <br />
@@ -161,7 +174,7 @@ const ChoosePackage = () => {
 
       <div className="choose_package-btn">
         <button
-          onClick={handleButtonClick}
+          onClick={selectedId ? handleButtonClick : ""}
           // disabled={!isEnabled} // ko đc để disabled vì khi nút bị disabled thì không hiện được thông báo
           className={selectedId === null && isButtonClicked ? 'inactive' : 'active'}
         >
