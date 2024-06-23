@@ -11,6 +11,7 @@ import { getDataPackage } from "../../../redux/actions/package.action";
 import getUserLocalstorage from "../../../utils/UserCurrent";
 import { message } from "antd";
 import { getKidProfile } from "../../../redux/actions/kid.action";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const ChoosePackage = () => {
 
@@ -174,7 +175,7 @@ const ChoosePackage = () => {
 
       <div className="choose_package-btn">
         <button
-          onClick={selectedId ? handleButtonClick : ""}
+          onClick={handleButtonClick}
           // disabled={!isEnabled} // ko đc để disabled vì khi nút bị disabled thì không hiện được thông báo
           className={selectedId === null && isButtonClicked ? 'inactive' : 'active'}
         >

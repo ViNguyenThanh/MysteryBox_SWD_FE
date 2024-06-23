@@ -1,5 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Order.css'
+import { Box } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel'
 
 const Order = () => {
 
@@ -46,9 +51,60 @@ const Order = () => {
         },
     ]
 
+    const [value, setValue] = useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+
     return (
         <div className='order-container'>
-            <div className="title">
+            <Box sx={{ width: '100%', typography: 'body1' }} className="box-container">
+                <TabContext value={value}>
+                    <Box className="box">
+                        <TabList onChange={handleChange} aria-label="lab API tabs example">
+                            <Tab label="Order" value="1" className='title' />
+                            {/* <Tab label="Item Two" value="2" className='title'/>
+                            <Tab label="Item Three" value="3" /> className='title'*/}
+                        </TabList>
+                    </Box>
+                    <TabPanel value="1" className='content'>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>No.</td>
+                                    <td>Package</td>
+                                    <td>Name of kid</td>
+                                    <td>Price</td>
+                                    <td>Purchase Date</td>
+                                    <td>Status</td>
+                                </tr>
+
+                                {listPackage.map((item) => (
+                                    <tr key={item.id}>
+                                        <td>{item.id}</td>
+                                        <td>{item.package}</td>
+                                        <td>{item.kidName}</td>
+                                        <td>{item.price} VNĐ</td>
+                                        <td>{item.purchaseDate}</td>
+                                        <td>{item.status}</td>
+                                        <td className='detail'>
+                                            <button>Details</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </TabPanel>
+                    {/* <TabPanel value="2">Item Two</TabPanel>
+                        <TabPanel value="3">Item Three</TabPanel> */}
+                </TabContext>
+            </Box>
+
+
+            {/* BỎ */}
+                {/* <div className="title">
                 <div className="underline">
                     <p className='order-title'>Orders</p>
 
@@ -93,7 +149,7 @@ const Order = () => {
                         ))}
                     </tbody>
                 </table>
-            </div>
+            </div> */}
         </div>
     )
 }
