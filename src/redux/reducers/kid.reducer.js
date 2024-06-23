@@ -11,7 +11,7 @@ const kidReducer = (
     case actionsType.GET_KID_SUCCESS:
       return {
         ...state,
-        dataKids: payload?.kidProfilesByUserId,
+        dataKids: payload?.kidProfiles,
         loading: false,
         error: "",
       };
@@ -36,6 +36,15 @@ const kidReducer = (
         loading: false,
         res: response.data,
       };
+    case "KID_BAN_SUCCESS":
+      const { id, status } = payload;
+      const banKidProfile = state.dataKids?.map((profile) => {
+        if (profile.id === id) {
+          return { ...profile, status };
+        }
+        return profile;
+      });
+      return { ...state, dataKids: banKidProfile, loading: false };
     case actionsType.KID_FAIL:
       return { ...state, loading: false, error: payload };
     default:
