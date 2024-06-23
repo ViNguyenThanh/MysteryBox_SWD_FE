@@ -8,136 +8,11 @@ import CreateKid from './CreateKid';
 import { useDispatch, useSelector } from "react-redux";
 import { getKidProfile } from "../../../redux/actions/kid.action";
 
-const data = [
-    {
-        key: '1',
-        fullName: 'John Brown',
-        yob: '1/1/2010',
-        gender: 'Male',
-        descriptionHobby: 'Toy car, rubik',
-        type: 'puzzle',
-        color: 'pink',
-        material: 'wood',
-        toyOrigin: 'China'
-    },
-    {
-        key: '2',
-        fullName: 'Alice Smith',
-        yob: '3/14/2012',
-        gender: 'Female',
-        descriptionHobby: 'Dolls, drawing',
-        type: 'educational',
-        color: 'blue',
-        material: 'plastic',
-        toyOrigin: 'USA'
-    },
-    {
-        key: '3',
-        fullName: 'Michael Johnson',
-        yob: '7/22/2008',
-        gender: 'Male',
-        descriptionHobby: 'Lego, puzzles',
-        type: 'construction',
-        color: 'red',
-        material: 'metal',
-        toyOrigin: 'Germany'
-    },
-    {
-        key: '4',
-        fullName: 'Emma Davis',
-        yob: '11/5/2011',
-        gender: 'Female',
-        descriptionHobby: 'Board games, reading',
-        type: 'board game',
-        color: 'green',
-        material: 'cardboard',
-        toyOrigin: 'Canada'
-    },
-    {
-        key: '5',
-        fullName: 'William Martinez',
-        yob: '5/30/2009',
-        gender: 'Male',
-        descriptionHobby: 'Action figures, sports',
-        type: 'action figure',
-        color: 'black',
-        material: 'plastic',
-        toyOrigin: 'Japan'
-    },
-    {
-        key: '6',
-        fullName: 'Olivia Garcia',
-        yob: '8/19/2013',
-        gender: 'Female',
-        descriptionHobby: 'Crafts, music',
-        type: 'musical',
-        color: 'yellow',
-        material: 'wood',
-        toyOrigin: 'Italy'
-    },
-    {
-        key: '7',
-        fullName: 'James Rodriguez',
-        yob: '2/28/2010',
-        gender: 'Male',
-        descriptionHobby: 'Cars, video games',
-        type: 'vehicle',
-        color: 'blue',
-        material: 'metal',
-        toyOrigin: 'France'
-    },
-    {
-        key: '8',
-        fullName: 'Sophia Hernandez',
-        yob: '12/15/2011',
-        gender: 'Female',
-        descriptionHobby: 'Science kits, reading',
-        type: 'educational',
-        color: 'purple',
-        material: 'plastic',
-        toyOrigin: 'UK'
-    },
-    {
-        key: '9',
-        fullName: 'Liam Lopez',
-        yob: '4/10/2008',
-        gender: 'Male',
-        descriptionHobby: 'Robotics, coding',
-        type: 'robotic',
-        color: 'silver',
-        material: 'metal',
-        toyOrigin: 'South Korea'
-    },
-    {
-        key: '10',
-        fullName: 'Mia Wilson',
-        yob: '6/25/2012',
-        gender: 'Female',
-        descriptionHobby: 'Cooking sets, gardening',
-        type: 'pretend play',
-        color: 'pink',
-        material: 'plastic',
-        toyOrigin: 'Mexico'
-    },
-    {
-        key: '11',
-        fullName: 'Noah Clark',
-        yob: '9/17/2009',
-        gender: 'Male',
-        descriptionHobby: 'Dinosaurs, archaeology',
-        type: 'dinosaur',
-        color: 'green',
-        material: 'plastic',
-        toyOrigin: 'Australia'
-    }
-];
-
 export default function TableKid() {
     const [showTable, setShowTable] = useState(false)
     const [isDisable, setIsDisable] = useState(false)
     const [kid, setKid] = useState({})
     const [kidId, setKidId] = useState("");
-    const [dataTmp, setDataTmp] = useState(data)
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -274,10 +149,7 @@ export default function TableKid() {
     }
 
     const handleDelete = (record) => {
-        // Thực hiện hành động khi nhấp vào "Delete"
-        // console.log("Delete record:", record);
-        const newData = data.filter(item => item.key != record.key)
-        setDataTmp(newData)
+
     };
 
     const calculateAge = (dob) => {
@@ -292,6 +164,12 @@ export default function TableKid() {
     };
 
     const columns = [
+        {
+            title: 'No.',
+            key: 'index',
+            width: '10%',
+            render: (text, record, index) => index + 1,
+        },
         {
             title: 'Full name',
             dataIndex: 'fullName',
