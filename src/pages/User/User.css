@@ -8,6 +8,8 @@
 .user-container{
     max-width: var(--max-screen-width);
     width: 100%;
+    /* min-height: 120vh;
+    height: fit-content; */
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -17,6 +19,8 @@
 .user-left-container{
     width: 20%;
     background-color: #718BE5;
+    /* min-height: 100vh; */
+    /* height: fit-content; */
 }
 
 .user-right-container{
