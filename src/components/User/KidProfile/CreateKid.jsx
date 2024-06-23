@@ -4,7 +4,7 @@ import "./CreateKid.css"
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, message } from 'antd';
 import { formatDate } from "../../../utils/FormatDate";
 import dayjs from "dayjs";
 import { createInfoProfileKid } from "../../../apis/kid.request";
@@ -38,7 +38,7 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
         if (kid) {
             setProfile({
                 fullName: kid.fullName || '',
-                yob: null,
+                yob: kid.yob || null,
                 gender: kid.gender || '',
                 descriptionHobby: kid.descriptionHobby || '',
                 type: kid.type || '',
@@ -92,6 +92,9 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
             console.error("error date");
         }
     }
+
+    const maxDate = dayjs().subtract(3, 'year')
+    const minDate = dayjs().subtract(16, 'year');
 
     // const [isEditable, setIsEditTable] = useState(false)
 
@@ -202,11 +205,15 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
                             <DemoContainer components={['DatePicker']}>
                                 <DatePicker
                                     // label={'"year", "month" and "day"'}
-                                    views={['year', 'month', 'day']}
+                                    // views={['year', 'month', 'day']}
+                                    disableFuture
                                     className="custom-datepicker"
                                     value={profile.yob ? dayjs(profile.yob) : null}
                                     // readOnly={!isEditable}
                                     readOnly={isDisable}
+                                    format="YYYY-MM-DD" 
+                                    maxDate={maxDate}
+                                    minDate={minDate}
                                     onChange={handleDateChange}
                                     sx={{
                                         '& .MuiOutlinedInput-root': {

@@ -59,7 +59,7 @@ const User = () => {
         </div>
         <div className='user-right-container'>
           <img src={blueHome} onClick={() => navigate("/")} />
-          <p className='welcome-user'>Hi, {userCurrent?.fullName}</p>
+          <p className='welcome-user'>Hi, {userCurrent?.username}</p>
 
           <div className="info">
             {/* vẫn gọi được component UserProfile, KidProfile nhưng không thể thay đổi đường dẫn */}
