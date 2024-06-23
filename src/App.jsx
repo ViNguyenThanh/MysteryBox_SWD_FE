@@ -15,9 +15,13 @@ import Order from './components/User/Order/Order'
 import BuyPackage from './pages/BuyPackage/BuyPackage'
 import ChoosePackage from './components/BuyPackage/ChoosePackage/ChoosePackage'
 import ChooseBox from './components/BuyPackage/ChooseBox/ChooseBox'
+import getUserLocalstorage from "./utils/UserCurrent";
+import { useSelector } from 'react-redux'
 
 function App() {
-
+  const user =
+    useSelector((state) => state.authReducer?.auth?.user) ||
+    getUserLocalstorage();
   return (
     <>
       <Routes>
@@ -35,7 +39,7 @@ function App() {
 
         <Route path='/buy-package' element={<BuyPackage/>}>
           <Route path="choose-package" element={<ChoosePackage/>}/>
-          <Route path="choose-box" element={<ChooseBox/>}/>
+          <Route path="choose-box/:id" element={<ChooseBox/>}/>
         </Route>
       </Routes>
     </>
