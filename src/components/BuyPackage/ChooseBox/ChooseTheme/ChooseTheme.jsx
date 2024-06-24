@@ -84,8 +84,7 @@ const ChooseTheme = ({ setNextEnabled, selectedId, setSelectedId }) => {
   return (
     <div className='choose_theme-container'>
         {themes?.map((item) => (
-            <div 
-            
+            <div           
                 className="choose_theme-item" 
                 key={item.id}
                 style={{border: selectedId === item.id ? "8px solid #ce85ff": "8px solid #44D2FF"}}
