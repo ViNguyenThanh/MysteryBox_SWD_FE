@@ -58,7 +58,7 @@ const User = () => {
         />
         </div>
         <div className='user-right-container'>
-          <img src={blueHome} onClick={() => navigate("/")} />
+          <img src={blueHome} className='logo-home' onClick={() => navigate("/")} />
           <p className='welcome-user'>Hi, {userCurrent?.username}</p>
 
           <div className="info">
