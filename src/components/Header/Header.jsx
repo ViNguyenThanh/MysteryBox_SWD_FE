@@ -44,7 +44,7 @@ const Header = () => {
       }
     },
     {
-      label: "Cart",
+      label: "Order",
       key: '2',
       icon: <ShoppingCartOutlined />,
       onClick: () => {
