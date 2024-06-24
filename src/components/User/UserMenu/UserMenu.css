@@ -1,6 +1,6 @@
 .user_menu-container{
     width: 20%;
-    height: 100vh;
+    height: 100%;
     background-color: #718BE5;   
     display: flex;
     flex-wrap: wrap;
