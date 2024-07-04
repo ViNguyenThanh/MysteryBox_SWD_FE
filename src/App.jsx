@@ -23,6 +23,7 @@ import ChooseBox from './components/BuyPackage/ChooseBox/ChooseBox'
 
 import getUserLocalstorage from "./utils/UserCurrent";
 import { useSelector } from 'react-redux'
+import Product from './components/Product/Product';
 
 function App() {
   const user =
@@ -59,6 +60,8 @@ function App() {
           <Route path="choose-package" element={<ChoosePackage />} />
           <Route path="choose-box/:id" element={<ChooseBox />} />
         </Route>
+
+        <Route path="/product" element={<Product/>}/>
       </Routes>
     </>
   )

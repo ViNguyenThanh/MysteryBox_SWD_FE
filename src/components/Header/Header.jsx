@@ -153,7 +153,7 @@ const Header = () => {
             <li onClick={handleClick}>Home</li>
             <li>About Us</li>
             <li onClick={() => navigate('/buy-package')}>Buy Package</li>
-            <li>Product</li>
+            <li onClick={() => navigate('/product')}>Product</li>
             {/* <li onClick={() => navigate('/login')}>Sign In/Sign Up</li> */}
             {!user ? (
               <li className="btn" onClick={() => navigate("/login")}>
