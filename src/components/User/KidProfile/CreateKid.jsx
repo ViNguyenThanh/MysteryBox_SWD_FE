@@ -11,6 +11,10 @@ import { createInfoProfileKid } from "../../../apis/kid.request";
 import { useDispatch } from "react-redux";
 import { updateProfileKid } from "../../../redux/actions/kid.action";
 import store from "../../../store/ReduxStore";
+import optionColors from '../../../data/optionColors.json'
+import optionOrigins from '../../../data/optionOrigins.json'
+import optionMaterials from '../../../data/optionMaterials.json'
+import optionTypes from '../../../data/optionTypes.json'
 
 export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }) {
     // làm chức năng Update Profile
@@ -103,7 +107,9 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
     // }
 
     const handleUpdateKidProfile = async () => {
+        const hideLoading = message.loading("Waiting for update kid's profile", 0);
         await dispatch(updateProfileKid(kidId, profile));
+        hideLoading()
         const response = store.getState().kidReducer.res;
         if (response.success) {
             message.success(response.message);
@@ -114,8 +120,9 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
     };
 
     const handleCreateKidProfile = async () => {
+        const hideLoading = message.loading("Waiting for create kid's profile", 0);
         const response = await createInfoProfileKid(profile);
-        console.log(response);
+        hideLoading()
         if (response.data.success) {
             setValue("1");
             setProfile({
@@ -253,8 +260,11 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
                     >
                         {/* vì nếu ko có dòng này thì value đầu tiên nó hiện ra sẽ ko lưu đc pink, nó ra "", mà khi chọn lại nó mới chịu */}
                         {!hasSelectedColor && <option value="">Choose color</option>}
-                        <option value="pink">Pink</option>
-                        <option value="orange">Orange</option>
+                        {/* <option value="pink">Pink</option>
+                        <option value="orange">Orange</option> */}
+                        {optionColors.map(clr => (
+                            <option value={clr.value}>{clr.value}</option>
+                        ))}
                     </select>
                 </div>
             </div>
@@ -294,8 +304,11 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
                         style={{ color: isDisable ? '#a8a8a8' : '#000000' }}
                     >
                         {!hasSelectedMaterial && <option value="">Choose material</option>}
-                        <option value="wood">Wood</option>
-                        <option value="plastic">Plastic</option>
+                        {/* <option value="wood">Wood</option>
+                        <option value="plastic">Plastic</option> */}
+                        {optionMaterials.map(clr => (
+                            <option value={clr.value}>{clr.value}</option>
+                        ))}
                     </select>
                 </div>
             </div>
@@ -315,9 +328,12 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
                         style={{ color: isDisable ? '#a8a8a8' : '#000000' }}
                     >
                         {!hasSelectedType && <option value="">Choose type</option>}
-                        <option value="lego">Lego</option>
+                        {/* <option value="lego">Lego</option>
                         <option value="puzzle">Puzzle</option>
-                        <option value="doll">Doll</option>
+                        <option value="doll">Doll</option> */}
+                        {optionTypes.map(clr => (
+                            <option value={clr.value}>{clr.value}</option>
+                        ))}
                     </select>
                 </div>
 
@@ -335,16 +351,9 @@ export default function CreateKid({ kid, showTable, isDisable, kidId, setValue }
                         style={{ color: isDisable ? '#a8a8a8' : '#000000' }}
                     >
                         {!hasSelectedMadeIn && <option value="">Choose origin</option>}
-                        <option value="china">China</option>
-                        <option value="canada">Canada</option>
-                        <option value="usa">USA</option>
-                        <option value="france">France</option>
-                        <option value="vietnam">Vietnam</option>
-                        <option value="japan">Japan</option>
-                        <option value="russia">Russia</option>
-                        <option value="thai">Thai</option>
-                        <option value="korea">Korea</option>
-                        <option value="england">England</option>
+                        {optionOrigins.map(clr => (
+                            <option value={clr.value}>{clr.value}</option>
+                        ))}
                     </select>
                 </div>
             </div>
