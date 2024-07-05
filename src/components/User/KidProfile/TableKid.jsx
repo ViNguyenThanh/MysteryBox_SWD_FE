@@ -22,8 +22,6 @@ export default function TableKid() {
         dispatch(getKidProfile());
     }, []);
     const kids = useSelector((state) => state.kidReducer?.dataKids);
-    console.log(kids);
-
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -206,12 +204,12 @@ export default function TableKid() {
                 <Space>
                     <Button onClick={() => handleView(record)}><EyeOutlined /></Button>
                     <Button onClick={() => handleUpdate(record)}><EditOutlined /></Button>
-                    <Popconfirm title="Are you sure delete this task?"
+                    {/* <Popconfirm title="Are you sure delete this children?"
                         okText="Yes"
                         cancelText="No"
                         onConfirm={() => handleDelete(record)}>
                         <Button danger><DeleteOutlined /></Button>
-                    </Popconfirm>
+                    </Popconfirm> */}
                 </Space>
             ),
         },

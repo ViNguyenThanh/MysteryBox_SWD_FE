@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import store from "../../../store/ReduxStore";
 import { createProduct } from "../../../redux/actions/product.action";
+import { uploadImages } from "../../../apis/upload-image.request";
 
 const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
   const [previewImages, setPreviewImages] = useState([]);
@@ -31,17 +32,17 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
       origin: "",
     },
     validationSchema: Yup.object({
-      boxId: Yup.string().required("Vui lòng chọn box"),
-      themeId: Yup.string().required("Vui lòng chọn theme"),
-      name: Yup.string().required("Vui lòng nhập tên sản phẩm"),
-      description: Yup.string().required("Vui lòng miêu tả sản phẩm"),
-      price: Yup.string().required("Vui lòng nhập giá sản phẩm"),
-      quantity: Yup.number().required("Vui lòng nhập số lượng sản phẩm"),
-      gender: Yup.string().required("Vui lòng chọn giới tính"),
-      color: Yup.string().required("Vui lòng chọn màu sắc"),
-      type: Yup.string().required("Vui lòng nhập loại sản phẩm"),
-      material: Yup.string().required("Vui lòng nhập chất liệu sản phẩm"),
-      origin: Yup.string().required("Vui lòng chọn nguồn gốc sản phẩm"),
+      boxId: Yup.string().required("Please choose box"),
+      themeId: Yup.string().required("Please choose theme"),
+      name: Yup.string().max('Product name must not more than 30 characters').required("Please input product name"),
+      description: Yup.string().max('Description must not more than 30 characters').required("Please input description"),
+      price: Yup.string().required("Please input price"),
+      quantity: Yup.number().required("Please input quantity"),
+      gender: Yup.string().required("Please choose gender"),
+      color: Yup.string().required("Please choose color"),
+      type: Yup.string().required("Please input type"),
+      material: Yup.string().required("Please input material"),
+      origin: Yup.string().required("Please input origin"),
     }),
     onSubmit: async (values) => {
       const imageData = new FormData();
@@ -50,15 +51,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
       });
 
       try {
-        const response = await axios.post(
-          "https://mysterybox-swd-be.onrender.com/upload-images",
-          imageData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await uploadImages(imageData)
         const imageUrls = response.data.files;
         const updatedValues = {
           ...values,
@@ -105,18 +98,18 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
   return (
     <div>
       <Modal
-        title="Tạo sản phẩm mới"
+        title="Create new product"
         centered
         open={open}
         onOk={formik.handleSubmit}
         onCancel={() => setOpen(false)}
         width={1000}
-        okText="Tạo sản phẩm"
-        cancelText="Hủy"
+        okText="Create"
+        cancelText="Cancel"
       >
         <div>
           <Input
-            placeholder="Tên sản phẩm"
+            placeholder="Input product name"
             name="name"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -137,7 +130,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
         </div>
         <div>
           <Input
-            placeholder="Chất liệu sản phẩm"
+            placeholder="Material"
             name="material"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -290,7 +283,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(25% - 8px)",
             }}
           >
-            <label>Màu sắc</label>
+            <label>Color</label>
             <Select
               name="color"
               onChange={(value) => formik.setFieldValue("color", value)}
@@ -383,7 +376,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(25% - 8px)",
             }}
           >
-            <label>Nguồn gốc</label>
+            <label>Origin</label>
             <Select
               name="origin"
               onChange={(value) => formik.setFieldValue("origin", value)}
