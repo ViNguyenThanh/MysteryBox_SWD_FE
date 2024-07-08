@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './ChooseBoxStep.css'
 
 import box from '/assets/MysteryBox.jpg'
+import { getBoxCondition } from '../../../../apis/box.request'
 
-const ChooseBoxStep = ({selectedId, setSelectedId}) => {
+const ChooseBoxStep = ({ selectedId, setSelectedId }) => {
 
     const listBox = [
         {
@@ -62,36 +63,47 @@ const ChooseBoxStep = ({selectedId, setSelectedId}) => {
         }
     ]
 
+    const [boxs, setBoxs] = useState([]);
+
     const handleButtonClick = (id) => {
         setSelectedId(id);
     };
-  return (
-    <div className='choose_box_step-container'>
-        {listBox.map((item) => (
-            <div 
-            
-                className="choose_box-item" 
-                key={item.id}
-                style={{border: selectedId === item.id ? "8px solid #ce85ff": "8px solid #44D2FF"}}
-            >
-                <img src={item.img}/>
-                <p className='box-item-title' style={{color: selectedId === item.id ? '#ce85ff' : '#44D2FF' }}> 
-                    {item.title}
-                </p>
-                <p className='box-item-content'>{item.description}</p>
-                <div className="box-item-btn">
-                    <button 
-                        onClick={() => handleButtonClick(item.id)}
-                        className={selectedId === item.id ? "chosen" : ""} // viết dòng này để chỉnh màu khi hover box đã đc chọn
-                        style={{backgroundColor: selectedId === item.id ? "#ce85ff" : "#44D2FF"}}
-                    >
-                        Choose
-                    </button>
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await getBoxCondition(dataGetBox);
+            setBoxs(response.data?.mysteryBoxs);
+        };
+        fetchData();
+    }, []);
+
+    return (
+        <div className='choose_box_step-container'>
+            {listBox.map((item) => (
+                <div
+
+                    className="choose_box-item"
+                    key={item.id}
+                    style={{ border: selectedId === item.id ? "8px solid #ce85ff" : "8px solid #44D2FF" }}
+                >
+                    <img src={item.img} />
+                    <p className='box-item-title' style={{ color: selectedId === item.id ? '#ce85ff' : '#44D2FF' }}>
+                        {item.title}
+                    </p>
+                    <p className='box-item-content'>{item.description}</p>
+                    <div className="box-item-btn">
+                        <button
+                            onClick={() => handleButtonClick(item.id)}
+                            className={selectedId === item.id ? "chosen" : ""} // viết dòng này để chỉnh màu khi hover box đã đc chọn
+                            style={{ backgroundColor: selectedId === item.id ? "#ce85ff" : "#44D2FF" }}
+                        >
+                            Choose
+                        </button>
+                    </div>
                 </div>
-            </div>
-        ))}
-    </div>
-  )
+            ))}
+        </div>
+    )
 }
 
 export default ChooseBoxStep

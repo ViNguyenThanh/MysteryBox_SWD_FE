@@ -15,7 +15,19 @@ const ChooseBox = () => {
     const [selectedThemeId, setSelectedThemeId] = useState(null); // Lưu ID của theme đã chọn ở bên đây 
     const [selectedRowKey, setSelectedRowKey] = useState(null); // State để lưu key của hàng được chọn trong ChooseKid
     const [paginationState, setPaginationState] = useState({ current: 1, pageSize: 5 }); // lưu thông tin phân trang
+    const [dataConfirm, setDataConfirm] = useState({});
     const [selectedBoxId, setSelectedBoxId] = useState(null)
+    const [dataGetBox, setDataGetBox] = useState({
+        themeId: "",
+        yob: "",
+      });
+
+    // const [dataInput, setDataInput] = useState({
+    //     nameOfAdult: '',
+    //     phone: '',
+    //     email: '',
+    //     address: '',
+    // });
 
     const steps = [
         {
@@ -42,7 +54,10 @@ const ChooseBox = () => {
             title: 'Confirm',
             content:
                 <Confirm
-                    // selectedPackage={selectedPackage}
+                    setNextEnabled={setNextEnabled}
+                    selectedRowKey={selectedRowKey}
+                    selectedThemeId={selectedThemeId}
+                    setDataConfirm={setDataConfirm}
                 />,
         },
         {
@@ -51,6 +66,7 @@ const ChooseBox = () => {
                 <ChooseBoxStep
                     selectedId={selectedBoxId}
                     setSelectedId={setSelectedBoxId}
+                    dataGetBox={dataGetBox}
                 />,
         },
     ];
