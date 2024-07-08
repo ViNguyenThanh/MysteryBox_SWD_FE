@@ -2,14 +2,14 @@
     
     {
         "value": "male",
-        "label": "Nam"
+        "label": "Boy"
       },
       {
         "value": "female",
-        "label": "Nữ"
+        "label": "Girl"
       },
       {
-        "value": "all",
-        "label": "Tất cả"
+        "value": "other",
+        "label": "Unisex"
       }
 ]

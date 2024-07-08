@@ -40,7 +40,9 @@ const UserProfile = () => {
   const [isEditable, setIsEditTable] = useState(false)
 
   const toggleEdit = async () => {
+    const hideLoading = message.loading("Waiting for update", 0);
     const response = await updateUser(userCurrent.id, profile);
+    hideLoading()
     if (response.data.success) {
       message.success(response.data.message);
       localStorage.setItem("user", JSON.stringify(response.data?.userProfile));

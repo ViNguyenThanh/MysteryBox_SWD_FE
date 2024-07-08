@@ -82,7 +82,7 @@ const ChoosePackage = () => {
   const handleButtonClick = () => {
     const user = getUserLocalstorage();
     if (!user) {
-      message.warning("Please log in to purchase");
+      message.warning("Please login before buy package");
       navigate("/login");
     } else if (kidOfUserCurrent.length === 0) {
       message.warning("Create an account for your kid then go shopping!!");

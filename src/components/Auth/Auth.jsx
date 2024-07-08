@@ -72,7 +72,9 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
         onSubmit: async (values) => {
             try {
                 if (comp === "login") {
+                    const hideLoading = message.loading("Loading", 0);
                     await dispatch(login(values));
+                    hideLoading();
                     const res = store.getState().authReducer.res;
                     if (res?.success) {
                         message.success(res.message);
@@ -82,7 +84,9 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                         message.error(res.message);
                     }
                 } else {
+                    const hideLoading = message.loading("Loading", 0);
                     const response = await register(values);
+                    hideLoading()
                     if (response.data.success) {
                         message.success(response.data.message);
                         navigate("/login");

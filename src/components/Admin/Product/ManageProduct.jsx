@@ -16,28 +16,28 @@ import { getProducts } from "../../../redux/actions/product.action";
 const ManageProduct = () => {
   const columns = [
     {
-      title: "Tên sản phẩm",
+      title: "Product Name",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Miêu tả",
+      title: "Description",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Đơn giá",
+      title: "Price",
       dataIndex: "price",
       key: "price",
       render: (price) => <span>{price.toLocaleString("vi-VN")}</span>,
     },
     {
-      title: "Số lượng",
+      title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
     },
     {
-      title: "Hình ảnh",
+      title: "Image",
       dataIndex: "images",
       key: "images",
       render: (images) => (
@@ -149,11 +149,11 @@ const ManageProduct = () => {
   return (
     <>
       <div>
-        <h1>Quản lý Sản Phẩm</h1>
+        <h1>Product Management</h1>
         <div className="search">
           <input
             type="text"
-            placeholder="Tìm kiếm theo tên..."
+            placeholder="Search by name of product..."
             className="input-search"
             onChange={(e) => setSearchProduct(e.target.value)}
           />
@@ -166,7 +166,7 @@ const ManageProduct = () => {
           </button>
           <button className="create" onClick={() => setIsOpenModalCreate(true)}>
             <IoAddCircleOutline />
-            <span>Tạo sản phẩm</span>
+            <span style={{marginLeft: '5px'}}>Create Product</span>
           </button>
         </div>
 
@@ -190,7 +190,7 @@ const ManageProduct = () => {
         isModalOpen={isModalConfirmOpen}
         handleOk={handleConfirmOk}
         handleCancel={handleConfirmCancel}
-        message="Bạn có chắc chắn muốn xóa sản phẩm này không?"
+        message="Are you sure you want to delete this product?"
       />
       <ModalFilter
         isModalOpen={isModalFilterOpen}
