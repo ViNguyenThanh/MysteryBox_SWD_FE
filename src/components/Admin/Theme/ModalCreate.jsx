@@ -1,6 +1,5 @@
 import { Input, Modal, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import axios from "axios";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
@@ -43,7 +42,9 @@ const ModalCreate = ({
           image: imageUrl,
         };
 
+        const hideLoading = message.loading("Loading", 0);
         await dispatch(createTheme(updatedValues));
+        hideLoading()
         const responseCreateTheme = store.getState().themeReducer.res;
         if (responseCreateTheme.success) {
           message.success(responseCreateTheme.message);
@@ -69,7 +70,7 @@ const ModalCreate = ({
   return (
     <>
       <Modal
-        title="Tạo theme"
+        title="Create theme"
         open={isOpenCreate}
         onOk={formik.handleSubmit}
         onCancel={handleCancelCreate}

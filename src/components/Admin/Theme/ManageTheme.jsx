@@ -93,10 +93,10 @@ const ManageTheme = () => {
           className="input-search"
           onChange={(e) => setSearch(e.target.value)}
         />
-        <button className="btn-filter">
+        {/* <button className="btn-filter">
           <FaFilter />
           <span>Filter</span>
-        </button>
+        </button> */}
         <button className="create" onClick={showModalCreate}>
           <IoAddCircleOutline />
           <span style={{marginLeft: '5px'}}>Create theme</span>

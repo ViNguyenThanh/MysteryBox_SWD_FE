@@ -4,12 +4,14 @@ import React, { useEffect, useState } from "react";
 import optionColors from "../../../data/optionColors.json";
 import optionOrigins from "../../../data/optionOrigins.json";
 import optionGenders from "../../../data/optionGender.json";
+import optionMaterials from "../../../data/optionMaterials.json";
+import optionTypes from "../../../data/optionTypes.json";
+import optionAges from "../../../data/optionAges.json";
 import { getBox } from "../../../redux/actions/box.action";
 import { getThemes } from "../../../redux/actions/theme.action";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import store from "../../../store/ReduxStore";
 import { createProduct } from "../../../redux/actions/product.action";
 import { uploadImages } from "../../../apis/upload-image.request";
@@ -18,7 +20,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
   const [previewImages, setPreviewImages] = useState([]);
   const formik = useFormik({
     initialValues: {
-      boxId: "",
+      productCode: "",
       themeId: "",
       name: "",
       images: [],
@@ -30,19 +32,27 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
       type: "",
       material: "",
       origin: "",
+      age: "",
     },
     validationSchema: Yup.object({
-      boxId: Yup.string().required("Please choose box"),
+      productCode: Yup.string().required("Please input code"),
       themeId: Yup.string().required("Please choose theme"),
-      name: Yup.string().max('Product name must not more than 30 characters').required("Please input product name"),
-      description: Yup.string().max('Description must not more than 30 characters').required("Please input description"),
-      price: Yup.string().required("Please input price"),
-      quantity: Yup.number().required("Please input quantity"),
-      gender: Yup.string().required("Please choose gender"),
-      color: Yup.string().required("Please choose color"),
-      type: Yup.string().required("Please input type"),
-      material: Yup.string().required("Please input material"),
-      origin: Yup.string().required("Please input origin"),
+      name: Yup.string().required("Please input name of product"),
+      description: Yup.string().required("Please input description"),
+      price: Yup.string()
+        .required("Please input price")
+        .test(
+          "max-price",
+          "Price must not exceed 100.000 vnd",
+          (value) => parseFloat(value) <= 100000
+        ),
+      quantity: Yup.number().required("Please enter the quantity of the product"),
+      gender: Yup.string().required("Please select the gender"),
+      color: Yup.string().required("Please select the color"),
+      type: Yup.string().required("Please enter the product type"),
+      material: Yup.string().required("Please enter the material"),
+      origin: Yup.string().required("Please select the product origin"),
+      age: Yup.string().required("Please select the age range"),
     }),
     onSubmit: async (values) => {
       const imageData = new FormData();
@@ -51,6 +61,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
       });
 
       try {
+        const hideLoading = message.loading("Loading", 0);
         const response = await uploadImages(imageData)
         const imageUrls = response.data.files;
         const updatedValues = {
@@ -58,6 +69,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
           images: imageUrls,
         };
         await dispatch(createProduct(updatedValues));
+        hideLoading()
         const responseCreateProduct = store.getState().productReducer.res;
         if (responseCreateProduct.success) {
           message.success(responseCreateProduct.message);
@@ -75,15 +87,11 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getBox());
     dispatch(getThemes("", 1));
   }, []);
-  const boxs = useSelector((state) => state.boxReducer?.boxs || []);
+
   const themes = useSelector((state) => state.themeReducer?.themes || []);
-  const boxOptions = boxs.map((box) => ({
-    value: box.id,
-    label: box.name,
-  }));
+
   const themeOptions = themes.map((theme) => ({
     value: theme.id,
     label: theme.name,
@@ -108,8 +116,9 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
         cancelText="Cancel"
       >
         <div>
+          <label style={{ fontSize: "12px" }}>Name</label>
           <Input
-            placeholder="Input product name"
+            placeholder="Product's name"
             name="name"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -128,47 +137,104 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
             </p>
           )}
         </div>
-        <div>
-          <Input
-            placeholder="Material"
-            name="material"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.material}
-          />
-          {formik.errors.material && formik.touched.material && (
-            <p
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "calc(33% - 8px)",
+            }}
+          >
+            <label>Material</label>
+            <Select
+              name="material"
+              onChange={(value) => formik.setFieldValue("material", value)}
+              onBlur={formik.handleBlur}
+              value={formik.values.material || undefined}
+              placeholder="Ex: wood"
               style={{
-                color: "red",
-                marginBottom: "15px",
-                marginTop: "-10px",
-                fontSize: "12px",
+                width: "100%",
               }}
-            >
-              {formik.errors.material}{" "}
-            </p>
-          )}
-        </div>
-        <div>
-          <Input
-            placeholder="Loại sản phẩm"
-            name="type"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.type}
-          />
-          {formik.errors.type && formik.touched.type && (
-            <p
+              options={optionMaterials}
+            />
+            {formik.errors.material && formik.touched.material && (
+              <p
+                style={{
+                  color: "red",
+                  marginBottom: "15px",
+                  marginTop: "0px",
+                  fontSize: "12px",
+                }}
+              >
+                {formik.errors.material}{" "}
+              </p>
+            )}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "calc(33% - 8px)",
+            }}
+          >
+            <label>Type</label>
+            <Select
+              name="type"
+              onChange={(value) => formik.setFieldValue("type", value)}
+              onBlur={formik.handleBlur}
+              value={formik.values.type || undefined}
+              placeholder="Ex: puzzle"
               style={{
-                color: "red",
-                marginBottom: "15px",
-                marginTop: "-10px",
-                fontSize: "12px",
+                width: "100%",
               }}
-            >
-              {formik.errors.type}{" "}
-            </p>
-          )}
+              options={optionTypes}
+            />
+            {formik.errors.type && formik.touched.type && (
+              <p
+                style={{
+                  color: "red",
+                  marginBottom: "15px",
+                  marginTop: "0px",
+                  fontSize: "12px",
+                }}
+              >
+                {formik.errors.type}{" "}
+              </p>
+            )}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "calc(33% - 8px)",
+            }}
+          >
+            <label>Age</label>
+            <Select
+              name="age"
+              onChange={(value) => formik.setFieldValue("age", value)}
+              onBlur={formik.handleBlur}
+              value={formik.values.age || undefined}
+              placeholder="Ex: 9-12"
+              style={{
+                width: "100%",
+              }}
+              options={optionAges}
+            />
+            {formik.errors.age && formik.touched.age && (
+              <p
+                style={{
+                  color: "red",
+                  marginBottom: "15px",
+                  marginTop: "0px",
+                  fontSize: "12px",
+                }}
+              >
+                {formik.errors.age}{" "}
+              </p>
+            )}
+          </div>
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -179,13 +245,14 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(33% - 8px)",
             }}
           >
-            <label>Giá tiền sản phẩm</label>
+            <label>Price</label>
             <InputNumber
-              prefix="$"
+              suffix="VND"
               name="price"
               onChange={(value) => formik.setFieldValue("price", value)}
               onBlur={formik.handleBlur}
               value={formik.values.price}
+              placeholder="Ex: 20.000"
               style={{
                 width: "100%",
               }}
@@ -193,6 +260,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
                 `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              controls={false}
             />
             {formik.errors.price && formik.touched.price && (
               <p
@@ -214,9 +282,11 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(33% - 8px)",
             }}
           >
-            <label>Số lượng</label>
+            <label>Quantity</label>
             <InputNumber
               name="quantity"
+              controls={false}
+              placeholder="Ex: 2"
               onChange={(value) => formik.setFieldValue("quantity", value)}
               onBlur={formik.handleBlur}
               value={formik.values.quantity}
@@ -244,7 +314,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(33% - 8px)",
             }}
           >
-            <label>Giới tính</label>
+            <label>Gender</label>
             <Select
               name="gender"
               onChange={(value) => formik.setFieldValue("gender", value)}
@@ -288,7 +358,8 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               name="color"
               onChange={(value) => formik.setFieldValue("color", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.color}
+              value={formik.values.color || undefined}
+              placeholder="Ex: Blue"
               style={{
                 width: "100%",
               }}
@@ -314,27 +385,24 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(25% - 8px)",
             }}
           >
-            <label>Box</label>
-            <Select
-              name="boxId"
-              onChange={(value) => formik.setFieldValue("boxId", value)}
+            <label>Code</label>
+            <Input
+              placeholder="Ex: SP-000"
+              name="productCode"
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.boxId}
-              style={{
-                width: "100%",
-              }}
-              options={boxOptions}
+              value={formik.values.productCode}
             />
-            {formik.errors.boxId && formik.touched.boxId && (
+            {formik.errors.productCode && formik.touched.productCode && (
               <p
                 style={{
                   color: "red",
                   marginBottom: "15px",
-                  marginTop: "0px",
+                  marginTop: "-10px",
                   fontSize: "12px",
                 }}
               >
-                {formik.errors.boxId}{" "}
+                {formik.errors.productCode}{" "}
               </p>
             )}
           </div>
@@ -350,7 +418,8 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               name="themeId"
               onChange={(value) => formik.setFieldValue("themeId", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.themeId}
+              value={formik.values.themeId || undefined}
+              placeholder="Ex: Frozen"
               style={{
                 width: "100%",
               }}
@@ -381,7 +450,8 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               name="origin"
               onChange={(value) => formik.setFieldValue("origin", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.origin}
+              value={formik.values.origin || undefined}
+              placeholder="Ex: China"
               style={{
                 width: "100%",
               }}
@@ -402,7 +472,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
           </div>
         </div>
         <div>
-          <label>Miêu tả sản phẩm</label>
+          <label>Description</label>
           <TextArea
             rows={4}
             name="description"
@@ -457,7 +527,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
             </div>
           ) : (
             <>
-              <span>Hình ảnh sản phẩm dưới dạng jpg, png, jpeg</span>
+              <span>Images in: jpg, png, jpeg</span>
             </>
           )}
           <input
