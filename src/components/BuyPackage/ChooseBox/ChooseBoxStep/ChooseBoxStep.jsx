@@ -4,7 +4,7 @@ import './ChooseBoxStep.css'
 import box from '/assets/MysteryBox.jpg'
 import { getBoxCondition } from '../../../../apis/box.request'
 
-const ChooseBoxStep = ({ selectedId, setSelectedId }) => {
+const ChooseBoxStep = ({ selectedId, setSelectedId, dataGetBox }) => {
 
     const listBox = [
         {
@@ -63,7 +63,7 @@ const ChooseBoxStep = ({ selectedId, setSelectedId }) => {
         }
     ]
 
-    const [boxs, setBoxs] = useState([]);
+    const [boxes, setBoxes] = useState([]);
 
     const handleButtonClick = (id) => {
         setSelectedId(id);
@@ -72,23 +72,23 @@ const ChooseBoxStep = ({ selectedId, setSelectedId }) => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await getBoxCondition(dataGetBox);
-            setBoxs(response.data?.mysteryBoxs);
+            setBoxes(response.data?.mysteryBoxs);
         };
         fetchData();
     }, []);
 
     return (
         <div className='choose_box_step-container'>
-            {listBox.map((item) => (
+            {boxes.map((item) => (
                 <div
 
                     className="choose_box-item"
                     key={item.id}
                     style={{ border: selectedId === item.id ? "8px solid #ce85ff" : "8px solid #44D2FF" }}
                 >
-                    <img src={item.img} />
+                    <img src={item.image} />
                     <p className='box-item-title' style={{ color: selectedId === item.id ? '#ce85ff' : '#44D2FF' }}>
-                        {item.title}
+                        {item.name}
                     </p>
                     <p className='box-item-content'>{item.description}</p>
                     <div className="box-item-btn">
