@@ -3,7 +3,7 @@ import './Product.css'
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 
-import { Input, Pagination, Select, Space } from 'antd';
+import { BackTop, Input, Pagination, Select, Space } from 'antd';
 const { Search } = Input;
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
@@ -99,6 +99,8 @@ const Product = () => {
     <div>
       <Header />
 
+      <BackTop />
+
       <div className="product-whole-container">
         <div className="product-container">
           <div className="find-product">
@@ -110,7 +112,8 @@ const Product = () => {
               enterButton
               size="large"
               style={{
-                width: '59%',
+                // width: '59%',
+                width: '90%',
               }}
               onSearch={onSearch}
             />
@@ -122,7 +125,7 @@ const Product = () => {
               value={themeValue}
               onChange={(value) => {
                 setThemeValue(value);
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -130,7 +133,9 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
+                marginTop: '20px',
               }}
               options={[
                 { value: 'Superheroes', label: 'Superheroes' },
@@ -159,7 +164,9 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
+                marginTop: '20px'
               }}
               options={[
                 { value: '3-6', label: '3-6' },
@@ -184,7 +191,8 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
                 marginTop: '20px'
               }}
               options={[
@@ -208,7 +216,8 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
                 marginTop: '20px'
               }}
               options={[
@@ -228,7 +237,7 @@ const Product = () => {
               value={typeValue}
               onChange={(value) => {
                 setTypeValue(value);
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -236,7 +245,8 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
                 marginTop: '20px'
               }}
               options={[
@@ -257,7 +267,7 @@ const Product = () => {
               value={materialValue}
               onChange={(value) => {
                 setMaterialValue(value);
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -265,7 +275,8 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
                 marginTop: '20px'
               }}
               options={[
@@ -287,7 +298,7 @@ const Product = () => {
               value={originValue}
               onChange={(value) => {
                 setOriginValue(value);
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
               filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -295,7 +306,8 @@ const Product = () => {
               size="large"
               allowClear
               style={{
-                width: '18%',
+                // width: '18%',
+                width: '90%',
                 marginTop: '20px'
               }}
               options={[
@@ -345,12 +357,16 @@ const Product = () => {
               pageSize={pageSize}
               showSizeChanger={false}
               showQuickJumper
-              // showTotal={(total) => `Total ${total} items`}
+              showTotal={(total) => `Total ${total} products`}
               onChange={handleChangePage}
               style={{
                 width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
+                // display: 'flex',
+                // justifyContent: 'center'
+                marginLeft: "15%",
+                paddingBottom: "40px",
+                fontFamily: "Josefin Sans, san-serif",
+                fontSize: "17px"
               }}
             />
           </div>

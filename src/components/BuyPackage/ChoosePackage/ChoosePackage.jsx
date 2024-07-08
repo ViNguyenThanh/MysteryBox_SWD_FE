@@ -85,7 +85,7 @@ const ChoosePackage = () => {
       message.warning("Please login before buy package");
       navigate("/login");
     } else if (kidOfUserCurrent.length === 0) {
-      message.warning("Have kid profile before buy package!");
+      message.warning("Create an account for your kid then go shopping!!");
       navigate("/user/kid-profile");
     }
     if (user && kidOfUserCurrent.length > 0) {
@@ -150,7 +150,7 @@ const ChoosePackage = () => {
             </li>
           </ul>
           <p className='price'>
-            {Number(item.price).toLocaleString("en-US")} VND
+            {Number(item.price).toLocaleString("vi-VN")} VND
           </p>
         </div>
       ))}

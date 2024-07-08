@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { SearchOutlined } from '@ant-design/icons';
+import {  FilterFilled, SearchOutlined } from '@ant-design/icons';
 import { Button, Empty, Input, Radio, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import './ChooseKid.css'
@@ -45,14 +45,11 @@ const data = [
     },
 ];
 
-// rowSelection object indicates the need for row selection
 const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
     },
     getCheckboxProps: (record) => ({
-        // disabled: record.name === 'Disabled User',
-        // Column configuration not to be checked
         name: record.name,
     }),
 };
@@ -64,6 +61,7 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
     const [selectionType, setSelectionType] = useState('radio');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [genderFilter, setGenderFilter] = useState(null);
     const searchInput = useRef(null);
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -189,12 +187,6 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
             className: 'column',
             ...getColumnSearchProps('fullName'),
         },
-        // {
-        //     title: 'Age',
-        //     dataIndex: 'age',
-        //     className: 'column',
-        //     sorter: (a, b) => a.age - b.age,
-        // },
         {
             title: "Age",
             dataIndex: "yob",
@@ -209,27 +201,54 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
             dataIndex: 'gender',
             className: 'column',
             ...getColumnSearchProps('gender'),
-            // filters: [
-            //     {
-            //         text: 'Boy',
-            //         value: 'Boy',
-            //     },
-            //     {
-            //         text: 'Girl',
-            //         value: 'Girl',
-            //     },
-            //     {
-            //         text: 'Unisex',
-            //         value: 'Unisex',
-            //     },
-            // ],
-            // onFilter: (value, record) => record.gender.indexOf(value) === 0,
+            render: (gender) => (
+                <p>
+                  {gender === "MALE" ? "Boy" : gender === "FEMALE" ? "Girl" : "Unisex"}
+                </p>
+              ),
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+                <div style={{ padding: 8 }}>
+                    <Radio.Group
+                        onChange={(e) => {
+                            setSelectedKeys(e.target.value ? [e.target.value] : []);
+                            setGenderFilter(e.target.value); 
+                            confirm();
+                        }}
+                        value={genderFilter}
+                    >
+                        <Radio value="MALE">Boy</Radio>
+                        <Radio value="FEMALE">Girl</Radio>
+                        <Radio value="OTHER">Unisex</Radio>
+                    </Radio.Group>
+                    <Space style={{ marginTop: 8 }}>
+                        <Button
+                            type="link"
+                            size="small"
+                            onClick={() => {
+                                clearFilters();
+                                setGenderFilter(null); 
+                                confirm();
+                            }}
+                        >
+                            Reset
+                        </Button>
+                    </Space>
+                </div>
+            ),
+            filterIcon: (filtered) => (
+                <FilterFilled
+                    style={{
+                        color: filtered ? '#1677ff' : undefined,
+                    }}
+                />
+            ),
+            onFilter: (value, record) => record.gender.indexOf(value) === 0,
         },
     ];
 
     const onChange = (pagination, filters, sorter, extra) => {
         setPaginationState(pagination);
-        console.log('params', pagination, filters, sorter, extra);
+        // console.log('params', pagination, filters, sorter, extra);
     };
 
 
@@ -255,14 +274,9 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
         <div className='choose_kid-container'>
             <Table
                 className='choose_kid-table'
-                // rowSelection={{
-                //     type: selectionType,
-                //     ...rowSelection,
-                // }}
                 rowSelection={{
                     type: selectionType,
                     selectedRowKeys: selectedRowKey ? [selectedRowKey] : [], // Chỉ đánh dấu hàng đã chọn nếu đã có selectedRowKey
-                    onSelect: (record) => setSelectedRowKey(record.key), // Cập nhật selectedRowKey khi chọn một hàng
                     onChange: (selectedRowKeys) => {
                         const selectedKey = selectedRowKeys[0];
                         setSelectedRowKey(selectedKey);
