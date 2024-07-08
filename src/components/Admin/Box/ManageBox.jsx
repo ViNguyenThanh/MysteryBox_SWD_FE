@@ -6,31 +6,40 @@ import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { getBox } from "../../../redux/actions/box.action";
 import CreateBox from "./CreateBox";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   {
-    title: "Tên Box",
+    title: "Box name",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Miêu tả",
+    title: "Description",
     dataIndex: "description",
     key: "description",
   },
   {
-    title: "Giá trung bình",
-    dataIndex: "priceAvarage",
-    key: "priceAvarage",
+    title: "Age",
+    dataIndex: "age",
+    key: "age",
   },
   {
-    title: "Số sản phẩm trong box",
+    title: "Price Average",
+    dataIndex: "priceAvarage",
+    key: "priceAvarage",
+    render: (priceAvarage) => (
+      <span>{Number(priceAvarage).toLocaleString("vi-VN")} VNĐ</span>
+    ),
+  },
+  {
+    title: "No. product in box",
     dataIndex: "quantityProInBox",
     key: "quantityProInBox",
   },
 
   {
-    title: "Hình ảnh",
+    title: "Image",
     dataIndex: "image",
     key: "image",
     render: (image) => (
@@ -63,6 +72,7 @@ const ManageBox = () => {
   const dispatch = useDispatch();
   const [isModalCreateBox, setIsModalCreateBox] = useState(false);
   const [callback, setCallback] = useState(false);
+  const navigate = useNavigate();
   const showModalCreateBox = () => {
     setIsModalCreateBox(true);
   };
@@ -81,16 +91,19 @@ const ManageBox = () => {
   return (
     <>
       <div>
-        <h1>Quản lý box</h1>
+        <h1>Box Management</h1>
         <div className="search">
           <input
             type="text"
-            placeholder="Tìm kiếm theo tên..."
+            placeholder="Search box by name..."
             className="input-search"
             // onChange={(e) => setSearch(e.target.value)}
           />
 
-          <button className="create" onClick={showModalCreateBox}>
+          <button
+            className="create"
+            onClick={() => navigate("/admin/create-box")}
+          >
             <IoAddCircleOutline />
             <span>Tạo box</span>
           </button>

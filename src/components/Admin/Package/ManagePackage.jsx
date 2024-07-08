@@ -11,37 +11,26 @@ import { getDataPackage } from "../../../redux/actions/package.action";
 const ManagePackage = () => {
   const columns = [
     {
-      title: "Tên package",
+      title: "Package name",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Miêu tả",
+      title: "Description",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Giá thành",
+      title: "Price",
       dataIndex: "price",
       key: "price",
+      render: (price) => <span>{price.toLocaleString("vi-VN")} VNĐ</span>,
     },
     {
-      title: "Số lần gửi quà",
+      title: "No. of boxes",
       dataIndex: "numberOfSend",
       key: "numberOfSend",
     },
-
-    // {
-    //   title: "Hình ảnh",
-    //   dataIndex: "image",
-    //   key: "image",
-    //   render: (image) => (
-    //     <img
-    //       src={image}
-    //       style={{ width: "100px", height: "100px", objectFit: "cover" }}
-    //     />
-    //   ),
-    // },
 
     {
       title: "Action",
@@ -98,9 +87,6 @@ const ManagePackage = () => {
   const handleCancelCreate = () => {
     setIsOpenCreate(false);
   };
-  const handleCreatePackage = () => {
-    alert("ss");
-  };
 
   useEffect(() => {
     dispatch(getDataPackage(search, 1));
@@ -110,18 +96,18 @@ const ManagePackage = () => {
   return (
     <>
       <div>
-        <h1>Quản lý Package</h1>
+        <h1>Package Management</h1>
         <div className="search">
           <input
             type="text"
-            placeholder="Tìm kiếm theo tên..."
+            placeholder="Search by package name..."
             className="input-search"
             onChange={(e) => setSearch(e.target.value)}
           />
 
           <button className="create" onClick={showModalCreate}>
             <IoAddCircleOutline />
-            <span>Tạo package</span>
+            <span>Create package</span>
           </button>
         </div>
         <div className="table">
@@ -138,12 +124,13 @@ const ManagePackage = () => {
         handleOk={handleConfirmOk}
         handleCancel={handleConfirmCancel}
         isModalOpen={isModalConfirmOpen}
-        message={"Bạn chắc chắn muốn xóa package này không?"}
+        message={"Are you sure you want to delete this package?"}
       />
       <ModalCreatePackage
         isModalOpen={isOpenCreate}
         handleCancel={handleCancelCreate}
-        handleOk={handleCreatePackage}
+        setCallback={setCallback}
+        setIsOpenCreate={setIsOpenCreate}
       />
     </>
   );

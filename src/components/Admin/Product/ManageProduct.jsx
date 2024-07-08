@@ -16,7 +16,7 @@ import { getProducts } from "../../../redux/actions/product.action";
 const ManageProduct = () => {
   const columns = [
     {
-      title: "Product Name",
+      title: "Product name",
       dataIndex: "name",
       key: "name",
     },
@@ -24,6 +24,11 @@ const ManageProduct = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
     },
     {
       title: "Price",
@@ -95,8 +100,8 @@ const ManageProduct = () => {
     setIsModalConfirmOpen(true);
     setProductIdDelete(productId);
   };
-  const handleConfirmOk = () => {
-    const deleteData = async () => {
+  const handleConfirmOk = async () => {
+    // const deleteData = async () => {
       try {
         const response = await deleteProductById(productIdDelete);
         if (response.data.success) {
@@ -107,8 +112,8 @@ const ManageProduct = () => {
       } catch (error) {
         console.log(error.message);
       }
-    };
-    deleteData();
+    // };
+    // deleteData();
     setCallback((prev) => !prev);
     setIsModalConfirmOpen(false);
   };
@@ -153,7 +158,7 @@ const ManageProduct = () => {
         <div className="search">
           <input
             type="text"
-            placeholder="Search by name of product..."
+            placeholder="Search by product's name..."
             className="input-search"
             onChange={(e) => setSearchProduct(e.target.value)}
           />
@@ -166,7 +171,7 @@ const ManageProduct = () => {
           </button>
           <button className="create" onClick={() => setIsOpenModalCreate(true)}>
             <IoAddCircleOutline />
-            <span style={{marginLeft: '5px'}}>Create Product</span>
+            <span>Create product</span>
           </button>
         </div>
 

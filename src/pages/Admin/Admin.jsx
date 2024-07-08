@@ -7,7 +7,7 @@ import {
     PieChartOutlined,
     LogoutOutlined
 } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from 'antd';
+import { Avatar, Button, Dropdown, Layout, Menu, Space, message, theme } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/auth.action';
@@ -33,35 +33,37 @@ const items = [
         key: "package",
         label: "Package Management",
         icon: <AppstoreOutlined />,
-        children: [
-            {
-                key: "5",
-                label: "Package Management",
-                route: "manage-package",
-            },
-            {
-                key: "6",
-                label: "Package Trash",
-                route: "trash-package",
-            },
-        ],
+        // children: [
+        //     {
+        //         key: "5",
+        //         label: "Package Management",
+        //         route: "manage-package",
+        //     },
+        //     {
+        //         key: "6",
+        //         label: "Package Trash",
+        //         route: "trash-package",
+        //     },
+        // ],
+        route: "manage-package"
     },
     {
         key: "box",
         label: "Mystery Box",
         icon: <AppstoreOutlined />,
-        children: [
-            {
-                key: "9",
-                label: "History Box Chosen",
-                route: "manage-box-history",
-            },
-            {
-                key: "10",
-                label: "Box Management",
-                route: "manage-box",
-            },
-        ],
+        // children: [
+        //     {
+        //         key: "9",
+        //         label: "History Box Chosen",
+        //         route: "manage-box-history",
+        //     },
+        //     {
+        //         key: "10",
+        //         label: "Box Management",
+        //         route: "manage-box",
+        //     },
+        // ],
+        route: "manage-box"
     },
     {
         key: "order",
@@ -71,13 +73,18 @@ const items = [
             {
                 key: "1",
                 label: "Dashboard",
-                route: "manage-order/dashboard",
+                route: "orders/dashboard",
             },
             {
                 key: "2",
-                label: "Order Status",
-                route: "manage-order/status",
-            },
+                label: "Confirm Order",
+                route: "orders/confirm-box-order",
+              },
+              {
+                key: "3",
+                label: "Manage Order",
+                route: "orders/manage-box-period",
+              },
         ],
     },
 ];
@@ -91,9 +98,10 @@ const Admin = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
-        dispatch(logout());
+    const handleLogout = async () => {
+        await dispatch(logout());
         message.success("Log Out Successfully");
+        navigate("/")
     };
 
     const handleMenuClick = (e) => {
