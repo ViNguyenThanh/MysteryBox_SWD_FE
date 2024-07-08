@@ -82,10 +82,10 @@ const ChoosePackage = () => {
   const handleButtonClick = () => {
     const user = getUserLocalstorage();
     if (!user) {
-      message.warning("Vui lòng đăng nhập mới mua hàng");
+      message.warning("Please log in to purchase");
       navigate("/login");
     } else if (kidOfUserCurrent.length === 0) {
-      message.warning("Tạo tài khoản cho con rồi vào mua hàng nhé!");
+      message.warning("Create an account for your kid then go shopping!!");
       navigate("/user/kid-profile");
     }
     if (user && kidOfUserCurrent.length > 0) {
@@ -150,7 +150,7 @@ const ChoosePackage = () => {
             </li>
           </ul>
           <p className='price'>
-            {Number(item.price).toLocaleString("en-US")} VND
+            {Number(item.price).toLocaleString("vi-VN")} VND
           </p>
         </div>
       ))}

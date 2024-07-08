@@ -166,3 +166,9 @@
     position: absolute;
     top: 87%;
 }
+
+
+:where(.css-dev-only-do-not-override-j9bb5n).ant-message .ant-message-notice-wrapper .ant-message-warning>.anticon {
+    color: #faad14;
+    font-size: 25px;
+}

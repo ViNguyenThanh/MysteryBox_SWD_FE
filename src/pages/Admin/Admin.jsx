@@ -94,6 +94,7 @@ const Admin = () => {
     const handleLogout = () => {
         dispatch(logout());
         message.success("Log Out Successfully");
+        navigate('/')
     };
 
     const handleMenuClick = (e) => {

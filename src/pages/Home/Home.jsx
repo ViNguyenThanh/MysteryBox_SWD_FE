@@ -8,6 +8,7 @@ import Caption from '../../components/Home/Caption/Caption'
 import StepToBuyPackage from '../../components/Home/StepByStep/StepByStep'
 import IntroPackage from '../../components/Home/IntroPackage/IntroPackage'
 import WhyChooseUs from '../../components/Home/WhyChooseUs/WhyChooseUs'
+import { BackTop } from 'antd'
 
 
 const Home = () => {
@@ -15,12 +16,13 @@ const Home = () => {
     <div className='home-whole-container'>
       <Header />
       <div className="home-container">
-        <Caption/>
+        <BackTop />
+        <Caption />
         <Slide />
         <JoinUs />
-        <StepToBuyPackage/>
+        <StepToBuyPackage />
         <IntroPackage />
-        <WhyChooseUs/>
+        <WhyChooseUs />
       </div>
       <Footer />
     </div>
