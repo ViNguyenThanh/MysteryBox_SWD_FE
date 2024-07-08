@@ -6,6 +6,10 @@ import ManageTheme from "./components/Admin/Theme/ManageTheme";
 import ManageProduct from "./components/Admin/Product/ManageProduct";
 import ManagePackage from "./components/Admin/Package/ManagePackage";
 import ManageBox from "./components/Admin/Box/ManageBox";
+import ManageBoxPeriod from "./components/Admin/Order/ManageBoxPeriod";
+import CreateStepBox from "./components/Admin/Box/CreateStepBox/CreateStepBox";
+import Revenue from "./components/Admin/Revenue/Revenue";
+import ManageOrder from "./components/Admin/Status/ManageOrder";
 
 import Register from './pages/Auth/Register'
 import Login from './pages/Auth/Login'
@@ -44,24 +48,32 @@ function App() {
           <Route path="manage-product" element={<ManageProduct />} />
           <Route path="manage-package" element={<ManagePackage />} />
           <Route path="manage-box" element={<ManageBox />} />
+          <Route path="create-box" element={<CreateStepBox />} />
+
+          <Route path="orders/dashboard" element={<Revenue />} />
+          <Route path="orders/confirm-box-order" element={<ManageOrder />} />
+          <Route
+            path="orders/manage-box-period"
+            element={<ManageBoxPeriod />}
+          />
         </Route>
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
         {/* <Route path="/user*" element={<User/>}/> */}
-        <Route path="/user" element={<User />}>
+        <Route path="/user/*" element={user?.role == "ADMIN" ? <Navigate to={"/admin"} /> : <User/> }>
           <Route path='user-profile' element={<UserProfile />} />
           <Route path='kid-profile' element={<KidProfile />} />
           <Route path='order' element={<Order />} />
         </Route>
 
-        <Route path='/buy-package' element={<BuyPackage />}>
+        <Route path='/buy-package' element={user?.role == "ADMIN" ? <Navigate to={"/admin"} /> : <BuyPackage />}>
           <Route path="choose-package" element={<ChoosePackage />} />
           <Route path="choose-box/:id" element={<ChooseBox />} />
         </Route>
 
-        <Route path="/product" element={<Product/>}/>
+        <Route path="/product" element={user?.role == "ADMIN" ? <Navigate to={"/admin"} /> : <Product />} />
       </Routes>
     </>
   )

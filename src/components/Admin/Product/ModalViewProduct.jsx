@@ -23,7 +23,7 @@ const ModalViewProduct = ({
   };
   return (
     <Modal
-      title="Chi tiết sản phẩm"
+      title="Product Detail"
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -49,53 +49,94 @@ const ModalViewProduct = ({
         </div>
 
         <div className="view-infomation">
-          <h4>Thông tin sản phẩm</h4>
-          <ul>
+          <h4>Product Information</h4>
+          {/* <ul>
             <li>
-              <b>Tên sản phẩm: </b>
+              <b>Product's name: </b>
               {dataProduct?.product?.name}
             </li>
             <li>
-              <b>Giá sản phẩm: </b>
+              <b>Price: </b>
               {dataProduct?.product?.price.toLocaleString("vi-VN")} vnđ
             </li>
             <li>
-              <b>Thuộc Box: </b>
-              {dataProduct?.product?.box?.name}
+              <b>Age: </b>
+              {dataProduct?.product?.age}
             </li>
             <li>
-              <b>Thuôc theme: </b>
+              <b>Theme: </b>
               {dataProduct?.product?.theme?.name}
             </li>
             <li>
-              <b>Miêu tả: </b>
+              <b>Description: </b>
               {dataProduct?.product?.description}
             </li>
             <li>
-              <b>Số lượng: </b>
+              <b>Quantity: </b>
               {dataProduct?.product?.quantity}
             </li>
             <li>
-              <b>Giới tính: </b>
+              <b>Gender: </b>
               {dataProduct?.product?.gender}
             </li>
             <li>
-              <b>Màu sắc: </b>
+              <b>Color: </b>
               {dataProduct?.product?.color}
             </li>
             <li>
-              <b>Loại đồ chơi: </b>
+              <b>Type: </b>
               {dataProduct?.product?.type}
             </li>
             <li>
-              <b>Nguồn gốc: </b>
+              <b>Origin: </b>
               {dataProduct?.product?.origin}
             </li>
             <li>
-              <b>Vật liệu: </b>
+              <b>Material: </b>
               {dataProduct?.product?.material}
             </li>
-          </ul>
+          </ul> */}
+          <table>
+            <tbody>
+              <tr>
+                <td><b>Product's name:</b></td>
+                <td>{dataProduct?.product?.name}</td>
+              </tr>
+              <tr>
+                <td><b>Price:</b></td>
+                <td>{dataProduct?.product?.price.toLocaleString("vi-VN")} VND</td>
+                <td><b>Age:</b></td>
+                <td>{dataProduct?.product?.age}</td>
+              </tr>
+              <tr>
+                <td><b>Theme:</b></td>
+                <td>{dataProduct?.product?.theme?.name}</td>
+              </tr>
+              <tr>
+                <td><b>Description:</b></td>
+                <td>{dataProduct?.product?.description}</td>
+              </tr>
+              <tr>
+                <td><b>Quantity:</b></td>
+                <td>{dataProduct?.product?.quantity}</td>
+                <td><b>Gender:</b></td>
+                <td>{dataProduct?.product?.gender}</td>
+              </tr>
+              <tr>
+                <td><b>Color:</b></td>
+                <td>{dataProduct?.product?.color}</td>
+                <td><b>Type:</b></td>
+                <td>{dataProduct?.product?.type}</td>
+              </tr>
+              <tr>
+                <td><b>Origin:</b></td>
+                <td>{dataProduct?.product?.origin}</td>
+                <td><b>Material:</b></td>
+                <td>{dataProduct?.product?.material}</td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
       </div>
     </Modal>

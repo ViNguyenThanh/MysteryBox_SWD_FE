@@ -1,91 +1,131 @@
-import { Input, InputNumber, Modal } from "antd";
+import { Input, InputNumber, Modal, Select, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import React, { useState } from "react";
-import axios from "axios";
 import { createPackage } from "../../../apis/package.request";
-
-const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
-  const [previewUrl, setPreviewUrl] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+import optionAges from "../../../data/optionAges.json";
+const ModalCreatePackage = ({
+  isModalOpen,
+  handleCancel,
+  setIsOpenCreate,
+  setCallback,
+}) => {
   const formik = useFormik({
     initialValues: {
+      age: "",
       name: "",
       description: "",
       price: "",
       numberOfSend: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Vui lòng nhập tên package"),
-      description: Yup.string().required("Vui lòng nhập miêu tả package"),
-      price: Yup.number().required("Vui lòng nhập giá thành package"),
+      name: Yup.string().required("Please input package's name"),
+      age: Yup.string().required("Please choose age range"),
+      description: Yup.string().required("Please input package's description"),
+      price: Yup.number().required("Please input package's price"),
       numberOfSend: Yup.number().required(
-        "Vui lòng nhập số lần gửi quà package"
+        "Please enter the number of gift package deliveries"
       ),
     }),
     onSubmit: async (values) => {
-      // if (!selectedFile) {
-      //   message.warning("Vui lòng chọn ảnh");
-      //   return;
-      // }
-      // const imageData = new FormData();
-      // imageData.append("img", selectedFile);
       try {
-        // const response = await axios.post(
-        //   "https://mysterybox-swd-be.onrender.com/upload-image",
-        //   imageData,
-        //   {
-        //     headers: {
-        //       "Content-Type": "multipart/form-data",
-        //     },
-        //   }
-        // );
-        // const imageUrls = response.data.path;
-        // const updatedValues = {
-        //   ...values,
-        //   image: imageUrls,
-        // };
-        await createPackage(values);
-        const responseCreateTheme = store.getState().themeReducer.res;
-      } catch (error) {}
+        const hideLoading = message.loading("Waiting for create package", 0);
+        const response = await createPackage(values);
+        hideLoading()
+        if (response.data.success) {
+          message.success(response.data.message);
+          setIsOpenCreate(false);
+          setCallback((prev) => !prev);
+        } else {
+          message.success(response.data.message);
+        }
+      } catch (error) { }
     },
   });
-  // const handleImage = (e) => {
-  //   const file = e.target.files[0];
-  //   setPreviewUrl(URL.createObjectURL(file));
-  //   setSelectedFile(file);
-  // };
+
   return (
     <>
       <Modal
-        title="Tạo package"
+        title="Create package"
         open={isModalOpen}
         onOk={formik.handleSubmit}
         onCancel={handleCancel}
-        okText="Tạo package"
-        cancelText="Hủy"
+        okText="Create package"
+        cancelText="Cancel"
       >
-        <Input
-          placeholder="Tên package"
-          name="name"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.name}
-          style={{ marginBottom: "15px" }}
-        />
-        {formik.errors.name && formik.touched.name && (
-          <p
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "12px 0",
+          }}
+        >
+          <div
             style={{
-              color: "red",
-              marginBottom: "15px",
-              marginTop: "-12px",
-              fontSize: "12px",
+              display: "flex",
+              flexDirection: "column",
+              width: "calc(50% - 8px)",
             }}
           >
-            {formik.errors.name}{" "}
-          </p>
-        )}
+            <label style={{ fontSize: "12px" }}>Name</label>
+            <Input
+              placeholder="Package"
+              name="name"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+              style={{ marginBottom: "15px" }}
+            />
+            {formik.errors.name && formik.touched.name && (
+              <p
+                style={{
+                  color: "red",
+                  marginBottom: "15px",
+                  marginTop: "-12px",
+                  fontSize: "12px",
+                }}
+              >
+                {formik.errors.name}{" "}
+              </p>
+            )}
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "calc(50% - 8px)",
+            }}
+          >
+            <label style={{ fontSize: "12px" }}>Age</label>
+            <Select
+              name="age"
+              onChange={(value) => formik.setFieldValue("age", value)}
+              onBlur={formik.handleBlur}
+              value={formik.values.age || undefined}
+              placeholder="Age range"
+              // style={{
+              //   marginBottom: "4px",
+              //   width: "100%",
+              // }}
+              options={optionAges}
+            />
+            {formik.errors.age && formik.touched.age && (
+              <p
+                style={{
+                  color: "red",
+                  marginBottom: "15px",
+                  marginTop: "0px",
+                  fontSize: "12px",
+                }}
+              >
+                {formik.errors.age}{" "}
+              </p>
+            )}
+          </div>
+        </div>
+
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div
             style={{
@@ -94,9 +134,10 @@ const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
               width: "calc(50% - 8px)",
             }}
           >
-            <label style={{ fontSize: "12px" }}>Giá package</label>
+            <label style={{ fontSize: "12px" }}>Price</label>
             <InputNumber
-              prefix="$"
+              placeholder="500.000"
+              suffix="VND"
               style={{
                 width: "100%",
               }}
@@ -108,6 +149,7 @@ const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
                 `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               }
               parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              controls={false}
             />
             {formik.errors.price && formik.touched.price && (
               <p
@@ -129,7 +171,7 @@ const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
               width: "calc(50% - 8px)",
             }}
           >
-            <label style={{ fontSize: "12px" }}>Số lần gửi quà</label>
+            <label style={{ fontSize: "12px" }}>No. of boxes</label>
             <InputNumber
               style={{
                 width: "100%",
@@ -138,6 +180,8 @@ const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
               onChange={(value) => formik.setFieldValue("numberOfSend", value)}
               onBlur={formik.handleBlur}
               value={formik.values.numberOfSend}
+              controls={false}
+              placeholder="2"
             />
             {formik.errors.numberOfSend && formik.touched.numberOfSend && (
               <p
@@ -154,8 +198,9 @@ const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
           </div>
         </div>
         <div style={{ marginTop: "10px" }}>
-          <label style={{ fontSize: "12px" }}>Miêu tả</label>
+          <label style={{ fontSize: "12px" }}>Description</label>
           <TextArea
+            placeholder="Description about package"
             rows={4}
             name="description"
             onChange={formik.handleChange}
@@ -175,37 +220,6 @@ const ModalCreatePackage = ({ isModalOpen, handleCancel, handleOk }) => {
             </p>
           )}
         </div>
-        {/* <label
-          htmlFor="package-image"
-          style={{
-            border: "1px solid black",
-            borderRadius: "8px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            minHeight: "300px",
-          }}
-        >
-          <input type="file" hidden id="package-image" onChange={handleImage} />
-          <div className="choose-image">
-            {previewUrl ? (
-              <img
-                src={previewUrl}
-                style={{
-                  width: "300px",
-                  height: "300px",
-                  objectFit: "cover",
-                  borderRadius: "8px",
-                }}
-              />
-            ) : (
-              <span style={{ cursor: "pointer" }}>
-                Chọn ảnh dưới dạng jpg, jpeg, png
-              </span>
-            )}
-          </div>
-        </label> */}
       </Modal>
     </>
   );

@@ -15,24 +15,18 @@ const ModalFilter = ({
 }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getBox());
     dispatch(getThemes("", 1));
   }, []);
-  const boxs = useSelector((state) => state.boxReducer?.boxs || []);
+
   const themes = useSelector((state) => state.themeReducer?.themes || []);
-  const boxOptions = boxs.map((box) => ({
-    value: box.id,
-    label: box.name,
-  }));
+
   const themeOptions = themes.map((theme) => ({
     value: theme.id,
     label: theme.name,
   }));
-  const onChangeComplete = (value) => {
-    console.log("onChangeComplete: ", value);
-  };
+
   const onChange = (name, value) => {
-    setDataFilter((prevData) => ({ ...prevData, [name]: String(value) }));
+    setDataFilter((prevData) => ({ ...prevData, [name]: value }));
   };
   const handleChange = (name, value) => {
     setDataFilter((prevData) => ({
@@ -68,52 +62,48 @@ const ModalFilter = ({
   return (
     <div>
       <Modal
-        title="Bộ lọc sản phẩm"
+        title="Filter"
         open={isModalOpen}
         onOk={handleFilter}
         onCancel={handleClear}
-        okText="Lọc trạng thái"
+        okText="Filter"
         cancelText="Clear"
       >
         <div className="filter-container">
           <Select
-            mode="tags"
-            placeholder="Chọn theo box"
-            onChange={(value) => onChange("boxIdQuery", value)}
-            value={changeStringToArray(dataFilter.boxIdQuery)}
-            options={boxOptions}
-            className="filter-child"
-          />
-          <Select
-            mode="tags"
-            placeholder="Chọn theo theme"
-            onChange={(value) => onChange("themeIdQuery", value)}
-            value={changeStringToArray(dataFilter.themeIdQuery)}
+            mode="multiple"
+            placeholder="Theme"
+            allowClear
+            onChange={(value) => onChange("themeIdQuery", value.join(","))}
+            // value={changeStringToArray(dataFilter.themeIdQuery)}
             options={themeOptions}
             className="filter-child"
           />
 
           <Select
             mode="tags"
-            placeholder="Màu sắc"
-            onChange={(value) => onChange("colorQuery", value)}
+            placeholder="Color"
+            allowClear
+            onChange={(value) => onChange("colorQuery", value.join(","))}
             options={optionColors}
             value={changeStringToArray(dataFilter.colorQuery)}
             className="filter-child"
           />
           <Select
             mode="tags"
-            placeholder="Nguồn gốc"
-            onChange={(value) => onChange("originQuery", value)}
+            placeholder="Origin"
+            allowClear
+            onChange={(value) => onChange("originQuery", value.join(","))}
             options={optionOrigin}
             value={changeStringToArray(dataFilter.originQuery)}
             className="filter-child"
           />
           <div className="filter-price">
             <div className="from-price">
-              <label>Từ giá</label>
+              <label>From:</label>
               <InputNumber
-                prefix="$"
+                suffix="VND"
+                controls={false}
                 style={{
                   width: "100%",
                 }}
@@ -127,9 +117,10 @@ const ModalFilter = ({
               />
             </div>
             <div className="to-price">
-              <label>Đến giá</label>
+              <label>To: </label>
               <InputNumber
-                prefix="$"
+                suffix="VND"
+                controls={false}
                 style={{
                   width: "100%",
                 }}

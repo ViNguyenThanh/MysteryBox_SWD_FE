@@ -1,5 +1,9 @@
 [
   {
+    "value": "Canada",
+    "label": "Canada"
+  },
+  {
     "value": "China",
     "label": "China"
   },
@@ -8,31 +12,27 @@
     "label": "Japan"
   },
   {
-    "value": "Canada",
-    "label": "Canada"
-  },
-  {
-    "value": "USA",
-    "label": "USA"
-  },
-  {
-    "value": "Taiwan",
-    "label": "Taiwan"
-  },
-  {
-    "value": "Vietnam",
-    "label": "Vietnam"
-  },
-  {
-    "value": "Thailand",
-    "label": "Thailand"
+    "value": "Korea",
+    "label": "Korea"
   },
   {
     "value": "Singapore",
     "label": "Singapore"
   },
   {
-    "value": "Korea",
-    "label": "Korea"
+    "value": "Taiwan",
+    "label": "Taiwan"
+  },
+  {
+    "value": "Thailand",
+    "label": "Thailand"
+  },
+  {
+    "value": "USA",
+    "label": "USA"
+  },
+  {
+    "value": "Vietnam",
+    "label": "Vietnam"
   }
 ]
