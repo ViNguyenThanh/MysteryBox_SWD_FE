@@ -87,7 +87,7 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                     const hideLoading = message.loading("Loading", 0);
                     const response = await register(values);
                     hideLoading()
-                    if (response.data.success) {
+                    if (response.data?.success) {
                         message.success(response.data.message);
                         navigate("/login");
                     } else {
