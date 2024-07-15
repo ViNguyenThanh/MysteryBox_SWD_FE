@@ -28,3 +28,12 @@ export const updateInfoProfileKid = (profileId, dataUpdate) => {
     },
   });
 };
+
+export const getChooseKid = () => {
+  const token = getToken();
+  return API.get("/get-choose-profiles", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

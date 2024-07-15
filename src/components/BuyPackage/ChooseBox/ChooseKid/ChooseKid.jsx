@@ -1,58 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {  FilterFilled, SearchOutlined } from '@ant-design/icons';
+import { FilterFilled, SearchOutlined } from '@ant-design/icons';
 import { Button, Empty, Input, Radio, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import './ChooseKid.css'
 import { useDispatch, useSelector } from "react-redux";
 import { getKidProfile } from "../../../../redux/actions/kid.action";
-
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 3,
-        gender: "Boy",
-    },
-    {
-        key: '2',
-        name: 'Elys Black',
-        age: 10,
-        gender: "Girl",
-    },
-    {
-        key: '3',
-        name: 'Joe Hathawway',
-        age: 8,
-        gender: "Boy",
-    },
-    {
-        key: '4',
-        name: 'David Robinson',
-        age: 13,
-        gender: "Unisex",
-    },
-    {
-        key: '5',
-        name: 'David Ahihi',
-        age: 5,
-        gender: "Boy",
-    },
-    {
-        key: '6',
-        name: 'Zizi',
-        age: 16,
-        gender: "Girl",
-    },
-];
-
-const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    },
-    getCheckboxProps: (record) => ({
-        name: record.name,
-    }),
-};
+import { getChooseKid } from "../../../../apis/kid.request";
 
 const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginationState, setPaginationState }) => {
 
@@ -63,6 +16,7 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
     const [searchedColumn, setSearchedColumn] = useState('');
     const [genderFilter, setGenderFilter] = useState(null);
     const searchInput = useRef(null);
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0]);
@@ -203,15 +157,15 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
             ...getColumnSearchProps('gender'),
             render: (gender) => (
                 <p>
-                  {gender === "MALE" ? "Boy" : gender === "FEMALE" ? "Girl" : "Unisex"}
+                    {gender === "MALE" ? "Boy" : gender === "FEMALE" ? "Girl" : "Unisex"}
                 </p>
-              ),
+            ),
             filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
                 <div style={{ padding: 8 }}>
                     <Radio.Group
                         onChange={(e) => {
                             setSelectedKeys(e.target.value ? [e.target.value] : []);
-                            setGenderFilter(e.target.value); 
+                            setGenderFilter(e.target.value);
                             confirm();
                         }}
                         value={genderFilter}
@@ -226,7 +180,7 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
                             size="small"
                             onClick={() => {
                                 clearFilters();
-                                setGenderFilter(null); 
+                                setGenderFilter(null);
                                 confirm();
                             }}
                         >
@@ -253,7 +207,8 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
 
 
     const [isRowSelected, setIsRowSelected] = useState(false);
-
+    const [kids, setKids] = useState([]);
+    
     const handleRowSelection = () => ({
         onClick: () => {
             setIsRowSelected(true); // Cập nhật trạng thái khi có hàng được chọn
@@ -266,9 +221,14 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
         }
         setNextEnabled(isRowSelected); // Truyền trạng thái của việc chọn hàng lên component cha
         dispatch(getKidProfile());
+        const fetchDataKidProfile = async () => {
+            const response = await getChooseKid();
+            setKids(response.data?.kidProfiles);
+        };
+        fetchDataKidProfile();
     }, [selectedRowKey, isRowSelected, setNextEnabled]);
 
-    const kids = useSelector((state) => state.kidReducer?.dataKids);
+    // const kids = useSelector((state) => state.kidReducer?.dataKids);
 
     return (
         <div className='choose_kid-container'>
@@ -296,7 +256,7 @@ const ChooseKid = ({ setNextEnabled, selectedRowKey, setSelectedRowKey, paginati
                 // }}
                 pagination={paginationState} // Đặt phân trang về trạng thái phân trang hiện tại
                 locale={{
-                    emptyText: <Empty description="You have no kid here" />,
+                    emptyText: <Empty description="All children are in buying mode" />,
                 }}
             />
         </div>

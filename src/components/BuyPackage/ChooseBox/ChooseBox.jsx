@@ -6,10 +6,23 @@ import ChooseTheme from './ChooseTheme/ChooseTheme';
 import ChooseKid from './ChooseKid/ChooseKid';
 import Confirm from './Confirm/Confirm';
 import ChooseBoxStep from './ChooseBoxStep/ChooseBoxStep';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { orderPackage } from "../../../redux/actions/package-order.action";
+import store from "../../../store/ReduxStore";
+import { updateInfoProfileKid } from "../../../apis/kid.request";
+import {
+    loadFromLocalstorage,
+    removeLocalstorage,
+    saveLocalstorage,
+} from "../../../utils/LocalstorageMySteryBox";
+import { createPackageInPeriod } from "../../../apis/packageInPeriods.request";
+import { createPayment, orderStatus } from "../../../apis/payment.request";
 
 const ChooseBox = () => {
-    const navigate = useNavigate()
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [isNextEnabled, setNextEnabled] = useState(false);
     const [selectedThemeId, setSelectedThemeId] = useState(null); // Lưu ID của theme đã chọn ở bên đây 
@@ -20,7 +33,7 @@ const ChooseBox = () => {
     const [dataGetBox, setDataGetBox] = useState({
         themeId: "",
         yob: "",
-      });
+    });
 
     // const [dataInput, setDataInput] = useState({
     //     nameOfAdult: '',
@@ -74,10 +87,37 @@ const ChooseBox = () => {
     const { token } = theme.useToken();
     const [current, setCurrent] = useState(0);
 
-    const next = () => {
+    const kid = useSelector((state) => state.kidReducer?.dataKids).filter(
+        (el) => el.id === selectedRowKey
+    )[0];
+
+    const next = async () => {
+        if (current + 1 === 3) {
+            if (
+                !dataConfirm.nameOfAdult ||
+                !dataConfirm.phone ||
+                !dataConfirm.email ||
+                !dataConfirm.address
+            ) {
+                message.warning("Please fill out all required information.");
+                return;
+            } else {
+                saveLocalstorage("data-order", dataConfirm);
+            }
+        }
         setCurrent(current + 1);
         window.scrollTo(0, 350);
+        if (current + 1 === 2) {
+            await updateInfoProfileKid(selectedRowKey, {
+                themeId: selectedThemeId,
+            });
+            setDataGetBox({
+                themeId: selectedThemeId,
+                yob: kid?.yob,
+            });
+        }
     };
+
     const prev = () => {
         setCurrent(current - 1);
         window.scrollTo(0, 350);
@@ -97,12 +137,42 @@ const ChooseBox = () => {
         marginTop: 16,
     };
 
-    const handleDone = () => {
-        message.success({
-            content: 'Complete the Choose Box process!',
-            // duration: 0, // Hiển thị vô thời hạn // này xài khi cần chỉnh css cho nút thông báo thôi
-        });
-        // navigate('/')
+    const handleDone = async () => {
+        const confirmUserOrder = loadFromLocalstorage("data-order");
+        await dispatch(orderPackage(id, confirmUserOrder));
+        const confirmOrderFromServer = store.getState().packageOrderReducer?.order;
+        console.log(confirmOrderFromServer);
+        if (confirmOrderFromServer && confirmOrderFromServer.success) {
+            await createPackageInPeriod({
+                boxId: selectedBoxId,
+                packageOrderId: confirmOrderFromServer?.order?.id,
+                address: confirmUserOrder?.address,
+                phone: confirmUserOrder?.phone,
+                nameOfAdult: confirmUserOrder?.nameOfAdult,
+            });
+            const paymentResponse = await createPayment({
+                amount: confirmUserOrder.totalPrice,
+            });
+            if (paymentResponse?.data?.result?.return_code === 1) {
+                window.location.href = paymentResponse.data?.result?.order_url;
+                const response = await orderStatus(
+                    paymentResponse.data?.order?.app_trans_id
+                );
+                if (response.data?.return_code === 3) {
+                    message.warning(response.data?.return_message);
+                } else if (response.data?.return_code === 2) {
+                    message.error(response.data?.return_message);
+                } else {
+                    message.success(response.data?.return_message);
+                }
+                message.success(confirmOrderFromServer.messsage);
+            } else {
+                message.error("Failed to create payment");
+            }
+            removeLocalstorage("data-order");
+        } else {
+            message.error(confirmOrderFromServer.message);
+        }
         window.scrollTo(0, 350);
     };
 
@@ -124,7 +194,7 @@ const ChooseBox = () => {
                         </Button>
                     )}
                     {current === steps.length - 1 && (
-                        <Button type="primary" /*onClick={() => message.success('Processing complete!')} */ onClick={handleDone} disabled={!selectedBoxId}>
+                        <Button type="primary" onClick={handleDone} disabled={!selectedBoxId}>
                             Done
                         </Button>
                     )}
