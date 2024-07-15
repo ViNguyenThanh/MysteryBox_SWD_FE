@@ -46,10 +46,10 @@ const Confirm = ({ setNextEnabled, selectedRowKey, selectedThemeId, setDataConfi
         }
     }, [kid, packageChoose, themeChoose, data]);
 
-    useEffect(() => {
-        const allFieldsFilled = Object.values(data).every((field) => field !== null && field !== '');
-        setNextEnabled(allFieldsFilled);
-    }, [data, setNextEnabled]);
+    // useEffect(() => {
+    //     const allFieldsFilled = Object.values(data).every((field) => field !== null && field !== '');
+    //     setNextEnabled(allFieldsFilled);
+    // }, [data, setNextEnabled]);
 
     return (
         <div className='confirm-container'>
@@ -59,7 +59,7 @@ const Confirm = ({ setNextEnabled, selectedRowKey, selectedThemeId, setDataConfi
                 <p>
                     <strong>Parent's name: </strong> 
                     <input
-                        name="fullName"
+                        name="nameOfAdult"
                         type="text"
                         value={data?.nameOfAdult}
                         className="input-confirm"
