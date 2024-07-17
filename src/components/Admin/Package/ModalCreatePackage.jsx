@@ -20,17 +20,17 @@ const ModalCreatePackage = ({
       numberOfSend: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please input package's name"),
-      age: Yup.string().required("Please choose age range"),
-      description: Yup.string().required("Please input package's description"),
-      price: Yup.number().required("Please input package's price"),
+      name: Yup.string().required("Vui lòng nhập tên gói"),
+      age: Yup.string().required("Vui lòng chọn độ tuổi phù hợp"),
+      description: Yup.string().required("Vui lòng nhập miêu tả gói"),
+      price: Yup.number().required("Vui lòng nhập giá thành gói"),
       numberOfSend: Yup.number().required(
-        "Please enter the number of gift package deliveries"
+        "Vui lòng nhập số lần gửi quà gói"
       ),
     }),
     onSubmit: async (values) => {
       try {
-        const hideLoading = message.loading("Waiting for create package", 0);
+        const hideLoading = message.loading("Vui lòng đợi trong giây lát", 0);
         const response = await createPackage(values);
         hideLoading()
         if (response.data.success) {
@@ -47,12 +47,12 @@ const ModalCreatePackage = ({
   return (
     <>
       <Modal
-        title="Create package"
+        title="Tạo gói"
         open={isModalOpen}
         onOk={formik.handleSubmit}
         onCancel={handleCancel}
-        okText="Create package"
-        cancelText="Cancel"
+        okText="Tạo"
+        cancelText="Hủy"
       >
         <div
           style={{
@@ -68,9 +68,9 @@ const ModalCreatePackage = ({
               width: "calc(50% - 8px)",
             }}
           >
-            <label style={{ fontSize: "12px" }}>Name</label>
+            <label style={{ fontSize: "12px" }}>Tên</label>
             <Input
-              placeholder="Package"
+              // placeholder="Tên gói"
               name="name"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -98,13 +98,13 @@ const ModalCreatePackage = ({
               width: "calc(50% - 8px)",
             }}
           >
-            <label style={{ fontSize: "12px" }}>Age</label>
+            <label style={{ fontSize: "12px" }}>Tuổi</label>
             <Select
               name="age"
               onChange={(value) => formik.setFieldValue("age", value)}
               onBlur={formik.handleBlur}
               value={formik.values.age || undefined}
-              placeholder="Age range"
+              // placeholder="Age range"
               // style={{
               //   marginBottom: "4px",
               //   width: "100%",
@@ -134,9 +134,9 @@ const ModalCreatePackage = ({
               width: "calc(50% - 8px)",
             }}
           >
-            <label style={{ fontSize: "12px" }}>Price</label>
+            <label style={{ fontSize: "12px" }}>Giá</label>
             <InputNumber
-              placeholder="500.000"
+              // placeholder="500.000"
               suffix="VND"
               style={{
                 width: "100%",
@@ -171,7 +171,7 @@ const ModalCreatePackage = ({
               width: "calc(50% - 8px)",
             }}
           >
-            <label style={{ fontSize: "12px" }}>No. of boxes</label>
+            <label style={{ fontSize: "12px" }}>Số box được nhận</label>
             <InputNumber
               style={{
                 width: "100%",
@@ -198,9 +198,9 @@ const ModalCreatePackage = ({
           </div>
         </div>
         <div style={{ marginTop: "10px" }}>
-          <label style={{ fontSize: "12px" }}>Description</label>
+          <label style={{ fontSize: "12px" }}>Miêu tả</label>
           <TextArea
-            placeholder="Description about package"
+            // placeholder="Description about package"
             rows={4}
             name="description"
             onChange={formik.handleChange}

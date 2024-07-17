@@ -9,20 +9,22 @@ import { FaRegEdit } from "react-icons/fa";
 import { IoAddCircleOutline } from "react-icons/io5";
 import ModalCreate from "./ModalCreate";
 import ModalConfirm from "../../Modal-Confirm/ModalConfirm";
+import ModelEdit from "./ModalEdit"
+
 const ManageTheme = () => {
   const columns = [
     {
-      title: "Theme",
+      title: "Chủ đề",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Description",
+      title: "Miêu tả",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Image",
+      title: "Hình ảnh",
       dataIndex: "image",
       key: "image",
       render: (image) => (
@@ -38,7 +40,7 @@ const ManageTheme = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <button className="action edit">
+          <button className="action edit" onClick={() => showModalEdit(record)}>
             <FaRegEdit />
           </button>
           <button
@@ -62,15 +64,18 @@ const ManageTheme = () => {
     dispatch(deleteTheme(themeId, { status: 0 }));
     setCallback((prev) => !prev);
     setIsModalConfirmOpen(false);
-    message.success("Delete successfully");
+    message.success("Xóa thành công");
   };
   const handleConfirmCancel = () => {
     setIsModalConfirmOpen(false);
   };
 
   const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const [callback, setCallback] = useState(false);
   const [search, setSearch] = useState("");
+  const [currentTheme, setCurrentTheme] = useState(null);
+
   useEffect(() => {
     dispatch(getThemes(search, 1));
   }, [callback, search]);
@@ -78,18 +83,27 @@ const ManageTheme = () => {
   const showModalCreate = () => {
     setIsOpenCreate(true);
   };
+
+  const showModalEdit = (theme) => {
+    setCurrentTheme(theme);
+    setIsOpenEdit(true);
+  };
+
   const handleCancelCreate = () => {
     setIsOpenCreate(false);
+  };
+  const handleCancelEdit = () => {
+    setIsOpenEdit(false);
   };
 
   const dataThemes = useSelector((state) => state.themeReducer.themes);
   return (
     <div>
-      <h1>Theme Management</h1>
+      <h1>Quản lý chủ đề</h1>
       <div className="search">
         <input
           type="text"
-          placeholder="Search by name..."
+          placeholder="Tìm kiếm theo tên..."
           className="input-search"
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -99,7 +113,7 @@ const ManageTheme = () => {
         </button> */}
         <button className="create" onClick={showModalCreate}>
           <IoAddCircleOutline />
-          <span style={{marginLeft: '5px'}}>Create theme</span>
+          <span style={{marginLeft: '5px'}}>Tạo chủ đề</span>
         </button>
         <ModalCreate
           isOpenCreate={isOpenCreate}
@@ -107,11 +121,16 @@ const ManageTheme = () => {
           setIsOpenCreate={setIsOpenCreate}
           setCallback={setCallback}
         />
+        <ModelEdit
+          isOpenEdit={isOpenEdit}
+          handleCancelEdit={handleCancelEdit}
+          themeData={currentTheme}
+          setCallback={setCallback}/>
         <ModalConfirm
           isModalOpen={isModalConfirmOpen}
           handleOk={handleConfirmOk}
           handleCancel={handleConfirmCancel}
-          message="Are you sure you want to delete?"
+          message="Bạn có chắc bạn muốn xóa không?"
         />
       </div>
       <div className="table">

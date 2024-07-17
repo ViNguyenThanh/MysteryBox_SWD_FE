@@ -11,23 +11,23 @@ import { getDataPackage } from "../../../redux/actions/package.action";
 const ManagePackage = () => {
   const columns = [
     {
-      title: "Package name",
+      title: "Tên gói",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Description",
+      title: "Miêu tả",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Price",
+      title: "Giá thành",
       dataIndex: "price",
       key: "price",
       render: (price) => <span>{price.toLocaleString("vi-VN")} VNĐ</span>,
     },
     {
-      title: "No. of boxes",
+      title: "Số lần gửi quà",
       dataIndex: "numberOfSend",
       key: "numberOfSend",
     },
@@ -37,9 +37,9 @@ const ManagePackage = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <button className="action edit">
+          {/* <button className="action edit">
             <FaRegEdit />
-          </button>
+          </button> */}
           <button
             className="action delete"
             onClick={() => showModalConfirm(record.id)}
@@ -96,18 +96,18 @@ const ManagePackage = () => {
   return (
     <>
       <div>
-        <h1>Package Management</h1>
+        <h1>Quản lý gói</h1>
         <div className="search">
           <input
             type="text"
-            placeholder="Search by package name..."
+            placeholder="Tìm kiếm theo tên..."
             className="input-search"
             onChange={(e) => setSearch(e.target.value)}
           />
 
           <button className="create" onClick={showModalCreate}>
             <IoAddCircleOutline />
-            <span>Create package</span>
+            <span>Tạo gói</span>
           </button>
         </div>
         <div className="table">
@@ -124,7 +124,7 @@ const ManagePackage = () => {
         handleOk={handleConfirmOk}
         handleCancel={handleConfirmCancel}
         isModalOpen={isModalConfirmOpen}
-        message={"Are you sure you want to delete this package?"}
+        message={"Bạn chắc chắn muốn xóa gói này không?"}
       />
       <ModalCreatePackage
         isModalOpen={isOpenCreate}

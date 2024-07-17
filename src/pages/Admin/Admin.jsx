@@ -20,18 +20,18 @@ const items = [
     {
         key: "theme",
         icon: <PieChartOutlined />,
-        label: "Theme Management",
+        label: "Quản lý chủ đề",
         route: "manage-theme",
     },
     {
         key: "product",
         icon: <ContainerOutlined />,
-        label: "Product Management",
+        label: "Quản lý sản phẩm",
         route: "manage-product",
     },
     {
         key: "package",
-        label: "Package Management",
+        label: "Quản lý gói",
         icon: <AppstoreOutlined />,
         // children: [
         //     {
@@ -67,7 +67,7 @@ const items = [
     },
     {
         key: "order",
-        label: "Order Management",
+        label: "Quản lý đơn hàng",
         icon: <AppstoreOutlined />,
         children: [
             {
@@ -77,12 +77,12 @@ const items = [
             },
             {
                 key: "2",
-                label: "Confirm Order",
+                label: "Xác nhận đơn hàng",
                 route: "orders/confirm-box-order",
               },
               {
                 key: "3",
-                label: "Manage Order",
+                label: "Quản lý đơn hàng",
                 route: "orders/manage-box-period",
               },
         ],

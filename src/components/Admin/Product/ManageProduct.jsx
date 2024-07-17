@@ -13,36 +13,37 @@ import ModalFilter from "./ModalFilter";
 import ModalCreateProduct from "./ModalCreateProduct";
 import { deleteProductById } from "../../../apis/product.request";
 import { getProducts } from "../../../redux/actions/product.action";
+import ModalEditProduct from "./ModalEditProduct";
 const ManageProduct = () => {
   const columns = [
     {
-      title: "Product name",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Description",
+      title: "Miêu tả",
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Age",
+      title: "Độ tuổi",
       dataIndex: "age",
       key: "age",
     },
     {
-      title: "Price",
+      title: "Đơn giá",
       dataIndex: "price",
       key: "price",
       render: (price) => <span>{price.toLocaleString("vi-VN")}</span>,
     },
     {
-      title: "Quantity",
+      title: "Số lượng",
       dataIndex: "quantity",
       key: "quantity",
     },
     {
-      title: "Image",
+      title: "Hình ảnh",
       dataIndex: "images",
       key: "images",
       render: (images) => (
@@ -64,7 +65,7 @@ const ManageProduct = () => {
           >
             <FaEye />
           </button>
-          <button className="action edit">
+          <button className="action edit" onClick={() => showModalEdit(record)}>
             <FaRegEdit />
           </button>
           <button
@@ -87,6 +88,7 @@ const ManageProduct = () => {
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const [isModalFilterOpen, setIsModalFilterOpen] = useState(false);
   const [isOpenModalCreate, setIsOpenModalCreate] = useState(false);
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
   const [dataFilter, setDataFilter] = useState({
     fromPrice: "",
     toPrice: "",
@@ -95,13 +97,15 @@ const ManageProduct = () => {
     boxIdQuery: "",
     themeIdQuery: "",
   });
+  const [productToEdit, setProductToEdit] = useState(null);
   // Modal confirm
   const showModalConfirm = (productId) => {
     setIsModalConfirmOpen(true);
     setProductIdDelete(productId);
   };
-  const handleConfirmOk = async () => {
-    // const deleteData = async () => {
+
+  const handleConfirmOk = () => {
+    const deleteData = async () => {
       try {
         const response = await deleteProductById(productIdDelete);
         if (response.data.success) {
@@ -112,8 +116,8 @@ const ManageProduct = () => {
       } catch (error) {
         console.log(error.message);
       }
-    // };
-    // deleteData();
+    };
+    deleteData();
     setCallback((prev) => !prev);
     setIsModalConfirmOpen(false);
   };
@@ -132,9 +136,16 @@ const ManageProduct = () => {
   const handleViewCancel = () => {
     setIsModalViewOpen(false);
   };
+  const showModalEdit = (product) => {
+    setIsOpenModalEdit(true);
+    setProductToEdit(product);
+  };
+  const handleEditCancel = () => {
+    setIsOpenModalEdit(false);
+  };
 
   const showModalCreate = () => {
-    setIsOpenCreate(true);
+    setIsOpenModalCreate(true);
   };
   useEffect(() => {
     dispatch(
@@ -154,11 +165,11 @@ const ManageProduct = () => {
   return (
     <>
       <div>
-        <h1>Product Management</h1>
+        <h1>Quản lý Sản Phẩm</h1>
         <div className="search">
           <input
             type="text"
-            placeholder="Search by product's name..."
+            placeholder="Tìm kiếm theo tên..."
             className="input-search"
             onChange={(e) => setSearchProduct(e.target.value)}
           />
@@ -171,7 +182,7 @@ const ManageProduct = () => {
           </button>
           <button className="create" onClick={() => setIsOpenModalCreate(true)}>
             <IoAddCircleOutline />
-            <span>Create product</span>
+            <span>Tạo sản phẩm</span>
           </button>
         </div>
 
@@ -195,7 +206,7 @@ const ManageProduct = () => {
         isModalOpen={isModalConfirmOpen}
         handleOk={handleConfirmOk}
         handleCancel={handleConfirmCancel}
-        message="Are you sure you want to delete this product?"
+        message="Bạn có chắc chắn muốn xóa sản phẩm này không?"
       />
       <ModalFilter
         isModalOpen={isModalFilterOpen}
@@ -208,6 +219,12 @@ const ManageProduct = () => {
       <ModalCreateProduct
         open={isOpenModalCreate}
         setOpen={setIsOpenModalCreate}
+        setCallback={setCallback}
+      />
+      <ModalEditProduct
+        isOpenEdit={isOpenModalEdit}
+        handleCancelEdit={handleEditCancel}
+        initialValues={productToEdit}
         setCallback={setCallback}
       />
       {/* <ModalImage /> */}

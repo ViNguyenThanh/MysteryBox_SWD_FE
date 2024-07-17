@@ -24,12 +24,12 @@ const ModalCreate = ({
       description: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().max(30, "Name must not exceed 30 characters").required("Please input theme name"),
-      description: Yup.string().max(50, "Name must not exceed 50 characters").required("Please input theme description"),
+      name: Yup.string().max(30, "Tên không được vượt quá 30 ký tự").required("Vui lòng nhập tên chủ đề"),
+      description: Yup.string().max(50, "Mô tả không được vượt quá 50 ký tự").required("Vui lòng nhập mô tả chủ đề"),
     }),
     onSubmit: async (values) => {
       if (!selectedFile) {
-        message.warning("Please choose picture");
+        message.warning("Hãy chọn hình minh họa");
         return;
       }
       const imageData = new FormData();
@@ -42,7 +42,7 @@ const ModalCreate = ({
           image: imageUrl,
         };
 
-        const hideLoading = message.loading("Loading", 0);
+        const hideLoading = message.loading("Vui lòng đợi", 0);
         await dispatch(createTheme(updatedValues));
         hideLoading()
         const responseCreateTheme = store.getState().themeReducer.res;
@@ -60,23 +60,23 @@ const ModalCreate = ({
       }
     },
   });
-  
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
   };
-  
+
   return (
     <>
       <Modal
-        title="Create theme"
+        title="Tạo chủ đề"
         open={isOpenCreate}
         onOk={formik.handleSubmit}
         onCancel={handleCancelCreate}
       >
         <Input
-          placeholder="Theme name"
+          placeholder="Tên chủ đề"
           name="name"
           style={{ marginBottom: "15px" }}
           onChange={formik.handleChange}
@@ -98,7 +98,7 @@ const ModalCreate = ({
         <TextArea
           rows={4}
           name="description"
-          placeholder="Description"
+          placeholder="Miêu tả"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.description}
@@ -135,7 +135,7 @@ const ModalCreate = ({
               />
             ) : (
               <span style={{ cursor: "pointer" }}>
-                Choose picture in: jpg, jpeg, png
+                Chọn ảnh dưới dạng: jpg, jpeg, png
               </span>
             )}
           </div>
