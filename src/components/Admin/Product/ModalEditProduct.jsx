@@ -7,51 +7,58 @@ import optionGenders from "../../../data/optionGender.json";
 import optionMaterials from "../../../data/optionMaterials.json";
 import optionTypes from "../../../data/optionTypes.json";
 import optionAges from "../../../data/optionAges.json";
-import { getBox } from "../../../redux/actions/box.action";
-import { getThemes } from "../../../redux/actions/theme.action";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import store from "../../../store/ReduxStore";
-import { createProduct } from "../../../redux/actions/product.action";
 import { uploadImages } from "../../../apis/upload-image.request";
+import { getBox } from "../../../redux/actions/box.action";
+import { getThemes } from "../../../redux/actions/theme.action";
+// import { updateProduct } from "../../../redux/actions/product.action";
 
-const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
-  const [previewImages, setPreviewImages] = useState([]);
+const ModalEditProduct = ({
+  isOpenEdit,
+  handleCancelEdit,
+  setCallback,
+  initialValues,
+}) => {
+  console.log(initialValues);
+  const [previewImages, setPreviewImages] = useState(initialValues?.images);
   const formik = useFormik({
     initialValues: {
-      productCode: "",
-      themeId: "",
-      name: "",
+      productCode: initialValues?.productCode,
+      themeId: initialValues?.themeId,
+      name: initialValues?.name,
       images: [],
-      description: "",
-      price: "",
-      quantity: "",
-      gender: "",
-      color: "",
-      type: "",
-      material: "",
-      origin: "",
-      age: "",
+      description: initialValues?.description,
+      price: initialValues?.price,
+      quantity: initialValues?.quantity,
+      gender: initialValues?.gender,
+      color: initialValues?.color,
+      type: initialValues?.type,
+      material: initialValues?.material,
+      origin: initialValues?.origin,
+      age: initialValues?.age,
     },
     validationSchema: Yup.object({
       productCode: Yup.string().required("Vui lòng nhập mã sản phẩm"),
-      themeId: Yup.string().required("Vui lòng chọn chủ đề"),
+      themeId: Yup.string().required("Vui lòng chọn theme"),
       name: Yup.string().required("Vui lòng nhập tên sản phẩm"),
-      description: Yup.string().required("Vui lòng nhập mô tả sản phẩm"),
+      description: Yup.string().required("Vui lòng miêu tả sản phẩm"),
       price: Yup.string()
         .required("Vui lòng nhập giá sản phẩm")
         .test(
           "max-price",
-          "Giá không được vượt quá 100.000 VND",
+          "Giá sản phẩm không được vượt quá 100.000 vnd",
           (value) => parseFloat(value) <= 100000
         ),
       quantity: Yup.number().required("Vui lòng nhập số lượng sản phẩm"),
       gender: Yup.string().required("Vui lòng chọn giới tính"),
       color: Yup.string().required("Vui lòng chọn màu sắc"),
       type: Yup.string().required("Vui lòng nhập loại sản phẩm"),
-      material: Yup.string().required("Vui lòng nhập chất liệu"),
-      origin: Yup.string().required("Vui lòng chọn xuất xứ sản phẩm"),
+      material: Yup.string().required("Vui lòng nhập chất liệu sản phẩm"),
+      origin: Yup.string().required("Vui lòng chọn nguồn gốc sản phẩm"),
       age: Yup.string().required("Vui lòng chọn độ tuổi"),
     }),
     onSubmit: async (values) => {
@@ -61,37 +68,39 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
       });
 
       try {
-        const hideLoading = message.loading("Vui lòng đợi trong giây lát", 0);
         const response = await uploadImages(imageData)
         const imageUrls = response.data.files;
         const updatedValues = {
           ...values,
           images: imageUrls,
         };
-        await dispatch(createProduct(updatedValues));
-        hideLoading()
-        const responseCreateProduct = store.getState().productReducer.res;
-        if (responseCreateProduct.success) {
-          message.success(responseCreateProduct.message);
+        await dispatch(updateProduct(updatedValues));
+        const responseUpdateProduct = store.getState().productReducer.res;
+        if (responseUpdateProduct.success) {
+          message.success(responseUpdateProduct.message);
           setCallback((prev) => !prev);
           setOpen(false);
           formik.handleReset();
           setPreviewImages([]);
         } else {
-          message.error(responseCreateTheme.message);
+          message.error(responseUpdateProduct.message);
         }
       } catch (error) {
-        console.error("Error uploading files:", error);
+        console.error("Error updating product:", error);
       }
     },
   });
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getBox());
     dispatch(getThemes("", 1));
   }, []);
-
+  const boxs = useSelector((state) => state.boxReducer?.boxs || []);
   const themes = useSelector((state) => state.themeReducer?.themes || []);
-
+  const boxOptions = boxs.map((box) => ({
+    value: box.id,
+    label: box.name,
+  }));
   const themeOptions = themes.map((theme) => ({
     value: theme.id,
     label: theme.name,
@@ -103,20 +112,20 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
     const previewUrls = files.map((file) => URL.createObjectURL(file));
     setPreviewImages(previewUrls);
   };
+
   return (
     <div>
       <Modal
-        title="Tạo mới sản phẩm"
+        title="Chỉnh sửa sản phẩm"
         centered
-        open={open}
+        open={isOpenEdit}
         onOk={formik.handleSubmit}
-        onCancel={() => setOpen(false)}
+        onCancel={handleCancelEdit}
         width={1000}
-        okText="Tạo"
+        okText="Lưu chỉnh sửa"
         cancelText="Hủy"
       >
         <div>
-          <label style={{ fontSize: "12px" }}>Tên</label>
           <Input
             placeholder="Tên sản phẩm"
             name="name"
@@ -151,8 +160,7 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               name="material"
               onChange={(value) => formik.setFieldValue("material", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.material || undefined}
-              placeholder="Ex: wood"
+              value={formik.values.material}
               style={{
                 width: "100%",
               }}
@@ -178,13 +186,12 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(33% - 8px)",
             }}
           >
-            <label>Loại</label>
+            <label>Loại sản phẩm</label>
             <Select
               name="type"
               onChange={(value) => formik.setFieldValue("type", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.type || undefined}
-              placeholder="Ex: puzzle"
+              value={formik.values.type}
               style={{
                 width: "100%",
               }}
@@ -210,13 +217,12 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               width: "calc(33% - 8px)",
             }}
           >
-            <label>Tuổi</label>
+            <label>Độ tuổi</label>
             <Select
               name="age"
               onChange={(value) => formik.setFieldValue("age", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.age || undefined}
-              placeholder="Ex: 9-12"
+              value={formik.values.age}
               style={{
                 width: "100%",
               }}
@@ -238,75 +244,6 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <label>Giá</label>
-            <InputNumber
-              suffix="VND"
-              name="price"
-              onChange={(value) => formik.setFieldValue("price", value)}
-              onBlur={formik.handleBlur}
-              value={formik.values.price}
-              placeholder="Ex: 20.000"
-              style={{
-                width: "100%",
-              }}
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-              controls={false}
-            />
-            {formik.errors.price && formik.touched.price && (
-              <p
-                style={{
-                  color: "red",
-                  marginBottom: "15px",
-                  marginTop: "0px",
-                  fontSize: "12px",
-                }}
-              >
-                {formik.errors.price}{" "}
-              </p>
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <label>Số lượng</label>
-            <InputNumber
-              name="quantity"
-              controls={false}
-              placeholder="Ex: 2"
-              onChange={(value) => formik.setFieldValue("quantity", value)}
-              onBlur={formik.handleBlur}
-              value={formik.values.quantity}
-              style={{
-                width: "100%",
-              }}
-            />
-            {formik.errors.quantity && formik.touched.quantity && (
-              <p
-                style={{
-                  color: "red",
-                  marginBottom: "15px",
-                  marginTop: "0px",
-                  fontSize: "12px",
-                }}
-              >
-                {formik.errors.quantity}{" "}
-              </p>
-            )}
-          </div>
           <div
             style={{
               display: "flex",
@@ -338,28 +275,19 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
               </p>
             )}
           </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            margin: "10px 0",
-          }}
-        >
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              width: "calc(25% - 8px)",
+              width: "calc(33% - 8px)",
             }}
           >
-            <label>Màu</label>
+            <label>Màu sắc</label>
             <Select
               name="color"
               onChange={(value) => formik.setFieldValue("color", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.color || undefined}
-              placeholder="Ex: Blue"
+              value={formik.values.color}
               style={{
                 width: "100%",
               }}
@@ -382,76 +310,15 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
             style={{
               display: "flex",
               flexDirection: "column",
-              width: "calc(25% - 8px)",
+              width: "calc(33% - 8px)",
             }}
           >
-            <label>Code</label>
-            <Input
-              placeholder="Ex: SP-000"
-              name="productCode"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.productCode}
-            />
-            {formik.errors.productCode && formik.touched.productCode && (
-              <p
-                style={{
-                  color: "red",
-                  marginBottom: "15px",
-                  marginTop: "-10px",
-                  fontSize: "12px",
-                }}
-              >
-                {formik.errors.productCode}{" "}
-              </p>
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "calc(25% - 8px)",
-            }}
-          >
-            <label>Chủ đề</label>
-            <Select
-              name="themeId"
-              onChange={(value) => formik.setFieldValue("themeId", value)}
-              onBlur={formik.handleBlur}
-              value={formik.values.themeId || undefined}
-              placeholder="Ex: Frozen"
-              style={{
-                width: "100%",
-              }}
-              options={themeOptions}
-            />
-            {formik.errors.themeId && formik.touched.themeId && (
-              <p
-                style={{
-                  color: "red",
-                  marginBottom: "15px",
-                  marginTop: "0px",
-                  fontSize: "12px",
-                }}
-              >
-                {formik.errors.themeId}{" "}
-              </p>
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "calc(25% - 8px)",
-            }}
-          >
-            <label>Xuất xứ</label>
+            <label>Nguyên liệu</label>
             <Select
               name="origin"
               onChange={(value) => formik.setFieldValue("origin", value)}
               onBlur={formik.handleBlur}
-              value={formik.values.origin || undefined}
-              placeholder="Ex: China"
+              value={formik.values.origin}
               style={{
                 width: "100%",
               }}
@@ -471,16 +338,105 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
             )}
           </div>
         </div>
+
         <div>
-          <label>Miêu tả</label>
+          <InputNumber
+            placeholder="Giá tiền"
+            name="price"
+            onChange={(value) => formik.setFieldValue("price", value)}
+            onBlur={formik.handleBlur}
+            value={formik.values.price}
+            style={{ width: "100%" }}
+          />
+          {formik.errors.price && formik.touched.price && (
+            <p
+              style={{
+                color: "red",
+                marginBottom: "15px",
+                marginTop: "-10px",
+                fontSize: "12px",
+              }}
+            >
+              {formik.errors.price}{" "}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <InputNumber
+            placeholder="Số lượng"
+            name="quantity"
+            onChange={(value) => formik.setFieldValue("quantity", value)}
+            onBlur={formik.handleBlur}
+            value={formik.values.quantity}
+            style={{ width: "100%" }}
+          />
+          {formik.errors.quantity && formik.touched.quantity && (
+            <p
+              style={{
+                color: "red",
+                marginBottom: "15px",
+                marginTop: "-10px",
+                fontSize: "12px",
+              }}
+            >
+              {formik.errors.quantity}{" "}
+            </p>
+          )}
+        </div>
+
+        <div>
           <TextArea
-            rows={4}
+            placeholder="Mô tả sản phẩm"
             name="description"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.description}
+            style={{ width: "100%" }}
           />
           {formik.errors.description && formik.touched.description && (
+            <p
+              style={{
+                color: "red",
+                marginBottom: "15px",
+                marginTop: "-10px",
+                fontSize: "12px",
+              }}
+            >
+              {formik.errors.description}{" "}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label>Chọn ảnh sản phẩm</label>
+          <Input
+            type="file"
+            name="images"
+            onChange={handleFileChange}
+            multiple
+          />
+          {previewImages?.map((imageUrl, index) => (
+            <img
+              key={index}
+              src={imageUrl}
+              alt="Preview"
+              style={{ width: "150px", height: "150px", objectFit: "cover" }}
+            />
+          ))}
+        </div>
+
+        <div>
+          <label>Chọn theme</label>
+          <Select
+            name="themeId"
+            onChange={(value) => formik.setFieldValue("themeId", value)}
+            onBlur={formik.handleBlur}
+            value={formik.values.themeId}
+            style={{ width: "100%" }}
+            options={themeOptions}
+          />
+          {formik.errors.themeId && formik.touched.themeId && (
             <p
               style={{
                 color: "red",
@@ -489,59 +445,13 @@ const ModalCreateProduct = ({ open, setOpen, setCallback }) => {
                 fontSize: "12px",
               }}
             >
-              {formik.errors.description}{" "}
+              {formik.errors.themeId}{" "}
             </p>
           )}
         </div>
-        <label
-          className="images"
-          style={{
-            border: "1px solid black",
-            minHeight: "400px",
-            borderRadius: "8px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-          }}
-          htmlFor="product-images"
-        >
-          {previewImages.length > 0 ? (
-            <div
-              style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}
-            >
-              {previewImages.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`preview ${index}`}
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    margin: "5px",
-                    borderRadius: "8px",
-                    objectFit: "cover",
-                  }}
-                />
-              ))}
-            </div>
-          ) : (
-            <>
-              <span>Images in: jpg, png, jpeg</span>
-            </>
-          )}
-          <input
-            id="product-images"
-            type="file"
-            name="images"
-            multiple
-            hidden
-            onChange={handleFileChange}
-          />
-        </label>
       </Modal>
     </div>
   );
 };
 
-export default ModalCreateProduct;
+export default ModalEditProduct;

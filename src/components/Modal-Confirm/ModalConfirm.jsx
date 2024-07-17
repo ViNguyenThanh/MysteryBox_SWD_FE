@@ -5,7 +5,7 @@ const ModalConfirm = ({ isModalOpen, handleOk, handleCancel, message }) => {
   return (
     <div>
       <Modal
-        title="Confirm"
+        title="Xác nhận"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}

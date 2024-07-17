@@ -10,22 +10,22 @@ import { useNavigate } from "react-router-dom";
 
 const columns = [
   {
-    title: "Box name",
+    title: "Tên Box",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Description",
+    title: "Miêu tả",
     dataIndex: "description",
     key: "description",
   },
   {
-    title: "Age",
+    title: "Độ tuổi",
     dataIndex: "age",
     key: "age",
   },
   {
-    title: "Price Average",
+    title: "Giá trung bình",
     dataIndex: "priceAvarage",
     key: "priceAvarage",
     render: (priceAvarage) => (
@@ -33,13 +33,13 @@ const columns = [
     ),
   },
   {
-    title: "No. product in box",
+    title: "Số sản phẩm trong box",
     dataIndex: "quantityProInBox",
     key: "quantityProInBox",
   },
 
   {
-    title: "Image",
+    title: "Hình ảnh",
     dataIndex: "image",
     key: "image",
     render: (image) => (
@@ -91,11 +91,11 @@ const ManageBox = () => {
   return (
     <>
       <div>
-        <h1>Box Management</h1>
+        <h1>Quản lý box</h1>
         <div className="search">
           <input
             type="text"
-            placeholder="Search box by name..."
+            placeholder="Tìm kiếm theo tên..."
             className="input-search"
             // onChange={(e) => setSearch(e.target.value)}
           />
