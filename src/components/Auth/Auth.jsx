@@ -70,9 +70,10 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                     : Yup.string()
         }),
         onSubmit: async (values) => {
+            const hideLoading = message.loading("Loading", 0);
             try {
                 if (comp === "login") {
-                    const hideLoading = message.loading("Loading", 0);
+                    // const hideLoading = message.loading("Loading", 0);
                     await dispatch(login(values));
                     hideLoading();
                     const res = store.getState().authReducer.res;
@@ -84,18 +85,20 @@ const Auth = ({ comp,/* title, */ route, bgColor, bgCard, bgBtn }) => {
                         message.error(res.message);
                     }
                 } else {
-                    const hideLoading = message.loading("Loading", 0);
+                    // const hideLoading = message.loading("Loading", 0);
                     const response = await register(values);
                     hideLoading()
-                    if (response.data?.success) {
+                    if (response?.data?.success) {
                         message.success(response.data.message);
                         navigate("/login");
                     } else {
+                        hideLoading()
                         message.error(response.data.message);
                     }
                 }
             } catch (error) {
-                console.log(error.message);
+                hideLoading()
+                message.error(error.response.data.message);
             }
         },
     })

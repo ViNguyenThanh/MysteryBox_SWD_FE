@@ -35,6 +35,7 @@ const ModalCreate = ({
       const imageData = new FormData();
       imageData.append("img", selectedFile);
       try {
+        const hideLoading = message.loading("Vui lòng đợi", 0);
         const response = await uploadImage(imageData)
         const imageUrl = response.data.path;
         const updatedValues = {
@@ -42,7 +43,6 @@ const ModalCreate = ({
           image: imageUrl,
         };
 
-        const hideLoading = message.loading("Vui lòng đợi", 0);
         await dispatch(createTheme(updatedValues));
         hideLoading()
         const responseCreateTheme = store.getState().themeReducer.res;
@@ -53,9 +53,11 @@ const ModalCreate = ({
           formik.handleReset();
           setPreviewUrl(null);
         } else {
+          hideLoading()
           message.error(responseCreateTheme.message);
         }
       } catch (error) {
+        hideLoading()
         console.error("Error uploading file:", error);
       }
     },

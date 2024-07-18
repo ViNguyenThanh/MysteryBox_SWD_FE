@@ -116,7 +116,7 @@ const CreateStepBox = () => {
     const response = await createBox(data);
     if (response.data.success) {
       message.success(response.data.message);
-      navigate("/admin/manage-box");
+      navigate("/staff/manage-box");
       removeLocalstorage("data-box");
     } else {
       message.error(response.data.message);
