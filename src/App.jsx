@@ -30,6 +30,8 @@ import { useSelector } from 'react-redux'
 
 import Product from './components/Product/Product';
 
+import AboutUs from './components/AboutUs/AboutUs'
+
 function App() {
   const user =
     useSelector((state) => state.authReducer?.auth?.user) ||
@@ -75,6 +77,8 @@ function App() {
         </Route>
 
         <Route path="/product" element={user?.role == "ADMIN" ? <Navigate to={"/admin"} /> : <Product />} />
+
+        <Route path="/about-us" element={<AboutUs/>}/>
       </Routes>
     </>
   )
