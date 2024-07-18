@@ -1,0 +1,65 @@
+.about_us-whole-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    font-family: "Josefin Sans", sans-serif;
+    /* background-color: #FFFAFA; */
+    background-image: url("/assets/about-us.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    margin-bottom: -5%;
+}
+
+.about_us-container {
+    width: var(--max-screen-width);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.about_us-container .title{
+    font-size: 30px;
+    font-family: "Kavoon", serif;
+    color: rgb(121, 34, 141);
+}
+
+.about_us-container .content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.about_us-container .content .sub-title{
+    width: 70%;
+    font-size: 23px;
+    margin: 0;
+    font-weight: bold;
+    color: rgb(107, 47, 121);
+}
+
+.about_us-container .content .sub-content{
+    width: 70%;
+    font-size: 20px;
+    margin: 20px 0 40px 0;
+}
+
+.about_us-container .content li{
+    width: 70%;
+    font-size: 20px;
+    margin-top: 20px
+}
+.about_us-container .content li:nth-of-type(4){
+    margin-bottom: 40px;
+}
+
+.about_us-container .content .join-us{
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+    font-family: "Kavoon", serif;
+    color: rgb(141, 41, 163);
+    padding-bottom: 20px;
+}
