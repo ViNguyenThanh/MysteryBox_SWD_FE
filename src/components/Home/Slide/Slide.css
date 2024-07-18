@@ -8,7 +8,7 @@
 /* nút trái */
 :where(.css-dev-only-do-not-override-j9bb5n).ant-carousel .slick-prev::after {
     transform: rotate(-45deg);
-    color: pink;
+    color: rgb(76, 171, 203);
     padding: 15px;
     margin-left: 50px;
 }
@@ -16,7 +16,7 @@
 /* nút phải */
 :where(.css-dev-only-do-not-override-j9bb5n).ant-carousel .slick-next::after{
     transform: rotate(135deg);
-    color: pink;
+    color: rgb(76, 171, 203);
     padding: 15px;
     /* margin-right: 50px !important; */
     margin-left: -80px;
