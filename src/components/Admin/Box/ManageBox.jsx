@@ -102,7 +102,7 @@ const ManageBox = () => {
 
           <button
             className="create"
-            onClick={() => navigate("/admin/create-box")}
+            onClick={() => navigate("/staff/create-box")}
           >
             <IoAddCircleOutline />
             <span>Tạo box</span>

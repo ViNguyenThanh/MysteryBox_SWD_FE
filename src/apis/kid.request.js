@@ -37,3 +37,18 @@ export const getChooseKid = () => {
     },
   });
 };
+
+// export const banProfileKid = (id, status) => {
+//   const token = getToken();
+//   return API.patch(
+//     `/ban-profile/${id}`,
+//     {
+//       status,
+//     },
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }
+//   );
+// };

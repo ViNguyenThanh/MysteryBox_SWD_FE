@@ -22,9 +22,9 @@ const FillInformation = ({ formik, handleChangeImage, previewUrl }) => {
             width: "calc(50% - 8px)",
           }}
         >
-          {" "}
+          <label style={{ fontSize: "12px" }}>Tên hộp quà</label>
           <Input
-            placeholder="Tên box"
+            // placeholder="Tên box"
             name="name"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -54,12 +54,13 @@ const FillInformation = ({ formik, handleChangeImage, previewUrl }) => {
             width: "calc(50% - 8px)",
           }}
         >
+          <label style={{ fontSize: "12px" }}>Tuổi</label>
           <Select
             name="age"
             onChange={(value) => formik.setFieldValue("age", value)}
             onBlur={formik.handleBlur}
             value={formik.values.age}
-            placeholder="Chọn độ tuổi"
+            // placeholder="Chọn độ tuổi"
             style={{
               marginBottom: "4px",
               width: "100%",
@@ -97,7 +98,8 @@ const FillInformation = ({ formik, handleChangeImage, previewUrl }) => {
         >
           <label style={{ fontSize: "12px" }}>Giá trung bình hộp quà</label>
           <InputNumber
-            prefix="$"
+            suffix="VND"
+            controls={false}
             style={{
               width: "100%",
             }}

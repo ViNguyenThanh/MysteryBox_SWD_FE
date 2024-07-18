@@ -33,36 +33,12 @@ const items = [
         key: "package",
         label: "Quản lý gói",
         icon: <AppstoreOutlined />,
-        // children: [
-        //     {
-        //         key: "5",
-        //         label: "Package Management",
-        //         route: "manage-package",
-        //     },
-        //     {
-        //         key: "6",
-        //         label: "Package Trash",
-        //         route: "trash-package",
-        //     },
-        // ],
         route: "manage-package"
     },
     {
         key: "box",
         label: "Mystery Box",
         icon: <AppstoreOutlined />,
-        // children: [
-        //     {
-        //         key: "9",
-        //         label: "History Box Chosen",
-        //         route: "manage-box-history",
-        //     },
-        //     {
-        //         key: "10",
-        //         label: "Box Management",
-        //         route: "manage-box",
-        //     },
-        // ],
         route: "manage-box"
     },
     {
@@ -70,26 +46,39 @@ const items = [
         label: "Quản lý đơn hàng",
         icon: <AppstoreOutlined />,
         children: [
-            {
-                key: "1",
-                label: "Dashboard",
-                route: "orders/dashboard",
-            },
+            // {
+            //     key: "1",
+            //     label: "Dashboard",
+            //     route: "orders/dashboard",
+            // },
             {
                 key: "2",
                 label: "Xác nhận đơn hàng",
                 route: "orders/confirm-box-order",
-              },
-              {
+            },
+            {
                 key: "3",
-                label: "Quản lý đơn hàng",
+                label: "Tiến trình đơn hàng",
                 route: "orders/manage-box-period",
-              },
+            },
+            {
+                key: "4",
+                label: "Quản lý đơn hàng",
+                route: "orders/manage-order",
+            },
         ],
     },
 ];
 
-const Admin = () => {
+const staff = [
+    {
+        key: "dashboard",
+        label: "Dashboard",
+        route: "admin/dashboard",
+        icon: <PieChartOutlined />
+    }
+]
+const Admin = ({user}) => {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -106,7 +95,7 @@ const Admin = () => {
 
     const handleMenuClick = (e) => {
         let selectedItem;
-
+        
         items.forEach((item) => {
             if (item.key === e.key) {
                 selectedItem = item;
@@ -149,7 +138,7 @@ const Admin = () => {
                     defaultSelectedKeys={['1']}
                     style={{ height: '100vh' }}
                     onClick={handleMenuClick}
-                    items={items}
+                    items={user?.role === "ADMIN"? staff : items}
                 />
             </Sider>
             <Layout>

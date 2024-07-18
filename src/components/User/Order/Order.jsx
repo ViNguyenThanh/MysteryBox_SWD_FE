@@ -3,11 +3,16 @@ import "./Order.css";
 import { getPackageOrderByUserId } from "../../../apis/package-order.request";
 import { formatDateSplitT } from "../../../utils/FormatDate";
 import { getPackage } from "../../../apis/package.request";
-import { Breadcrumb, message } from "antd";
+import { Breadcrumb, Button, message } from "antd";
 import { FaEye } from "react-icons/fa";
 import ChooseProduct from "./ChooseProduct";
-import { getDataPackagePeriodOfPackageOrder } from "../../../apis/packageInPeriods.request";
+import {
+  getAllPackageInPeriods,
+  getDataPackagePeriodOfPackageOrder,
+} from "../../../apis/packageInPeriods.request";
 import { saveLocalstorage } from "../../../utils/LocalstorageMySteryBox";
+import { getProductById } from "../../../apis/product.request";
+import { getBoxById } from "../../../apis/box.request";
 
 const Order = () => {
   const [dataOrder, setDataOrder] = useState([]);
@@ -19,6 +24,10 @@ const Order = () => {
   const [currentPackageOrderId, setCurrentPackageOrderId] = useState(null);
   const [currentDetailIndex, setCurrentDetailIndex] = useState({});
   const [packageId, setPackageId] = useState(null);
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState(null);
+  const [viewProduct, setViewProduct] = useState(false);
+  const [currentProductId, setCurrentProductId] = useState(null);
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -93,43 +102,22 @@ const Order = () => {
     setOpenChooseProduct(false);
   };
 
-  const renderProduct = (data) => (
+  const renderProduct = () => (
     <ul className="list-data">
-      <li>
-        <strong>Tên sản phẩm: </strong>
-        {data?.name}
-      </li>
-      <li>
-        <strong>Miêu tả: </strong>
-        {data?.description}
-      </li>
-      <li>
-        <strong>Màu sắc: </strong>
-        {data?.color}
-      </li>
-      <li>
-        <strong>Xuất xứ: </strong>
-        {data?.origin}
-      </li>
-      <li>
-        <strong>Chất liệu: </strong>
-        {data?.material}
-      </li>
-      <li>
-        <strong>Loại đồ chơi: </strong>
-        {data?.type}
-      </li>
-      <li
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          gap: "5px",
-        }}
-      >
-        <strong>Hình ảnh: </strong>
-        <FaEye />
-      </li>
+      {product && product.length > 0 ? (
+        product.map((prod, index) => (
+          <li key={index}>
+            <strong>Tên sản phẩm: </strong> {prod?.name} <br />
+            <strong>Miêu tả: </strong> {prod?.description} <br />
+            <strong>Màu sắc: </strong> {prod?.color} <br />
+            <strong>Xuất xứ: </strong> {prod?.origin} <br />
+            <strong>Chất liệu: </strong> {prod?.material} <br />
+            <strong>Loại đồ chơi: </strong> {prod?.type} <br />
+          </li>
+        ))
+      ) : (
+        <li>No products available</li>
+      )}
     </ul>
   );
 
@@ -146,20 +134,23 @@ const Order = () => {
   const renderStatus = (data) => (
     <ul className="list-data">
       <li>
-        <strong>Thời gian mở: </strong>
-        {formatDateSplitT(data?.openingDate) || "Đang thực hiện"}
+        <strong>Xác nhận đơn hàng: </strong>
+        {data?.openingDate? formatDateSplitT(data?.openingDate) : "Chưa đến lúc"}
       </li>
       <li>
-        <strong>Thời gian đóng gói: </strong>
-        {formatDateSplitT(data?.packagingDate) || "Đang thực hiện"}
+        <strong>Đóng gói hoàn thành: </strong>
+        {/* {formatDateSplitT(data?.packagingDate) || "Đang thực hiện"} */}
+        {data?.packagingDate? formatDateSplitT(data?.packagingDate) : "Chưa đến lúc"}
       </li>
       <li>
-        <strong>Thời gian vận chuyển: </strong>
-        {formatDateSplitT(data?.deliveryDate) || "Đang thực hiện"}
+        <strong>Ngày giao: </strong>
+        {/* {formatDateSplitT(data?.deliveryDate) || "Đang thực hiện"} */}
+        {data?.deliveryDate? formatDateSplitT(data?.deliveryDate) : "Chưa đến lúc"}
       </li>
       <li>
-        <strong>Xác nhận giao hàng: </strong>
-        {formatDateSplitT(data?.confirmDate) || "Đang thực hiện"}
+        <strong>Nhận hàng thành công: </strong>
+        {/* {formatDateSplitT(data?.confirmDate) || "Đang thực hiện"} */}
+        {data?.confirmDate? formatDateSplitT(data?.confirmDate) : "Chưa đến lúc"}
       </li>
     </ul>
   );
@@ -183,11 +174,53 @@ const Order = () => {
     setCurrentDetailIndex({ index, type });
   };
 
+  const viewProductInBox = async (packageInPeriodId, index) => {
+    try {
+      const packageInPeriodRes = await getPackageInPeriodById(
+        packageInPeriodId
+      );
+      const boxId = packageInPeriodRes.data?.boxId;
+      if (boxId) {
+        const res = await getBoxById(boxId);
+        const box = res.data?.box;
+        if (box) {
+          const productsIds = box.productsId;
+          if (productsIds) {
+            const productsPromises = productsIds.map((id) =>
+              getProductById(id)
+            );
+            const productsResponses = await Promise.all(productsPromises);
+            const productsData = productsResponses.map(
+              (res) => res.data?.product
+            );
+            setProducts(productsData);
+            setViewProduct(index);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching product data:", error.message);
+    }
+  };
+
   return (
     <div className="order-container">
       <div className="title">
         <div className="underline">
           <p className="order-title">{showDetail ? "Detail" : "Orders"}</p>
+          {/* {!showDetail && (
+            <div className="sort">
+              <p>Sort by: </p>
+              <select className="select-field">
+                <option value="default">Default</option>
+                <option value="number">Number</option>
+                <option value="package">Package</option>
+                <option value="kidName">Name of kid</option>
+                <option value="price">Price</option>
+                <option value="status">Status</option>
+              </select>
+            </div>
+          )} */}
         </div>
       </div>
 
@@ -239,15 +272,20 @@ const Order = () => {
                       <li>
                         <strong>Đơn hàng:</strong> Đơn hàng {index + 1}
                       </li>
-                      {el.dates.confirmDate && (
+                      {/* {el.dates.confirmDate && (
                         <li className={keyMenu === "product" ? "active" : ""}>
-                          <strong>Thông tin sản phẩm:</strong> Đồ chơi trẻ em{" "}
-                          <FaEye
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleDetailClick(index, "product")}
-                          />
+                          {el.packageOrder.packageInPeriodIds.map(
+                            (item, index) => (
+                              <Button
+                                key={index}
+                                onClick={() => viewProductInBox(item, index)}
+                              >
+                                Sản phẩm {index + 1}
+                              </Button>
+                            )
+                          )}
                         </li>
-                      )}
+                      )} */}
 
                       <li className={keyMenu === "status" ? "active" : ""}>
                         <strong>Trạng thái:</strong>{" "}
@@ -260,9 +298,7 @@ const Order = () => {
                     </ul>
                   </div>
                   <div className="right">
-                    {currentDetailIndex.index === index &&
-                      currentDetailIndex.type === "product" &&
-                      renderProduct(el.product)}
+                    {viewProduct === index && renderProduct()}
                     {currentDetailIndex.index === index &&
                       currentDetailIndex.type === "package" &&
                       renderPackage(el.packages)}
@@ -276,7 +312,6 @@ const Order = () => {
             {getPackageNumberOfSend(packageId) > dataPackagePeriods.length && (
               <button
                 className="btn-product-next"
-                // onClick={() => setOpenChooseProduct(true)}
                 onClick={() => handleOpenNextBox()}
               >
                 Chọn sản phẩm tiếp theo
