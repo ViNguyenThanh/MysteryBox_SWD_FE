@@ -1,114 +1,115 @@
-import React, { useEffect, useState } from 'react'
-import './Confirm.css'
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getKidProfile } from '../../../../redux/actions/kid.action';
-import { getDataPackage } from '../../../../redux/actions/package.action'
-import { getThemes } from '../../../../redux/actions/theme.action';
+import React, { useEffect, useState } from "react";
+import "./Confirm.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getKidProfile } from "../../../../redux/actions/kid.action";
+import { getDataPackage } from "../../../../redux/actions/package.action";
+import { getThemes } from "../../../../redux/actions/theme.action";
+import { useParams } from "react-router-dom";
+import { message } from "antd";
 
-const Confirm = ({ setNextEnabled, selectedRowKey, selectedThemeId, setDataConfirm }) => {
-    const { id } = useParams();
-    const dispatch = useDispatch();
+const Confirm = ({ selectedRowKey, selectedThemeId, setDataConfirm }) => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getKidProfile());
-        dispatch(getDataPackage("", 1));
-        dispatch(getThemes("", 1));
-    }, []);
+  useEffect(() => {
+    dispatch(getKidProfile());
+    dispatch(getDataPackage("", 1));
+    dispatch(getThemes("", 1));
+  }, []);
+  const kid = useSelector((state) => state.kidReducer?.dataKids).filter(
+    (el) => el.id === selectedRowKey
+  )[0];
+  const packageChoose = useSelector(
+    (state) => state.packageReducer?.packages
+  ).filter((el) => el.id == id)[0];
+  const themeChoose = useSelector((state) => state.themeReducer?.themes).filter(
+    (el) => el.id === selectedThemeId
+  )[0];
+  const numberCode = Math.floor(100000 + Math.random() * 900000).toString();
+  const [data, setData] = useState({
+    codeOrder: `ORD-${numberCode}`,
+    kidId: kid?.id,
+    totalPrice: packageChoose?.price,
+    nameOfAdult: kid.adult?.fullName,
+    nameOfKid: kid?.fullName,
+    phone: kid.adult?.phone,
+    email: kid.adult?.email,
+    address: kid.adult?.address,
+  });
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
 
-    const kid = useSelector((state) => state.kidReducer?.dataKids).filter(
-        (el) => el.id === selectedRowKey
-    )[0];
-    const packageChoose = useSelector(
-        (state) => state.packageReducer?.packages
-    ).filter((el) => el.id == id)[0];
-    const themeChoose = useSelector((state) => state.themeReducer?.themes).filter(
-        (el) => el.id === selectedThemeId
-    )[0];
+  useEffect(() => {
+    if (kid && packageChoose && themeChoose) {
+      setDataConfirm(data);
+    }
+  }, [kid, packageChoose, themeChoose, data]);
 
-    const numberCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const [data, setData] = useState({
-        codeOrder: `ORD-${numberCode}`,
-        kidId: kid?.id,
-        totalPrice: packageChoose?.price,
-        nameOfAdult: kid.adult?.fullName,
-        nameOfKid: kid?.fullName,
-        phone: kid.adult?.phone,
-        email: kid.adult?.email,
-        address: kid.adult?.address,
-    });
+  return (
+    <div className="confirm-container">
+      <p className="confirm-title">
+        {" "}
+        ❣️ Please confirm the information carefully before going to the next
+        step ❣️
+      </p>
+      <div className="confirm-content">
+        <p>
+          <strong>Kid's name: </strong> {kid?.fullName}
+        </p>
+        <p>
+          <strong>Parent's name: </strong>
+          <input
+            name="nameOfAdult"
+            type="tel"
+            value={data?.nameOfAdult}
+            className="input-confirm"
+            onChange={(e) => handleChange(e)}
+          />
+        </p>
+        <p>
+          <strong>Phone number: </strong>{" "}
+          <input
+            name="phone"
+            type="tel"
+            value={data?.phone}
+            className="input-confirm"
+            onChange={(e) => handleChange(e)}
+          />
+        </p>
+        <p>
+          <strong>Email: </strong>{" "}
+          <input
+            name="email"
+            type="email"
+            value={data?.email}
+            className="input-confirm"
+            onChange={(e) => handleChange(e)}
+          />
+        </p>
+        <p>
+          <strong>Address: </strong>{" "}
+          <input
+            name="address"
+            type="text"
+            value={data?.address}
+            className="input-confirm"
+            onChange={(e) => handleChange(e)}
+          />
+        </p>
+        <p>
+          <strong>Package: </strong> {packageChoose?.name}
+        </p>
+        <p>
+          <strong>Theme: </strong> {themeChoose?.name}
+        </p>
+        <p>
+          <strong>Total price: </strong>
+          {Number(packageChoose?.price).toLocaleString()} VND
+        </p>
+      </div>
+    </div>
+  );
+};
 
-    const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
-
-    useEffect(() => {
-        if (kid && packageChoose && themeChoose) {
-            setDataConfirm(data);
-        }
-    }, [kid, packageChoose, themeChoose, data]);
-
-    // useEffect(() => {
-    //     const allFieldsFilled = Object.values(data).every((field) => field !== null && field !== '');
-    //     setNextEnabled(allFieldsFilled);
-    // }, [data, setNextEnabled]);
-
-    return (
-        <div className='confirm-container'>
-            <p className='confirm-title'> ❣️ Please confirm the information carefully before going to the next step ❣️</p>
-            <div className="confirm-content">
-                <p><strong>Kid's name: </strong> {kid?.fullName}</p>
-                <p>
-                    <strong>Parent's name: </strong> 
-                    <input
-                        name="nameOfAdult"
-                        type="text"
-                        value={data?.nameOfAdult}
-                        className="input-confirm"
-                        onChange={(e) => handleChange(e)}
-                    />
-                </p>
-                <p>
-                    <strong>Phone number: </strong>
-                    <input
-                        name="phone"
-                        type="tel"
-                        value={data?.phone}
-                        className="input-confirm"
-                        onChange={(e) => handleChange(e)}
-                    />
-                </p>
-                <p>
-                    <strong>Email: </strong>
-                    <input
-                        name="email"
-                        type="email"
-                        value={data?.email}
-                        className="input-confirm"
-                        onChange={(e) => handleChange(e)}
-                    />
-                </p>
-                <p>
-                    <strong>Address: </strong>{" "}
-                    <input
-                        name="address"
-                        type="text"
-                        value={data?.address}
-                        className="input-confirm"
-                        onChange={(e) => handleChange(e)}
-                    />
-                </p>
-                <p><strong>Package: </strong> {packageChoose?.name} </p>
-                <p><strong>Theme: </strong> {themeChoose?.name} </p>
-                <p>
-                    <strong>Total price: </strong>
-                    {Number(packageChoose?.price).toLocaleString()} VND
-                </p>
-            </div>
-            <p className='confirm-address'> ⚠️ Please ensure your address is accurate, as it cannot be modified afterwards. ⚠️<br />
-                🫵 You can only change it during the next box selection.</p>
-        </div>
-    )
-}
-
-export default Confirm
+export default Confirm;

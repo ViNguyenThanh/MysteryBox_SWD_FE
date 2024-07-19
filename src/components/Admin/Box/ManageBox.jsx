@@ -50,23 +50,23 @@ const columns = [
     ),
   },
 
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <button className="action edit">
-          <FaRegEdit />
-        </button>
-        <button
-          className="action delete"
-          // onClick={() => showModalConfirm(record.id)}
-        >
-          <MdDelete />
-        </button>
-      </Space>
-    ),
-  },
+  // {
+  //   title: "Action",
+  //   key: "action",
+  //   render: (_, record) => (
+  //     <Space size="middle">
+  //       <button className="action edit">
+  //         <FaRegEdit />
+  //       </button>
+  //       <button
+  //         className="action delete"
+  //         // onClick={() => showModalConfirm(record.id)}
+  //       >
+  //         <MdDelete />
+  //       </button>
+  //     </Space>
+  //   ),
+  // },
 ];
 const ManageBox = () => {
   const dispatch = useDispatch();
