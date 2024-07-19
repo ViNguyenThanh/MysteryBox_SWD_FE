@@ -1,4 +1,5 @@
 import { Api } from "../utils/BaseUrlServer";
+import { getToken } from "../utils/Token";
 const API = Api();
 
 export const getBox = () => {
@@ -14,5 +15,10 @@ export const getBoxCondition = (data) => {
 };
 
 export const createBox = (data) => {
-  return API.post("/create-mysterybox", data);
+  const token = getToken()
+  return API.post("/create-mysterybox", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
