@@ -17,7 +17,7 @@
 }
 
 .confirm-container .confirm-content{
-    /* padding: 0 0 5%; */
+    padding: 0 0 5%;
 }
 .confirm-content p{
     margin: 0;
@@ -36,15 +36,4 @@
     border-radius: 8px;
     font-size: 18px;
     font-family: "Josefin Sans", sans-serif;
-}
-
-.confirm-container .confirm-address{
-    width: 80%;
-    margin: 0 10%;
-    padding: 1% 0 2%!important;
-    line-height: 30px;
-    font-family: "Josefin Sans", sans-serif;
-    font-size: 20px;
-    color: #ef0760;
-    padding: 2% 0;
 }

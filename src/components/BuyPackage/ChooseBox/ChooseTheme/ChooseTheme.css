@@ -10,6 +10,7 @@
 
 .choose_theme-container .choose_theme-item{
     width: 25%;
+    height: 400px;
     margin-bottom: 5%;
     background-color: #F9F8F2;
     /* border: 8px solid #44D2FF; */
@@ -43,9 +44,7 @@
 
 .choose_theme-item .theme-item-content{
     width: 90%;
-    /* height: 50px; */
-    min-height: 95px;
-    height: fit-content;
+    height: 50px;
     margin: 3% 0 5% 0;
     padding: 0 10%;
     text-align: left;

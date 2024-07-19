@@ -42,89 +42,86 @@
     width: 80%;
 }
 
-
 /* chỉnh chữ ở steps */
-.choose_box-content .ant-steps-icon{
+.ant-steps-icon{
     font-family: "Kavoon", serif;
     color: white !important;
     font-size: 25px !important;
 }
-.choose_box-content .ant-steps-item-title {
+.ant-steps-item-title {
     font-family: "Josefin Sans", sans-serif;
     font-size: 20px !important;
 }
 
 
 /* chỉnh màu của steps hiện tại */
-.choose_box-content .ant-steps-item-process .ant-steps-item-icon{
+.ant-steps-item-process .ant-steps-item-icon{
     background-color: #44D2FF !important;
     border-color: #44D2FF !important;
 }
-.choose_box-content .ant-steps-item-process .ant-steps-item-title{
+.ant-steps-item-process .ant-steps-item-title{
     color: #44D2FF !important;
 }
 
 
 /* chỉnh màu của steps khi không phải lượt */
-.choose_box-content .ant-steps-item-wait .ant-steps-item-icon{
+.ant-steps-item-wait .ant-steps-item-icon{
     background-color: #D2D2D2 !important;
     border-color: #D2D2D2 !important;
 }
-.choose_box-content .ant-steps-item-wait .ant-steps-item-title{
+.ant-steps-item-wait .ant-steps-item-title{
     color: #000000 !important;
 }
 
 
 /* chỉnh màu của steps khi qua lượt rồi */
-.choose_box-content .ant-steps-item-icon{
+.ant-steps-item-icon{
     background-color: #44D2FF !important;
 }
-.choose_box-content .ant-steps-icon .anticon svg{
+.ant-steps-icon .anticon svg{
     width: 30px;
     height: 30px;
     fill: white !important;
 }
-.choose_box-content .ant-steps-item-title{
+.ant-steps-item-title{
     color: #44D2FF !important;
 }
 
 /* chỉnh màu thanh tiến độ */
-.choose_box-content .ant-steps-item-title::after{
+.ant-steps-item-title::after{
     background-color: #BFBDBD !important;
     height: 2px !important;
 }
-.choose_box-content .ant-steps-item-finish .ant-steps-item-title::after{
+.ant-steps-item-finish .ant-steps-item-title::after{
     background-color: #44D2FF !important;
     height: 2px !important;
 }
-.choose_box-content .ant-steps-item-process .ant-steps-item-title::after{
+.ant-steps-item-process .ant-steps-item-title::after{
     background-color: #BFBDBD !important;
     height: 2px !important;
 }
 
-/* chỉnh thông báo hoàn thành steps, vì thông báo hiện ra ko nằm trong .choose_box-content nên ko đc để trước mấy class này, không nó không ăn được thuộc tính*/
-.ant-message-notice-content {
+/* chỉnh thông báo hoàn thành steps */
+.ant-message-success {
     display: flex;
     align-items: center;
     font-family: "Josefin Sans", sans-serif;
-    font-size: 20px !important;
+    font-size: 17px;
     margin-top: 1%;
 }
- .anticon-check-circle svg{
-    width: 25px !important;
-    height: 25px !important;
+.ant-message-success .anticon svg{
     fill: green !important;
 }
 
 
-.choose_box-content .choose_box-btn{
+.choose_box-container .choose_box-btn{
     margin-top: 24px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
 }
 
-.choose_box-content .choose_box-btn button{
+.choose_box-container .choose_box-btn button{
     background-color: #4accf3 !important;
     font-family: "Josefin Sans", sans-serif;
     font-size: 18px;
@@ -132,7 +129,7 @@
     color: white;
     border: none;
 }
-.choose_box-content .choose_box-btn button:hover{
+.choose_box-container .choose_box-btn button:hover{
     background-color: #11b4e6 !important;
     color: white !important;
     border: none;
