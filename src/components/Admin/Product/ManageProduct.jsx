@@ -165,7 +165,7 @@ const ManageProduct = () => {
   return (
     <>
       <div>
-        <h1>Quản lý Sản Phẩm</h1>
+        <h1>Quản lý sản phẩm</h1>
         <div className="search">
           <input
             type="text"
